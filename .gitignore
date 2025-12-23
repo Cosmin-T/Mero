@@ -1,0 +1,8 @@
+# Ignore everything
+  *
+
+  # Except these files
+  !index.html
+  !revenue_analysis_current.xlsx
+  !.gitignore
+  !LICENSE
