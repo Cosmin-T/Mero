@@ -1,0 +1,166 @@
+
+======================================================================
+MONTHLY REVENUE REPORT (TEST - 2 WEEKS)
+======================================================================
+
+### December 2024 ###
+
+  Epilat               :   17 appts |   705.00 RON | Avg:  41.47 RON
+  Pensat               :   12 appts |   490.00 RON | Avg:  40.83 RON
+  Peeling              :    1 appts |   350.00 RON | Avg: 350.00 RON
+  ProBrows             :    4 appts |   320.00 RON | Avg:  80.00 RON
+  Microneedling        :    1 appts |   300.00 RON | Avg: 300.00 RON
+  Laminare             :    2 appts |   280.00 RON | Avg: 140.00 RON
+  Tratament            :    1 appts |   250.00 RON | Avg: 250.00 RON
+  Other                :    1 appts |   130.00 RON | Avg: 130.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          :  2825.00 RON
+
+
+### January 2025 ###
+
+  Epilat               :   31 appts |  1900.00 RON | Avg:  61.29 RON
+  Tratament            :    6 appts |  1500.00 RON | Avg: 250.00 RON
+  Pensat               :   29 appts |  1240.00 RON | Avg:  42.76 RON
+  ProBrows             :   13 appts |  1040.00 RON | Avg:  80.00 RON
+  Peeling              :    1 appts |   350.00 RON | Avg: 350.00 RON
+  Microneedling        :    1 appts |   300.00 RON | Avg: 300.00 RON
+  Laminare             :    2 appts |   280.00 RON | Avg: 140.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          :  6610.00 RON
+
+
+### February 2025 ###
+
+  Epilat               :   36 appts |  2525.00 RON | Avg:  70.14 RON
+  Tratament            :    6 appts |  1500.00 RON | Avg: 250.00 RON
+  Pensat               :   30 appts |  1230.00 RON | Avg:  41.00 RON
+  Microneedling        :    3 appts |   900.00 RON | Avg: 300.00 RON
+  ProBrows             :   10 appts |   800.00 RON | Avg:  80.00 RON
+  Laminare             :    3 appts |   420.00 RON | Avg: 140.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          :  7375.00 RON
+
+
+### March 2025 ###
+
+  Pensat               :   31 appts |  1545.00 RON | Avg:  49.84 RON
+  Epilat               :   25 appts |  1390.00 RON | Avg:  55.60 RON
+  Microneedling        :    4 appts |  1280.00 RON | Avg: 320.00 RON
+  Tratament            :    4 appts |  1060.00 RON | Avg: 265.00 RON
+  ProBrows             :    9 appts |   780.00 RON | Avg:  86.67 RON
+  Other                :    1 appts |   100.00 RON | Avg: 100.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          :  6155.00 RON
+
+
+### April 2025 ###
+
+  Tratament            :   11 appts |  3030.00 RON | Avg: 275.45 RON
+  Pensat               :   40 appts |  2040.00 RON | Avg:  51.00 RON
+  Epilat               :   28 appts |  1980.00 RON | Avg:  70.71 RON
+  Microneedling        :    5 appts |  1600.00 RON | Avg: 320.00 RON
+  Peeling              :    4 appts |  1190.00 RON | Avg: 297.50 RON
+  Laminare             :    6 appts |   940.00 RON | Avg: 156.67 RON
+  ProBrows             :   10 appts |   900.00 RON | Avg:  90.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          : 11680.00 RON
+
+
+### May 2025 ###
+
+  Epilat               :   43 appts |  2390.00 RON | Avg:  55.58 RON
+  Pensat               :   44 appts |  2270.00 RON | Avg:  51.59 RON
+  Microneedling        :    4 appts |  1280.00 RON | Avg: 320.00 RON
+  Tratament            :    4 appts |  1090.00 RON | Avg: 272.50 RON
+  ProBrows             :    9 appts |   810.00 RON | Avg:  90.00 RON
+  Laminare             :    4 appts |   640.00 RON | Avg: 160.00 RON
+  Other                :    1 appts |   130.00 RON | Avg: 130.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          :  8610.00 RON
+
+
+### June 2025 ###
+
+  Epilat               :   66 appts |  3990.00 RON | Avg:  60.45 RON
+  Pensat               :   45 appts |  2290.00 RON | Avg:  50.89 RON
+  Tratament            :    6 appts |  1630.00 RON | Avg: 271.67 RON
+  ProBrows             :    8 appts |   720.00 RON | Avg:  90.00 RON
+  Microneedling        :    2 appts |   640.00 RON | Avg: 320.00 RON
+  Other                :    2 appts |   230.00 RON | Avg: 115.00 RON
+  Laminare             :    1 appts |   150.00 RON | Avg: 150.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          :  9650.00 RON
+
+
+### July 2025 ###
+
+  Epilat               :   63 appts |  3970.00 RON | Avg:  63.02 RON
+  Tratament            :   11 appts |  3060.00 RON | Avg: 278.18 RON
+  Pensat               :   46 appts |  2360.00 RON | Avg:  51.30 RON
+  Laminare             :    9 appts |  1410.00 RON | Avg: 156.67 RON
+  ProBrows             :   11 appts |   990.00 RON | Avg:  90.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          : 11790.00 RON
+
+
+### August 2025 ###
+
+  Epilat               :   97 appts |  5930.00 RON | Avg:  61.13 RON
+  Pensat               :   34 appts |  1760.00 RON | Avg:  51.76 RON
+  Tratament            :    6 appts |  1600.00 RON | Avg: 266.67 RON
+  Laminare             :    5 appts |   810.00 RON | Avg: 162.00 RON
+  ProBrows             :    6 appts |   540.00 RON | Avg:  90.00 RON
+  Microneedling        :    1 appts |   320.00 RON | Avg: 320.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          : 10960.00 RON
+
+
+### September 2025 ###
+
+  Epilat               :   65 appts |  3625.00 RON | Avg:  55.77 RON
+  Tratament            :   12 appts |  3190.00 RON | Avg: 265.83 RON
+  Pensat               :   52 appts |  2700.00 RON | Avg:  51.92 RON
+  ProBrows             :    6 appts |   540.00 RON | Avg:  90.00 RON
+  Peeling              :    1 appts |   350.00 RON | Avg: 350.00 RON
+  Laminare             :    2 appts |   300.00 RON | Avg: 150.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          : 10705.00 RON
+
+
+### October 2025 ###
+
+  Epilat               :   66 appts |  3880.00 RON | Avg:  58.79 RON
+  Pensat               :   58 appts |  3010.00 RON | Avg:  51.90 RON
+  Tratament            :   10 appts |  2710.00 RON | Avg: 271.00 RON
+  Laminare             :    5 appts |   790.00 RON | Avg: 158.00 RON
+  ProBrows             :    7 appts |   630.00 RON | Avg:  90.00 RON
+  Peeling              :    1 appts |   350.00 RON | Avg: 350.00 RON
+  Microneedling        :    1 appts |   320.00 RON | Avg: 320.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          : 11690.00 RON
+
+
+### November 2025 ###
+
+  Epilat               :   70 appts |  4405.00 RON | Avg:  62.93 RON
+  Pensat               :   44 appts |  2300.00 RON | Avg:  52.27 RON
+  Tratament            :    7 appts |  1890.00 RON | Avg: 270.00 RON
+  ProBrows             :    5 appts |   450.00 RON | Avg:  90.00 RON
+  Peeling              :    1 appts |   350.00 RON | Avg: 350.00 RON
+  Laminare             :    2 appts |   320.00 RON | Avg: 160.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          :  9715.00 RON
+
+
+### December 2025 ###
+
+  Epilat               :   56 appts |  3540.00 RON | Avg:  63.21 RON
+  Pensat               :   56 appts |  2840.00 RON | Avg:  50.71 RON
+  Tratament            :    4 appts |  1110.00 RON | Avg: 277.50 RON
+  Laminare             :    6 appts |   940.00 RON | Avg: 156.67 RON
+  ProBrows             :    8 appts |   720.00 RON | Avg:  90.00 RON
+  Oxygenera            :    2 appts |   700.00 RON | Avg: 350.00 RON
+  Microneedling        :    2 appts |   640.00 RON | Avg: 320.00 RON
+  --------------------------------------------------------------------
+  MONTH TOTAL          : 10490.00 RON
