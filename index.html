@@ -139,7 +139,7 @@
 
             .charts-section {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(min(100%, 500px), 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
                 gap: 25px;
                 margin-bottom: 30px;
             }
@@ -240,7 +240,7 @@
 
             .stats-summary {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                 gap: 20px;
                 margin-bottom: 30px;
             }
@@ -267,20 +267,12 @@
 
             /* Mobile Responsive Styles */
             @media (max-width: 768px) {
-                * {
-                    max-width: 100%;
-                }
-
                 body {
                     padding: 10px;
-                    overflow-x: hidden;
                 }
 
                 .dashboard-container {
                     border-radius: 15px;
-                    width: 100%;
-                    max-width: 100vw;
-                    overflow-x: hidden;
                 }
 
                 .dashboard-header {
@@ -303,24 +295,14 @@
                     overflow-x: auto;
                     overflow-y: hidden;
                     white-space: nowrap;
-                    display: flex !important;
-                    flex-wrap: nowrap !important;
+                    flex-wrap: nowrap;
                     -webkit-overflow-scrolling: touch;
-                    scrollbar-width: none; /* Firefox */
-                }
-
-                .nav-tabs::-webkit-scrollbar {
-                    display: none; /* Chrome, Safari */
-                }
-
-                .nav-tabs .nav-item {
-                    flex-shrink: 0;
                 }
 
                 .nav-tabs .nav-link {
-                    font-size: 0.85rem;
-                    padding: 10px 14px;
-                    white-space: nowrap;
+                    font-size: 0.9rem;
+                    padding: 10px 16px;
+                    display: inline-block;
                 }
 
                 .tab-content {
@@ -329,26 +311,17 @@
 
                 /* Charts - single column */
                 .charts-section {
-                    grid-template-columns: 1fr !important;
+                    grid-template-columns: 1fr;
                     gap: 15px;
                 }
 
                 .chart-card {
-                    padding: 12px;
-                    width: 100%;
-                    max-width: 100%;
-                    overflow: hidden;
-                }
-
-                .chart-card > div {
-                    width: 100% !important;
-                    max-width: 100% !important;
+                    padding: 15px;
                 }
 
                 .chart-title {
-                    font-size: 0.95rem;
+                    font-size: 1rem;
                     margin-bottom: 10px;
-                    word-wrap: break-word;
                 }
 
                 /* Stats grid - 1 column on mobile */
@@ -372,50 +345,29 @@
 
                 /* Data tables - horizontal scroll */
                 .data-table-section {
-                    padding: 12px;
-                    width: 100%;
-                    max-width: 100%;
-                    overflow: hidden;
+                    padding: 15px;
                 }
 
                 .table-title {
-                    font-size: 1rem;
-                    margin-bottom: 12px;
+                    font-size: 1.1rem;
+                    margin-bottom: 15px;
                 }
 
                 .table-container {
-                    max-height: 500px;
-                    overflow: auto;
+                    max-height: 400px;
+                    overflow-x: auto;
                     -webkit-overflow-scrolling: touch;
-                    width: 100%;
                 }
 
                 /* Grid.js mobile adjustments */
                 .gridjs-wrapper {
-                    font-size: 13px;
-                    overflow-x: auto;
-                    width: 100%;
-                }
-
-                .gridjs-table {
-                    min-width: 100%;
-                    font-size: 13px;
+                    font-size: 12px;
                 }
 
                 .gridjs-th,
                 .gridjs-td {
-                    padding: 10px 12px !important;
-                    min-width: 120px;
-                    white-space: nowrap;
-                }
-
-                .gridjs-search {
-                    width: 100%;
-                }
-
-                .gridjs-search-input {
-                    width: 100% !important;
-                    font-size: 14px;
+                    padding: 8px 10px !important;
+                    min-width: 100px;
                 }
 
                 /* Processing screen */
