@@ -163,12 +163,6 @@ schedule.txt
 # Keep these
 !index.html
 !revenue_analysis_current.xlsx
+!Dockerfile
+!.gitignore
 !LICENSE
-!*.py
-!util.py
-!historical_revenue_analysis.py
-!excel_summary_enhancer.py
-!daily_revenue_analysis.py
-!main.py
-!load_cookies.py
-!save_cookies.py
