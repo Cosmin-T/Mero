@@ -67,37 +67,47 @@
             }
 
             :root {
-                --bg: #0f1419;
-                --card-bg: #1a1f2e;
-                --border: #2d3748;
-                --text: #ffffff;
-                --text-muted: #94a3b8;
-                --blue: #3b82f6;
+                --bg: #ffffff;
+                --bg-secondary: #fafafa;
+                --card-bg: #ffffff;
+                --border: #e5e7eb;
+                --border-hover: #d1d5db;
+                --text: #111827;
+                --text-secondary: #6b7280;
+                --text-muted: #9ca3af;
+                --accent: #000000;
+                --accent-light: #f9fafb;
+                --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+                --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+                --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             }
 
             body {
                 font-family: "Inter", sans-serif;
-                background: var(--bg);
+                background: var(--bg-secondary);
                 color: var(--text);
-                line-height: 1.5;
+                line-height: 1.6;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
             }
 
             .container {
-                max-width: 1920px;
+                max-width: 1400px;
                 margin: 0 auto;
-                padding: 24px;
+                padding: 40px 24px;
             }
 
             /* Header */
             .header {
-                margin-bottom: 32px;
+                margin-bottom: 48px;
             }
 
             .header-top {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                gap: 16px;
+                gap: 24px;
             }
 
             .header-title {
@@ -105,27 +115,29 @@
             }
 
             .header h1 {
-                font-size: 28px;
-                font-weight: 700;
-                color: var(--text);
-                margin-bottom: 4px;
+                font-size: 32px;
+                font-weight: 800;
+                color: var(--accent);
+                margin-bottom: 8px;
+                letter-spacing: -0.02em;
             }
 
             .header p {
-                font-size: 14px;
-                color: var(--text-muted);
+                font-size: 15px;
+                color: var(--text-secondary);
+                font-weight: 500;
             }
 
             /* Mobile Menu Button */
             .mobile-menu-btn {
-                display: none; /* Hidden by default */
-                background: var(--card-bg);
-                border: 1px solid var(--border);
-                border-radius: 8px;
-                color: var(--text);
-                padding: 10px 16px;
+                display: none;
+                background: var(--accent);
+                border: none;
+                border-radius: 12px;
+                color: white;
+                padding: 12px 20px;
                 font-size: 14px;
-                font-weight: 500;
+                font-weight: 600;
                 cursor: pointer;
                 touch-action: manipulation;
                 -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
@@ -134,22 +146,24 @@
                 align-items: center;
                 gap: 8px;
                 transition: all 0.2s;
+                box-shadow: var(--shadow);
             }
 
             .mobile-menu-btn:hover {
-                border-color: var(--blue);
+                background: #1f2937;
+                box-shadow: var(--shadow-md);
             }
 
             .mobile-menu-btn.active {
-                background: var(--blue);
-                border-color: var(--blue);
+                background: var(--accent);
+                box-shadow: var(--shadow-md);
             }
 
             .menu-icon {
                 display: inline-block;
                 width: 18px;
                 height: 2px;
-                background: var(--text);
+                background: white;
                 position: relative;
             }
 
@@ -159,7 +173,7 @@
                 position: absolute;
                 width: 18px;
                 height: 2px;
-                background: var(--text);
+                background: white;
                 left: 0;
             }
 
@@ -189,53 +203,58 @@
             .upload-section {
                 background: var(--card-bg);
                 border: 2px dashed var(--border);
-                border-radius: 12px;
-                padding: 48px;
+                border-radius: 20px;
+                padding: 64px 48px;
                 text-align: center;
                 cursor: pointer;
-                transition: all 0.2s;
-                touch-action: manipulation; /* Faster tap response */
-                -webkit-tap-highlight-color: rgba(
-                    0,
-                    0,
-                    0,
-                    0.1
-                ); /* Better touch feedback */
-                user-select: none; /* Prevent text selection on tap */
+                transition: all 0.2s ease;
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
+                user-select: none;
+                box-shadow: var(--shadow-sm);
             }
 
             .upload-section:hover {
-                border-color: var(--blue);
+                border-color: var(--accent);
+                box-shadow: var(--shadow-md);
+                background: var(--accent-light);
             }
 
             .upload-section h2 {
-                font-size: 18px;
-                font-weight: 600;
-                margin-bottom: 8px;
+                font-size: 20px;
+                font-weight: 700;
+                margin-bottom: 10px;
+                color: var(--accent);
+                letter-spacing: -0.01em;
             }
 
             .upload-section p {
-                color: var(--text-muted);
-                margin-bottom: 16px;
+                color: var(--text-secondary);
+                margin-bottom: 24px;
+                font-size: 15px;
+                font-weight: 500;
             }
 
             .btn-upload {
-                background: var(--blue);
+                background: var(--accent);
                 color: white;
                 border: none;
-                padding: 10px 24px;
-                border-radius: 8px;
-                font-size: 14px;
+                padding: 14px 32px;
+                border-radius: 12px;
+                font-size: 15px;
                 font-weight: 600;
                 cursor: pointer;
-                touch-action: manipulation; /* Faster tap response */
-                -webkit-tap-highlight-color: rgba(
-                    0,
-                    0,
-                    0,
-                    0.1
-                ); /* Better touch feedback */
-                user-select: none; /* Prevent text selection on tap */
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+                user-select: none;
+                transition: all 0.15s ease;
+                box-shadow: var(--shadow-md);
+            }
+            
+            .btn-upload:hover {
+                background: #1f2937;
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-lg);
             }
 
             #fileInput {
@@ -257,10 +276,15 @@
                 width: 48px;
                 height: 48px;
                 margin: 0 auto 20px;
-                border: 3px solid var(--border);
-                border-top: 3px solid var(--blue);
+                border: 4px solid var(--border);
+                border-top: 4px solid var(--accent);
                 border-radius: 50%;
                 animation: spin 1s linear infinite;
+            }
+            
+            .loading h2 {
+                color: var(--accent);
+                font-weight: 700;
             }
 
             @keyframes spin {
@@ -284,47 +308,48 @@
             /* GLOBAL METRICS - ABOVE TABS */
             .global-metrics {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 16px;
-                margin-bottom: 24px;
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 20px;
+                margin-bottom: 40px;
             }
 
             /* Tabs - NO SCROLL, wrap to multiple lines */
             .tabs {
                 display: flex;
-                gap: 8px;
-                margin-bottom: 24px;
+                gap: 10px;
+                margin-bottom: 32px;
                 flex-wrap: wrap;
             }
 
             .tab {
                 background: var(--card-bg);
-                border: 1px solid var(--border);
-                padding: 10px 20px;
-                border-radius: 8px;
+                border: 1.5px solid var(--border);
+                padding: 12px 24px;
+                border-radius: 12px;
                 cursor: pointer;
-                transition: all 0.2s;
+                transition: all 0.15s ease;
                 font-size: 14px;
-                font-weight: 500;
+                font-weight: 600;
                 white-space: nowrap;
-                touch-action: manipulation; /* Faster tap response */
-                -webkit-tap-highlight-color: rgba(
-                    0,
-                    0,
-                    0,
-                    0.1
-                ); /* Better touch feedback */
-                user-select: none; /* Prevent text selection on tap */
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
+                user-select: none;
+                color: var(--text-secondary);
+                box-shadow: var(--shadow-sm);
             }
 
             .tab:hover {
-                border-color: var(--blue);
+                border-color: var(--accent);
+                color: var(--accent);
+                box-shadow: var(--shadow);
+                transform: translateY(-1px);
             }
 
             .tab.active {
-                background: var(--blue);
-                border-color: var(--blue);
+                background: var(--accent);
+                border-color: var(--accent);
                 color: white;
+                box-shadow: var(--shadow-md);
             }
 
             /* Mobile tabs state */
@@ -338,14 +363,14 @@
                 z-index: 10000 !important;
                 background: var(--card-bg) !important;
                 border: 1px solid var(--border) !important;
-                border-radius: 8px !important;
-                padding: 12px !important;
+                border-radius: 16px !important;
+                padding: 16px !important;
                 max-height: 80vh !important;
                 height: auto !important;
                 overflow-y: scroll !important;
                 overflow-x: hidden !important;
                 -webkit-overflow-scrolling: touch !important;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+                box-shadow: var(--shadow-lg) !important;
                 min-width: 250px !important;
                 max-width: calc(100vw - 40px) !important;
             }
@@ -353,29 +378,29 @@
             .tabs.tabs-mobile-visible .tab {
                 display: block !important;
                 width: 100% !important;
-                margin-bottom: 8px !important;
+                margin-bottom: 10px !important;
                 text-align: left !important;
-                padding: 14px 16px !important;
+                padding: 14px 20px !important;
                 white-space: normal !important;
             }
             
             /* Make scrollbar visible on mobile dropdown */
             .tabs.tabs-mobile-visible::-webkit-scrollbar {
-                width: 8px;
+                width: 6px;
             }
             
             .tabs.tabs-mobile-visible::-webkit-scrollbar-track {
-                background: rgba(0, 0, 0, 0.2);
-                border-radius: 4px;
+                background: var(--bg-secondary);
+                border-radius: 3px;
             }
             
             .tabs.tabs-mobile-visible::-webkit-scrollbar-thumb {
-                background: var(--blue);
-                border-radius: 4px;
+                background: var(--accent);
+                border-radius: 3px;
             }
             
             .tabs.tabs-mobile-visible::-webkit-scrollbar-thumb:hover {
-                background: #2563eb;
+                background: #374151;
             }
 
             /* Desktop tabs - always visible */
@@ -403,23 +428,31 @@
             .metric-card {
                 background: var(--card-bg);
                 border: 1px solid var(--border);
-                border-radius: 12px;
-                padding: 20px;
+                border-radius: 16px;
+                padding: 28px;
+                transition: all 0.2s ease;
+                box-shadow: var(--shadow-sm);
+            }
+            
+            .metric-card:hover {
+                box-shadow: var(--shadow-md);
+                border-color: var(--border-hover);
             }
 
             .metric-label {
-                font-size: 12px;
-                font-weight: 500;
-                color: var(--text-muted);
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--text-secondary);
                 text-transform: uppercase;
-                letter-spacing: 0.5px;
-                margin-bottom: 8px;
+                letter-spacing: 0.8px;
+                margin-bottom: 12px;
             }
 
             .metric-value {
-                font-size: 28px;
-                font-weight: 700;
-                color: var(--text);
+                font-size: 32px;
+                font-weight: 800;
+                color: var(--accent);
+                letter-spacing: -0.02em;
             }
 
             /* Charts - smart grid layout */
@@ -465,20 +498,30 @@
             .chart-card {
                 background: var(--card-bg);
                 border: 1px solid var(--border);
-                border-radius: 12px;
-                padding: 20px;
+                border-radius: 16px;
+                padding: 28px;
+                transition: all 0.2s ease;
+                box-shadow: var(--shadow-sm);
+            }
+            
+            .chart-card:hover {
+                box-shadow: var(--shadow-md);
+                border-color: var(--border-hover);
             }
 
             .chart-title {
-                font-size: 16px;
-                font-weight: 600;
-                margin-bottom: 4px;
+                font-size: 18px;
+                font-weight: 700;
+                margin-bottom: 6px;
+                color: var(--accent);
+                letter-spacing: -0.01em;
             }
 
             .chart-subtitle {
-                font-size: 13px;
-                color: var(--text-muted);
-                margin-bottom: 16px;
+                font-size: 14px;
+                color: var(--text-secondary);
+                margin-bottom: 24px;
+                font-weight: 500;
             }
 
             .chart-container {
@@ -494,40 +537,58 @@
             .table-section {
                 background: var(--card-bg);
                 border: 1px solid var(--border);
-                border-radius: 12px;
-                padding: 20px;
+                border-radius: 16px;
+                padding: 28px;
+                box-shadow: var(--shadow-sm);
+                transition: all 0.2s ease;
+            }
+            
+            .table-section:hover {
+                box-shadow: var(--shadow-md);
+                border-color: var(--border-hover);
             }
 
             .table-header {
-                margin-bottom: 16px;
+                margin-bottom: 20px;
             }
 
             .table-title {
-                font-size: 16px;
-                font-weight: 600;
-                margin-bottom: 4px;
+                font-size: 18px;
+                font-weight: 700;
+                margin-bottom: 6px;
+                color: var(--accent);
+                letter-spacing: -0.01em;
             }
 
             .table-subtitle {
-                font-size: 13px;
-                color: var(--text-muted);
+                font-size: 14px;
+                color: var(--text-secondary);
+                font-weight: 500;
             }
 
             .search-box {
                 width: 100%;
-                max-width: 400px;
-                background: var(--bg);
-                border: 1px solid var(--border);
-                border-radius: 8px;
-                padding: 10px 14px;
+                max-width: 420px;
+                background: var(--bg-secondary);
+                border: 1.5px solid var(--border);
+                border-radius: 12px;
+                padding: 12px 16px;
                 color: var(--text);
                 font-size: 14px;
-                margin-bottom: 16px;
+                margin-bottom: 20px;
+                transition: all 0.15s ease;
+                font-weight: 500;
             }
 
             .search-box:focus {
                 outline: none;
-                border-color: var(--blue);
+                border-color: var(--accent);
+                background: var(--card-bg);
+                box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+            }
+            
+            .search-box::placeholder {
+                color: var(--text-muted);
             }
 
             /* SCROLLABLE TABLE CONTAINER */
@@ -535,31 +596,32 @@
                 max-height: 600px;
                 overflow: auto;
                 border: 1px solid var(--border);
-                border-radius: 8px;
+                border-radius: 12px;
             }
 
             table {
                 width: 100%;
                 border-collapse: collapse;
-                font-size: 13px;
+                font-size: 14px;
             }
 
             thead {
                 position: sticky;
                 top: 0;
-                background: var(--bg);
+                background: var(--bg-secondary);
                 z-index: 10;
             }
 
             th {
-                padding: 8px 16px;
+                padding: 12px 16px;
                 text-align: left;
-                font-weight: 600;
-                color: var(--text);
-                border-bottom: 1px solid var(--border);
+                font-weight: 700;
+                color: var(--accent);
+                border-bottom: 2px solid var(--border);
                 white-space: nowrap;
                 position: relative;
                 vertical-align: top;
+                background: var(--bg-secondary);
             }
             
             th .header-content {
@@ -569,24 +631,50 @@
             }
             
             th .column-name {
-                font-weight: 600;
-                font-size: 13px;
+                font-weight: 700;
+                font-size: 12px;
+                cursor: pointer;
+                user-select: none;
+                padding: 6px 0;
+                color: var(--accent);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                transition: all 0.15s ease;
+            }
+            
+            th .column-name:hover {
+                color: #374151;
+            }
+            
+            th .column-name.sort-asc::after {
+                content: " ▲";
+                font-size: 9px;
+                color: var(--accent);
+            }
+            
+            th .column-name.sort-desc::after {
+                content: " ▼";
+                font-size: 9px;
+                color: var(--accent);
             }
             
             th input.column-filter {
                 width: 100%;
-                background: var(--bg);
-                border: 1px solid var(--border);
-                border-radius: 4px;
-                padding: 4px 8px;
+                background: var(--card-bg);
+                border: 1.5px solid var(--border);
+                border-radius: 8px;
+                padding: 6px 10px;
                 color: var(--text);
                 font-size: 12px;
                 font-family: inherit;
+                font-weight: 500;
+                transition: all 0.15s ease;
             }
             
             th input.column-filter:focus {
                 outline: none;
-                border-color: var(--blue);
+                border-color: var(--accent);
+                box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
             }
             
             th input.column-filter::placeholder {
@@ -595,12 +683,18 @@
             }
 
             td {
-                padding: 10px 16px;
+                padding: 14px 16px;
                 border-bottom: 1px solid var(--border);
+                color: var(--text-secondary);
+                font-weight: 500;
+            }
+
+            tbody tr {
+                transition: all 0.15s ease;
             }
 
             tbody tr:hover {
-                background: rgba(59, 130, 246, 0.05);
+                background: var(--accent-light);
             }
 
             /* Responsive - Mobile First Approach */
@@ -992,7 +1086,8 @@
             // Configure Chart.js for better mobile experience
             if (typeof Chart !== 'undefined') {
                 Chart.defaults.font.family = "'Inter', sans-serif";
-                Chart.defaults.color = '#94a3b8';
+                Chart.defaults.color = '#6b7280';
+                Chart.defaults.borderColor = 'rgba(0, 0, 0, 0.08)';
             }
 
             // Configuration: Update this URL to your GitHub raw file URL
@@ -1223,7 +1318,7 @@
                             You can still upload a file manually using the upload area below.
                         </p>
                         <button onclick="location.reload()" style="
-                            background: #3b82f6;
+                            background: #000000;
                             color: white;
                             border: none;
                             padding: 10px 20px;
@@ -1327,7 +1422,7 @@
                                 Please try uploading a different file or check the file format.
                             </p>
                             <button onclick="location.reload()" style="
-                                background: #3b82f6;
+                                background: #000000;
                                 color: white;
                                 border: none;
                                 padding: 10px 20px;
@@ -1692,7 +1787,7 @@
                                     ${data.headers.map((h, i) => `
                                         <th data-column="${i}">
                                             <div class="header-content">
-                                                <span class="column-name">${h || "Column"}</span>
+                                                <span class="column-name" onclick="sortTable(${index}, ${i})">${h || "Column"}</span>
                                                 <input type="text" 
                                                        class="column-filter" 
                                                        placeholder="Filter..." 
@@ -1767,8 +1862,8 @@
                             {
                                 label: "Revenue",
                                 data: revenues,
-                                borderColor: "#3b82f6",
-                                backgroundColor: "rgba(59, 130, 246, 0.1)",
+                                borderColor: "#000000",
+                                backgroundColor: "rgba(0, 0, 0, 0.05)",
                                 borderWidth: 2,
                                 fill: true,
                                 tension: 0.4,
@@ -1790,7 +1885,7 @@
                             {
                                 label: "Revenue",
                                 data: revenues,
-                                backgroundColor: "#3b82f6",
+                                backgroundColor: "#000000",
                             },
                         ],
                     },
@@ -1815,7 +1910,7 @@
                                 label: "Growth %",
                                 data: growthRates,
                                 backgroundColor: growthRates.map((r) =>
-                                    r >= 0 ? "#10b981" : "#ef4444",
+                                    r >= 0 ? "#059669" : "#dc2626",
                                 ),
                             },
                         ],
@@ -1855,8 +1950,8 @@
                             {
                                 label: "Revenue",
                                 data: revenues,
-                                borderColor: "#3b82f6",
-                                backgroundColor: "rgba(59, 130, 246, 0.1)",
+                                borderColor: "#000000",
+                                backgroundColor: "rgba(0, 0, 0, 0.05)",
                                 borderWidth: 2,
                                 fill: true,
                                 tension: 0.4,
@@ -1877,7 +1972,7 @@
                             {
                                 label: "Services",
                                 data: services,
-                                backgroundColor: "#10b981",
+                                backgroundColor: "#374151",
                             },
                         ],
                     },
@@ -1913,7 +2008,7 @@
                             {
                                 label: "Revenue",
                                 data: spent,
-                                backgroundColor: "#3b82f6",
+                                backgroundColor: "#000000",
                             },
                         ],
                     },
@@ -1980,7 +2075,7 @@
                                     top10Revenue,
                                     totalRevenue - top10Revenue,
                                 ],
-                                backgroundColor: ["#3b82f6", "#64748b"],
+                                backgroundColor: ["#000000", "#9ca3af"],
                             },
                         ],
                     },
@@ -2017,7 +2112,7 @@
                             {
                                 label: "Revenue",
                                 data: revenues,
-                                backgroundColor: "#3b82f6",
+                                backgroundColor: "#000000",
                             },
                         ],
                     },
@@ -2038,9 +2133,9 @@
                             {
                                 data: revenues.slice(0, 10),
                                 backgroundColor: [
-                                    "#3b82f6",
-                                    "#8b5cf6",
-                                    "#10b981",
+                                    "#000000",
+                                    "#1f2937",
+                                    "#374151",
                                     "#f59e0b",
                                     "#ef4444",
                                     "#06b6d4",
@@ -2071,7 +2166,7 @@
                             {
                                 label: "Contribution %",
                                 data: percentages,
-                                backgroundColor: "#10b981",
+                                backgroundColor: "#374151",
                             },
                         ],
                     },
@@ -2190,8 +2285,8 @@
                             {
                                 label: "Moderate",
                                 data: moderate,
-                                borderColor: "#3b82f6",
-                                backgroundColor: "rgba(59, 130, 246, 0.1)",
+                                borderColor: "#000000",
+                                backgroundColor: "rgba(0, 0, 0, 0.05)",
                                 borderWidth: 2,
                                 fill: true,
                                 tension: 0.4,
@@ -2234,7 +2329,7 @@
                             {
                                 label: data.headers[col] || "Value",
                                 data: values,
-                                backgroundColor: "#3b82f6",
+                                backgroundColor: "#000000",
                             },
                         ],
                     },
@@ -2256,25 +2351,31 @@
                     plugins: {
                         legend: {
                             labels: {
-                                color: "#ffffff",
-                                font: { size: isMobile ? 11 : 12 },
-                                padding: isMobile ? 8 : 10,
+                                color: "#111827",
+                                font: { 
+                                    size: isMobile ? 12 : 13,
+                                    weight: '600'
+                                },
+                                padding: isMobile ? 10 : 12,
                             },
                         },
                         tooltip: {
                             enabled: true,
-                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                            padding: isMobile ? 16 : 12,
+                            backgroundColor: '#000000',
+                            padding: isMobile ? 16 : 14,
                             titleFont: {
-                                size: isMobile ? 16 : 14,
-                                weight: 'bold'
+                                size: isMobile ? 15 : 14,
+                                weight: '700'
                             },
                             bodyFont: {
-                                size: isMobile ? 15 : 13,
+                                size: isMobile ? 14 : 13,
+                                weight: '500'
                             },
                             bodySpacing: 8,
                             boxPadding: 6,
                             usePointStyle: true,
+                            cornerRadius: 8,
+                            displayColors: true,
                             callbacks: {
                                 label: function(context) {
                                     let label = context.dataset.label || '';
@@ -2302,26 +2403,30 @@
                     scales: {
                         x: {
                             grid: { 
-                                color: "rgba(255, 255, 255, 0.05)",
+                                color: "rgba(0, 0, 0, 0.06)",
                                 display: !isMobile
                             },
                             ticks: { 
-                                color: "#94a3b8", 
+                                color: "#6b7280", 
                                 maxRotation: isMobile ? 90 : 45,
                                 minRotation: isMobile ? 45 : 0,
                                 font: {
-                                    size: isMobile ? 10 : 11
+                                    size: isMobile ? 10 : 11,
+                                    weight: '500'
                                 },
                                 autoSkip: true,
                                 maxTicksLimit: isMobile ? 8 : 15
                             },
                         },
                         y: {
-                            grid: { color: "rgba(255, 255, 255, 0.1)" },
+                            grid: { 
+                                color: "rgba(0, 0, 0, 0.08)"
+                            },
                             ticks: { 
-                                color: "#94a3b8",
+                                color: "#6b7280",
                                 font: {
-                                    size: isMobile ? 11 : 11
+                                    size: isMobile ? 11 : 11,
+                                    weight: '500'
                                 },
                                 callback: function(value) {
                                     if (value >= 1000) {
@@ -2348,23 +2453,28 @@
                         legend: {
                             position: isMobile ? "bottom" : "right",
                             labels: {
-                                color: "#ffffff",
-                                font: { size: isMobile ? 11 : 11 },
+                                color: "#111827",
+                                font: { 
+                                    size: isMobile ? 11 : 12,
+                                    weight: '600'
+                                },
                                 padding: isMobile ? 12 : 10,
                                 boxWidth: isMobile ? 15 : 12,
                             },
                         },
                         tooltip: {
                             enabled: true,
-                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                            padding: isMobile ? 16 : 12,
+                            backgroundColor: '#000000',
+                            padding: isMobile ? 16 : 14,
                             titleFont: {
-                                size: isMobile ? 16 : 14,
-                                weight: 'bold'
+                                size: isMobile ? 15 : 14,
+                                weight: '700'
                             },
                             bodyFont: {
-                                size: isMobile ? 15 : 13,
+                                size: isMobile ? 14 : 13,
+                                weight: '500'
                             },
+                            cornerRadius: 8,
                             callbacks: {
                                 label: function(context) {
                                     let label = context.label || '';
@@ -2513,6 +2623,82 @@
                     
                     row.style.display = show ? "" : "none";
                 }
+            }
+            
+            // Store sort state for each table
+            const tableSortState = {};
+            
+            function sortTable(index, columnIndex) {
+                const table = document.getElementById(`table-${index}`);
+                const tbody = document.getElementById(`tbody-${index}`);
+                const rows = Array.from(tbody.getElementsByTagName("tr"));
+                const headers = table.querySelectorAll("th");
+                const columnNames = table.querySelectorAll(".column-name");
+                
+                // Initialize sort state for this table if needed
+                if (!tableSortState[index]) {
+                    tableSortState[index] = {};
+                }
+                
+                // Determine sort direction
+                const currentSort = tableSortState[index][columnIndex] || 'none';
+                let newSort = 'asc';
+                if (currentSort === 'asc') newSort = 'desc';
+                else if (currentSort === 'desc') newSort = 'none';
+                
+                // Clear all sort indicators
+                columnNames.forEach(cn => {
+                    cn.classList.remove('sort-asc', 'sort-desc');
+                });
+                
+                // Reset all columns except current
+                Object.keys(tableSortState[index]).forEach(key => {
+                    if (key != columnIndex) {
+                        tableSortState[index][key] = 'none';
+                    }
+                });
+                
+                tableSortState[index][columnIndex] = newSort;
+                
+                if (newSort === 'none') {
+                    // Restore original order - just return
+                    return;
+                }
+                
+                // Add sort indicator to the column name span
+                columnNames[columnIndex].classList.add(newSort === 'asc' ? 'sort-asc' : 'sort-desc');
+                
+                // Get only visible rows (respecting filters)
+                const visibleRows = rows.filter(row => row.style.display !== 'none');
+                const hiddenRows = rows.filter(row => row.style.display === 'none');
+                
+                // Sort visible rows
+                visibleRows.sort((a, b) => {
+                    const aValue = a.getElementsByTagName("td")[columnIndex]?.textContent || '';
+                    const bValue = b.getElementsByTagName("td")[columnIndex]?.textContent || '';
+                    
+                    // Try to parse as number
+                    const aNum = parseFloat(aValue.replace(/[^\d.-]/g, ''));
+                    const bNum = parseFloat(bValue.replace(/[^\d.-]/g, ''));
+                    
+                    let comparison = 0;
+                    if (!isNaN(aNum) && !isNaN(bNum)) {
+                        // Numeric comparison
+                        comparison = aNum - bNum;
+                    } else {
+                        // String comparison
+                        comparison = aValue.localeCompare(bValue);
+                    }
+                    
+                    return newSort === 'asc' ? comparison : -comparison;
+                });
+                
+                // Clear tbody
+                tbody.innerHTML = '';
+                
+                // Re-append sorted visible rows, then hidden rows
+                visibleRows.forEach(row => tbody.appendChild(row));
+                hiddenRows.forEach(row => tbody.appendChild(row));
             }
         </script>
     </body>
