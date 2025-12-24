@@ -434,6 +434,10 @@
                 .processing p {
                     font-size: 0.9rem;
                 }
+
+                .forecast-stats-grid {
+                    grid-template-columns: 1fr !important;
+                }
             }
 
             /* Extra small devices (phones in portrait) */
@@ -872,8 +876,25 @@
                     chart: {
                         type: type,
                         height: 350,
+                        width: '100%',
                         toolbar: { show: true },
                     },
+                    responsive: [{
+                        breakpoint: 768,
+                        options: {
+                            chart: {
+                                width: '100%',
+                                height: 300
+                            },
+                            legend: { position: 'bottom' },
+                            xaxis: {
+                                labels: {
+                                    rotate: -45,
+                                    style: { fontSize: '10px' }
+                                }
+                            }
+                        }
+                    }],
                     xaxis: {
                         categories: categories,
                         labels: { rotate: -45 },
@@ -943,8 +964,24 @@
                     chart: {
                         type: type === "area" ? "area" : "line",
                         height: 350,
+                        width: '100%',
                         toolbar: { show: true },
                     },
+                    responsive: [{
+                        breakpoint: 768,
+                        options: {
+                            chart: {
+                                width: '100%',
+                                height: 300
+                            },
+                            xaxis: {
+                                labels: {
+                                    rotate: -45,
+                                    style: { fontSize: '9px' }
+                                }
+                            }
+                        }
+                    }],
                     xaxis: {
                         categories: categories,
                         labels: { rotate: -45 },
@@ -978,7 +1015,14 @@
                     const options = {
                         series: Object.values(tiers),
                         labels: Object.keys(tiers),
-                        chart: { type: "pie", height: 350 },
+                        chart: { type: "pie", height: 350, width: '100%' },
+                        responsive: [{
+                            breakpoint: 768,
+                            options: {
+                                chart: { width: '100%', height: 300 },
+                                legend: { position: 'bottom', fontSize: '11px' }
+                            }
+                        }],
                         colors: ["#4361ee", "#f72585", "#10b981", "#f59e0b"],
                         legend: { position: "bottom" },
                         title: { text: title, align: "left" },
@@ -1008,8 +1052,22 @@
                         chart: {
                             type: "bar",
                             height: 350,
+                            width: '100%',
                             toolbar: { show: true },
                         },
+                        responsive: [{
+                            breakpoint: 768,
+                            options: {
+                                chart: { width: '100%', height: 300 },
+                                xaxis: {
+                                    labels: {
+                                        rotate: -45,
+                                        style: { fontSize: '9px' }
+                                    }
+                                },
+                                plotOptions: { bar: { columnWidth: '80%' } }
+                            }
+                        }],
                         xaxis: { categories: clients, labels: { rotate: -45 } },
                         yaxis: {
                             labels: {
@@ -1047,7 +1105,14 @@
                     const options = {
                         series: revenues,
                         labels: services,
-                        chart: { type: "donut", height: 350 },
+                        chart: { type: "donut", height: 350, width: '100%' },
+                        responsive: [{
+                            breakpoint: 768,
+                            options: {
+                                chart: { width: '100%', height: 300 },
+                                legend: { position: 'bottom', fontSize: '10px' }
+                            }
+                        }],
                         colors: [
                             "#4361ee",
                             "#f72585",
@@ -1066,7 +1131,19 @@
                 } else {
                     const options = {
                         series: [{ name: "Revenue (RON)", data: revenues }],
-                        chart: { type: "bar", height: 350 },
+                        chart: { type: "bar", height: 350, width: '100%' },
+                        responsive: [{
+                            breakpoint: 768,
+                            options: {
+                                chart: { width: '100%', height: 300 },
+                                xaxis: {
+                                    labels: {
+                                        rotate: -45,
+                                        style: { fontSize: '9px' }
+                                    }
+                                }
+                            }
+                        }],
                         xaxis: {
                             categories: services,
                             labels: { rotate: -45 },
@@ -1111,7 +1188,14 @@
                     const options = {
                         series: revenues,
                         labels: categories,
-                        chart: { type: "pie", height: 350 },
+                        chart: { type: "pie", height: 350, width: '100%' },
+                        responsive: [{
+                            breakpoint: 768,
+                            options: {
+                                chart: { width: '100%', height: 300 },
+                                legend: { position: 'bottom', fontSize: '10px' }
+                            }
+                        }],
                         colors: [
                             "#4361ee",
                             "#f72585",
@@ -1129,7 +1213,18 @@
                 } else {
                     const options = {
                         series: [{ name: "Revenue", data: revenues }],
-                        chart: { type: "bar", height: 350 },
+                        chart: { type: "bar", height: 350, width: '100%' },
+                        responsive: [{
+                            breakpoint: 768,
+                            options: {
+                                chart: { width: '100%', height: 300 },
+                                xaxis: {
+                                    labels: {
+                                        style: { fontSize: '10px' }
+                                    }
+                                }
+                            }
+                        }],
                         xaxis: { categories: categories },
                         colors: ["#f72585"],
                         title: { text: title, align: "left" },
@@ -1289,6 +1384,7 @@
                     chart: {
                         type: "line",
                         height: 400,
+                        width: '100%',
                         toolbar: { show: false },
                         animations: {
                             enabled: true,
@@ -1296,6 +1392,34 @@
                             speed: 800,
                         },
                     },
+                    responsive: [{
+                        breakpoint: 768,
+                        options: {
+                            chart: {
+                                width: '100%',
+                                height: 300
+                            },
+                            xaxis: {
+                                labels: {
+                                    style: { fontSize: '9px', fontWeight: 500 },
+                                    rotate: -45
+                                }
+                            },
+                            yaxis: {
+                                labels: {
+                                    style: { fontSize: '9px' }
+                                }
+                            },
+                            legend: {
+                                position: 'bottom',
+                                fontSize: '11px',
+                                fontWeight: 500
+                            },
+                            markers: {
+                                size: 3
+                            }
+                        }
+                    }],
                     xaxis: {
                         categories: months,
                         labels: {
@@ -1380,7 +1504,7 @@
 
                 // Create a beautiful stats display
                 let statsHTML = `
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 10px;">
+                <div class="forecast-stats-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 10px;">
             `;
 
                 Object.entries(stats).forEach(([key, value]) => {
@@ -1453,7 +1577,19 @@
 
                 const options = {
                     series: [{ name: data.headers[col], data: values }],
-                    chart: { type: type, height: 350 },
+                    chart: { type: type, height: 350, width: '100%' },
+                    responsive: [{
+                        breakpoint: 768,
+                        options: {
+                            chart: { width: '100%', height: 300 },
+                            xaxis: {
+                                labels: {
+                                    rotate: -45,
+                                    style: { fontSize: '9px' }
+                                }
+                            }
+                        }
+                    }],
                     xaxis: { categories: labels, labels: { rotate: -45 } },
                     colors: ["#4361ee"],
                     title: { text: data.headers[col] || "Data", align: "left" },
