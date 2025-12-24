@@ -1,232 +1,266 @@
 <!doctype html>
 <!--
-    Revenue Analysis Dashboard
+    Revenue Dashboard v2 - Modern Dark Theme
+
+    FEATURES:
+    - Modern dark theme with clean design
+    - Mobile-first responsive layout (5 breakpoints)
+    - Touch-optimized mobile interface
+    - Mobile menu button for tabs on smaller screens
+    - GitHub auto-load functionality
+    - Excel file upload/drag-and-drop
+    - Interactive charts with Chart.js
+    - Global metrics dashboard
+    - Smart chart grid layouts
 
     SETUP INSTRUCTIONS:
     1. Create a GitHub repository for your revenue dashboard
-    2. Upload this index.html file to the repo
+    2. Upload this index2.html file to the repo
     3. Upload your revenue_analysis_current.xlsx file to the repo
     4. Enable GitHub Pages in repository settings (Settings > Pages > Source: main branch)
-    5. Update the EXCEL_FILE_URL constant in this file (line ~265) with your GitHub raw file URL
+    5. Update the EXCEL_FILE_URL constant in this file (line ~740) with your GitHub raw file URL
        Format: https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/revenue_analysis_current.xlsx
     6. Every time you run your analysis script, commit and push the new Excel file to GitHub
     7. The dashboard will automatically fetch and display the latest data when loaded
 
     Your dashboard URL will be: https://YOUR_USERNAME.github.io/YOUR_REPO/
+
+    LOCAL TESTING:
+    - For local testing, run a simple HTTP server in this directory:
+      - Python 3: python -m http.server 8000
+      - Node.js: npx serve .
+      - PHP: php -S localhost:8000
+    - Then open http://localhost:8000/index2.html in your browser
+    - The default EXCEL_FILE_URL points to 'revenue_analysis_current.xlsx' in the same directory
+
+    MOBILE MENU:
+    - On screens 991px and below, a "Tabs" menu button appears in the header
+    - Click the button to show/hide the sheet tabs
+    - Tabs are displayed as a vertical dropdown list on mobile
+    - Menu automatically closes when selecting a tab or clicking outside
 -->
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Revenue Analysis Dashboard</title>
+        <title>Revenue Dashboard</title>
 
-        <!-- SheetJS for Excel reading -->
+        <!-- SheetJS -->
         <script src="https://cdn.sheetjs.com/xlsx-0.18.5/package/dist/xlsx.full.min.js"></script>
 
-        <!-- ApexCharts for beautiful visualizations -->
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
 
-        <!-- Grid.js for data tables -->
+        <!-- Inter font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
             rel="stylesheet"
-        />
-        <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
-
-        <!-- Bootstrap for tabs -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Font Awesome -->
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
 
         <style>
-            :root {
-                --primary: #4361ee;
-                --secondary: #3a0ca3;
-                --accent: #f72585;
-                --success: #10b981;
-                --warning: #f59e0b;
-                --danger: #ef4444;
-            }
-
             * {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
             }
 
+            :root {
+                --bg: #0f1419;
+                --card-bg: #1a1f2e;
+                --border: #2d3748;
+                --text: #ffffff;
+                --text-muted: #94a3b8;
+                --blue: #3b82f6;
+            }
+
             body {
-                font-family:
-                    "Segoe UI",
-                    system-ui,
-                    -apple-system,
-                    sans-serif;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                min-height: 100vh;
-                padding: 20px;
+                font-family: "Inter", sans-serif;
+                background: var(--bg);
+                color: var(--text);
+                line-height: 1.5;
             }
 
-            .dashboard-container {
-                max-width: 1600px;
+            .container {
+                max-width: 1920px;
                 margin: 0 auto;
-                background: white;
-                border-radius: 20px;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-                overflow: hidden;
+                padding: 24px;
             }
 
-            .dashboard-header {
-                background: linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--secondary)
-                );
-                color: white;
-                padding: 30px;
+            /* Header */
+            .header {
+                margin-bottom: 32px;
+            }
+
+            .header-top {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 16px;
+            }
+
+            .header-title {
+                flex: 1;
+            }
+
+            .header h1 {
+                font-size: 28px;
+                font-weight: 700;
+                color: var(--text);
+                margin-bottom: 4px;
+            }
+
+            .header p {
+                font-size: 14px;
+                color: var(--text-muted);
+            }
+
+            /* Mobile Menu Button */
+            .mobile-menu-btn {
+                display: none; /* Hidden by default */
+                background: var(--card-bg);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                color: var(--text);
+                padding: 10px 16px;
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+                user-select: none;
+                min-height: 44px;
+                align-items: center;
+                gap: 8px;
+                transition: all 0.2s;
+            }
+
+            .mobile-menu-btn:hover {
+                border-color: var(--blue);
+            }
+
+            .mobile-menu-btn.active {
+                background: var(--blue);
+                border-color: var(--blue);
+            }
+
+            .menu-icon {
+                display: inline-block;
+                width: 18px;
+                height: 2px;
+                background: var(--text);
+                position: relative;
+            }
+
+            .menu-icon::before,
+            .menu-icon::after {
+                content: "";
+                position: absolute;
+                width: 18px;
+                height: 2px;
+                background: var(--text);
+                left: 0;
+            }
+
+            .menu-icon::before {
+                top: -6px;
+            }
+
+            .menu-icon::after {
+                bottom: -6px;
+            }
+
+            .mobile-menu-btn.active .menu-icon {
+                background: transparent;
+            }
+
+            .mobile-menu-btn.active .menu-icon::before {
+                transform: rotate(45deg);
+                top: 0;
+            }
+
+            .mobile-menu-btn.active .menu-icon::after {
+                transform: rotate(-45deg);
+                bottom: 0;
+            }
+
+            /* Upload */
+            .upload-section {
+                background: var(--card-bg);
+                border: 2px dashed var(--border);
+                border-radius: 12px;
+                padding: 48px;
                 text-align: center;
+                cursor: pointer;
+                transition: all 0.2s;
+                touch-action: manipulation; /* Faster tap response */
+                -webkit-tap-highlight-color: rgba(
+                    0,
+                    0,
+                    0,
+                    0.1
+                ); /* Better touch feedback */
+                user-select: none; /* Prevent text selection on tap */
             }
 
-            .dashboard-header h1 {
-                font-size: 2.5rem;
-                margin-bottom: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 15px;
+            .upload-section:hover {
+                border-color: var(--blue);
             }
 
-            .nav-tabs {
-                background: #f8f9fa;
-                padding: 20px 20px 0;
-                border-bottom: 2px solid #dee2e6;
-            }
-
-            .nav-tabs .nav-link {
-                color: #495057;
+            .upload-section h2 {
+                font-size: 18px;
                 font-weight: 600;
+                margin-bottom: 8px;
+            }
+
+            .upload-section p {
+                color: var(--text-muted);
+                margin-bottom: 16px;
+            }
+
+            .btn-upload {
+                background: var(--blue);
+                color: white;
                 border: none;
-                border-radius: 10px 10px 0 0;
-                margin-right: 5px;
-                padding: 12px 24px;
-                transition: all 0.3s ease;
-            }
-
-            .nav-tabs .nav-link:hover {
-                background: #e9ecef;
-            }
-
-            .nav-tabs .nav-link.active {
-                background: white;
-                color: var(--primary);
-                border-bottom: 3px solid var(--primary);
-            }
-
-            .tab-content {
-                padding: 30px;
-            }
-
-            .sheet-content {
-                display: grid;
-                gap: 30px;
-            }
-
-            .charts-section {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-                gap: 25px;
-                margin-bottom: 30px;
-            }
-
-            .chart-card {
-                background: white;
-                border-radius: 12px;
-                padding: 20px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-                border: 1px solid #e9ecef;
-            }
-
-            .chart-title {
-                font-size: 1.2rem;
-                font-weight: 700;
-                color: #212529;
-                margin-bottom: 15px;
-                padding-bottom: 10px;
-                border-bottom: 2px solid #f1f3f5;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .data-table-section {
-                background: white;
-                border-radius: 12px;
-                padding: 20px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-                border: 1px solid #e9ecef;
-            }
-
-            .table-title {
-                font-size: 1.3rem;
-                font-weight: 700;
-                color: #212529;
-                margin-bottom: 20px;
-                display: flex;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .table-container {
-                max-height: 600px;
-                overflow-y: auto;
+                padding: 10px 24px;
                 border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                touch-action: manipulation; /* Faster tap response */
+                -webkit-tap-highlight-color: rgba(
+                    0,
+                    0,
+                    0,
+                    0.1
+                ); /* Better touch feedback */
+                user-select: none; /* Prevent text selection on tap */
             }
 
-            /* Grid.js customization */
-            .gridjs-wrapper {
-                border-radius: 8px;
-                box-shadow: none !important;
+            #fileInput {
+                display: none;
             }
 
-            .gridjs-table {
-                border-collapse: collapse;
-            }
-
-            .gridjs-th {
-                background: linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--secondary)
-                ) !important;
-                color: white !important;
-                font-weight: 600 !important;
-                padding: 15px !important;
-            }
-
-            .gridjs-td {
-                padding: 12px 15px !important;
-                border-bottom: 1px solid #e9ecef !important;
-            }
-
-            .gridjs-tr:hover {
-                background-color: #f8f9fa !important;
-            }
-
-            .processing {
+            /* Loading */
+            .loading {
                 text-align: center;
                 padding: 60px;
+                display: none;
             }
 
-            .processing i {
-                font-size: 4rem;
-                color: var(--primary);
-                animation: spin 1.5s linear infinite;
+            .loading.active {
+                display: block;
+            }
+
+            .spinner {
+                width: 48px;
+                height: 48px;
+                margin: 0 auto 20px;
+                border: 3px solid var(--border);
+                border-top: 3px solid var(--blue);
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
             }
 
             @keyframes spin {
@@ -238,251 +272,927 @@
                 }
             }
 
-            .stats-summary {
+            /* Dashboard */
+            .dashboard {
+                display: none;
+            }
+
+            .dashboard.active {
+                display: block;
+            }
+
+            /* GLOBAL METRICS - ABOVE TABS */
+            .global-metrics {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 20px;
-                margin-bottom: 30px;
+                gap: 16px;
+                margin-bottom: 24px;
             }
 
-            .stat-card {
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* Tabs - NO SCROLL, wrap to multiple lines */
+            .tabs {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 24px;
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                background: var(--card-bg);
+                border: 1px solid var(--border);
+                padding: 10px 20px;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.2s;
+                font-size: 14px;
+                font-weight: 500;
+                white-space: nowrap;
+                touch-action: manipulation; /* Faster tap response */
+                -webkit-tap-highlight-color: rgba(
+                    0,
+                    0,
+                    0,
+                    0.1
+                ); /* Better touch feedback */
+                user-select: none; /* Prevent text selection on tap */
+            }
+
+            .tab:hover {
+                border-color: var(--blue);
+            }
+
+            .tab.active {
+                background: var(--blue);
+                border-color: var(--blue);
                 color: white;
-                padding: 20px;
+            }
+
+            /* Mobile tabs state */
+            .tabs.tabs-mobile-hidden {
+                display: none !important;
+            }
+
+            .tabs.tabs-mobile-visible {
+                display: flex !important;
+                position: fixed;
+                z-index: 10000;
+                background: var(--card-bg);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 12px;
+                max-height: 60vh;
+                overflow-y: auto;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+                width: auto;
+                min-width: 250px;
+                max-width: calc(100vw - 32px);
+            }
+
+            /* Desktop tabs - always visible */
+            .tabs.tabs-desktop-visible {
+                display: flex !important;
+            }
+
+            /* Tab content */
+            .tab-content {
+                display: none;
+            }
+
+            .tab-content.active {
+                display: block;
+            }
+
+            /* Key metrics cards at top */
+            .metrics-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 16px;
+                margin-bottom: 24px;
+            }
+
+            .metric-card {
+                background: var(--card-bg);
+                border: 1px solid var(--border);
                 border-radius: 12px;
-                text-align: center;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                padding: 20px;
             }
 
-            .stat-value {
-                font-size: 2.5rem;
+            .metric-label {
+                font-size: 12px;
+                font-weight: 500;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin-bottom: 8px;
+            }
+
+            .metric-value {
+                font-size: 28px;
                 font-weight: 700;
-                margin-bottom: 5px;
+                color: var(--text);
             }
 
-            .stat-label {
-                font-size: 0.95rem;
-                opacity: 0.9;
+            /* Charts - smart grid layout */
+            .charts-grid {
+                display: grid;
+                gap: 20px;
+                margin-bottom: 24px;
             }
 
-            /* Mobile Responsive Styles */
-            @media (max-width: 768px) {
-                body {
-                    padding: 10px;
+            /* 1 chart = full width */
+            .charts-grid.cols-1 {
+                grid-template-columns: 1fr;
+            }
+
+            /* 2 charts = 50/50 */
+            .charts-grid.cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* 3 charts = 1 full width, 2 half */
+            .charts-grid.cols-3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts-grid.cols-3 .chart-card:first-child {
+                grid-column: 1 / -1;
+            }
+
+            /* 4 charts = 2x2 grid */
+            .charts-grid.cols-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* 5 charts = 1 full, 2 half, 2 half */
+            .charts-grid.cols-5 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts-grid.cols-5 .chart-card:first-child {
+                grid-column: 1 / -1;
+            }
+
+            .chart-card {
+                background: var(--card-bg);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 20px;
+            }
+
+            .chart-title {
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 4px;
+            }
+
+            .chart-subtitle {
+                font-size: 13px;
+                color: var(--text-muted);
+                margin-bottom: 16px;
+            }
+
+            .chart-container {
+                position: relative;
+                height: 300px;
+            }
+
+            .chart-container.tall {
+                height: 400px;
+            }
+
+            /* Table - scrollable container */
+            .table-section {
+                background: var(--card-bg);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 20px;
+            }
+
+            .table-header {
+                margin-bottom: 16px;
+            }
+
+            .table-title {
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 4px;
+            }
+
+            .table-subtitle {
+                font-size: 13px;
+                color: var(--text-muted);
+            }
+
+            .search-box {
+                width: 100%;
+                max-width: 400px;
+                background: var(--bg);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 10px 14px;
+                color: var(--text);
+                font-size: 14px;
+                margin-bottom: 16px;
+            }
+
+            .search-box:focus {
+                outline: none;
+                border-color: var(--blue);
+            }
+
+            /* SCROLLABLE TABLE CONTAINER */
+            .table-wrapper {
+                max-height: 600px;
+                overflow: auto;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 13px;
+            }
+
+            thead {
+                position: sticky;
+                top: 0;
+                background: var(--bg);
+                z-index: 10;
+            }
+
+            th {
+                padding: 12px 16px;
+                text-align: left;
+                font-weight: 600;
+                color: var(--text);
+                border-bottom: 1px solid var(--border);
+                white-space: nowrap;
+            }
+
+            td {
+                padding: 10px 16px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            tbody tr:hover {
+                background: rgba(59, 130, 246, 0.05);
+            }
+
+            /* Responsive - Mobile First Approach */
+
+            /* Base mobile styles (applies to all screens) */
+            .container {
+                padding: 16px;
+            }
+
+            /* Small tablets and large phones (768px and up) */
+            @media (min-width: 768px) {
+                .container {
+                    padding: 20px;
+                }
+            }
+
+            /* Large tablets and small desktops (992px and up) */
+            @media (min-width: 992px) {
+                .container {
+                    padding: 24px;
+                }
+            }
+
+            /* Desktop (1200px and up) */
+            @media (min-width: 1200px) {
+                .container {
+                    padding: 24px;
+                }
+            }
+
+            /* Mobile-specific adjustments */
+            @media (max-width: 1199px) {
+                /* Tablet and below */
+            }
+
+            @media (max-width: 991px) {
+                /* Small tablet and large phone */
+                .charts-grid.cols-2,
+                .charts-grid.cols-3,
+                .charts-grid.cols-4,
+                .charts-grid.cols-5 {
+                    grid-template-columns: 1fr !important;
                 }
 
-                .dashboard-container {
-                    border-radius: 15px;
+                .charts-grid .chart-card {
+                    grid-column: 1 !important;
                 }
 
-                .dashboard-header {
-                    padding: 20px 15px;
+                .global-metrics {
+                    grid-template-columns: repeat(2, 1fr);
                 }
 
-                .dashboard-header h1 {
-                    font-size: 1.5rem;
+                /* Show mobile menu button on mobile screens */
+                .mobile-menu-btn {
+                    display: flex;
+                }
+
+                /* Tabs mobile - hidden by default, shown as vertical list when menu clicked */
+                .tabs:not(.tabs-desktop-visible) {
+                    display: none;
                     flex-direction: column;
                     gap: 8px;
+                    margin-bottom: 16px;
+                    background: var(--card-bg);
+                    border: 1px solid var(--border);
+                    border-radius: 8px;
+                    padding: 12px;
+                    max-height: 400px;
+                    overflow-y: auto;
                 }
 
-                .dashboard-header p {
-                    font-size: 0.85rem;
+                .tabs.tabs-mobile-hidden {
+                    display: none !important;
                 }
 
-                /* Tabs - horizontal scroll on mobile */
-                .nav-tabs {
-                    padding: 15px 10px 0;
-                    overflow-x: auto;
-                    overflow-y: hidden;
-                    white-space: nowrap;
-                    flex-wrap: nowrap !important;
-                    -webkit-overflow-scrolling: touch;
+                .tabs.tabs-mobile-visible {
                     display: flex !important;
                 }
 
-                .nav-tabs .nav-link {
-                    font-size: 0.9rem;
-                    padding: 10px 16px;
-                    display: inline-block;
-                    flex-shrink: 0;
+                .tabs .tab {
+                    width: 100%;
+                    text-align: left;
+                    padding: 12px 16px;
+                    min-height: 44px;
+                    white-space: normal;
+                    line-height: 1.4;
                 }
 
-                .tab-content {
-                    padding: 15px;
+                .metric-value {
+                    font-size: 24px;
+                }
+            }
+
+            @media (max-width: 767px) {
+                /* Phones and small tablets */
+                .header h1 {
+                    font-size: 24px;
                 }
 
-                /* Charts - single column and responsive */
-                .charts-section {
-                    grid-template-columns: 1fr !important;
-                    gap: 15px;
+                .header p {
+                    font-size: 13px;
                 }
+
+                /* Mobile menu button visible on mobile screens */
+                .mobile-menu-btn {
+                    display: flex;
+                }
+
+                /* Tabs mobile - hidden by default, shown as vertical list when menu clicked */
+                .tabs {
+                    display: none;
+                    flex-direction: column;
+                    gap: 8px;
+                    margin-bottom: 16px;
+                    background: var(--card-bg);
+                    border: 1px solid var(--border);
+                    border-radius: 8px;
+                    padding: 12px;
+                    max-height: 400px;
+                    overflow-y: auto;
+                }
+
+                .tabs.tabs-mobile-hidden {
+                    display: none !important;
+                }
+
+                .tabs.tabs-mobile-visible {
+                    display: flex !important;
+                }
+
+                .tabs .tab {
+                    width: 100%;
+                    text-align: left;
+                    padding: 12px 16px;
+                    min-height: 44px;
+                    white-space: normal;
+                    line-height: 1.4;
+                }
+
+                .upload-section {
+                    padding: 32px 20px;
+                }
+
+                .upload-section h2 {
+                    font-size: 16px;
+                }
+
+                .upload-section p {
+                    font-size: 14px;
+                }
+
+                .btn-upload {
+                    padding: 12px 24px;
+                    font-size: 15px;
+                    min-height: 48px;
+                    min-width: 140px;
+                }
+
+                .global-metrics {
+                    grid-template-columns: 1fr;
+                    gap: 12px;
+                }
+
+                .metrics-grid {
+                    grid-template-columns: 1fr;
+                    gap: 12px;
+                }
+
+                .metric-card {
+                    padding: 16px;
+                }
+
+                .metric-label {
+                    font-size: 11px;
+                }
+
+                .metric-value {
+                    font-size: 22px;
+                }
+
+                /* Tabs handled by mobile menu - see styles above */
 
                 .chart-card {
-                    padding: 15px;
-                    overflow: hidden;
+                    padding: 16px;
                 }
 
                 .chart-title {
-                    font-size: 1rem;
-                    margin-bottom: 10px;
+                    font-size: 15px;
                 }
 
-                /* Make charts responsive */
-                .chart-card > div {
-                    width: 100% !important;
+                .chart-subtitle {
+                    font-size: 12px;
+                }
+
+                .chart-container {
+                    height: 250px;
+                }
+
+                .chart-container.tall {
+                    height: 320px;
+                }
+
+                .table-section {
+                    padding: 16px;
+                }
+
+                .table-title {
+                    font-size: 15px;
+                }
+
+                .table-subtitle {
+                    font-size: 12px;
+                }
+
+                .search-box {
+                    padding: 12px 14px;
+                    font-size: 16px; /* Prevent iOS zoom */
+                    max-width: 100%;
+                }
+
+                .table-wrapper {
+                    max-height: 400px;
+                }
+
+                table {
+                    font-size: 12px;
+                }
+
+                th,
+                td {
+                    padding: 8px 12px;
+                }
+
+                .loading {
+                    padding: 40px 20px;
+                }
+
+                .loading h2 {
+                    font-size: 16px;
+                }
+            }
+
+            @media (max-width: 575px) {
+                /* Small phones */
+                .header h1 {
+                    font-size: 22px;
+                }
+
+                .header {
+                    margin-bottom: 24px;
+                }
+
+                .upload-section {
+                    padding: 24px 16px;
+                }
+
+                .tab {
+                    flex: 1 0 100%;
+                    max-width: 100%;
+                    font-size: 13px;
+                    padding: 12px 16px;
+                }
+
+                .chart-container {
+                    height: 220px;
+                }
+
+                .chart-container.tall {
+                    height: 280px;
+                }
+
+                .table-wrapper {
+                    max-height: 350px;
+                }
+
+                th,
+                td {
+                    padding: 6px 10px;
+                }
+
+                .search-box {
+                    font-size: 16px; /* Prevent iOS zoom */
+                    padding: 10px 12px;
+                    max-width: 100%;
+                }
+            }
+
+            @media (max-width: 399px) {
+                /* Very small phones */
+                .container {
+                    padding: 12px;
+                }
+
+                .header h1 {
+                    font-size: 20px;
+                }
+
+                .metric-value {
+                    font-size: 20px;
+                }
+
+                .chart-container {
+                    height: 200px;
+                }
+
+                .chart-container.tall {
+                    height: 250px;
+                }
+
+                .table-wrapper {
+                    max-height: 300px;
+                }
+            }
+
+            /* Special handling for very wide tables on mobile */
+            @media (max-width: 767px) {
+                .table-wrapper {
                     overflow-x: auto;
                     -webkit-overflow-scrolling: touch;
                 }
 
-                /* Stats grid - 1 column on mobile */
-                .stats-summary {
-                    grid-template-columns: 1fr !important;
-                    gap: 12px;
-                    margin-bottom: 20px;
+                table {
+                    min-width: 600px; /* Ensures table doesn't collapse too much */
                 }
 
-                .stat-card {
-                    padding: 15px;
-                }
-
-                .stat-value {
-                    font-size: 2rem;
-                }
-
-                .stat-label {
-                    font-size: 0.85rem;
-                }
-
-                /* Data tables - FORCE horizontal scroll */
-                .data-table-section {
-                    padding: 15px;
-                    overflow: hidden;
-                }
-
-                .table-title {
-                    font-size: 1.1rem;
-                    margin-bottom: 15px;
-                }
-
-                .table-container {
-                    max-height: 500px;
-                    overflow-x: auto !important;
-                    overflow-y: auto !important;
-                    -webkit-overflow-scrolling: touch;
-                    width: 100%;
-                }
-
-                /* Grid.js mobile adjustments - WIDER COLUMNS */
-                .gridjs-wrapper {
-                    font-size: 11px;
-                    overflow-x: auto !important;
-                    width: 100%;
-                }
-
-                .gridjs-table {
-                    min-width: 100%;
-                    width: max-content !important;
-                }
-
-                .gridjs-th,
-                .gridjs-td {
-                    padding: 8px 12px !important;
-                    min-width: 120px !important;
+                th,
+                td {
                     white-space: nowrap;
-                }
-
-                .gridjs-th:first-child,
-                .gridjs-td:first-child {
-                    min-width: 150px !important;
-                }
-
-                /* Processing screen */
-                .processing {
-                    padding: 40px 20px;
-                }
-
-                .processing i {
-                    font-size: 3rem;
-                }
-
-                .processing h3 {
-                    font-size: 1.2rem;
-                }
-
-                .processing p {
-                    font-size: 0.9rem;
                 }
             }
 
-            /* Extra small devices (phones in portrait) */
-            @media (max-width: 480px) {
-                .dashboard-header h1 {
-                    font-size: 1.3rem;
+            /* Print styles */
+            @media print {
+                .upload-section,
+                .tabs,
+                .search-box,
+                .btn-upload {
+                    display: none !important;
                 }
 
-                .nav-tabs .nav-link {
-                    font-size: 0.85rem;
-                    padding: 8px 12px;
+                .dashboard.active {
+                    display: block !important;
                 }
 
-                .chart-title {
-                    font-size: 0.95rem;
-                    flex-direction: column;
-                    align-items: flex-start;
+                .tab-content.active {
+                    display: block !important;
                 }
 
-                .stat-value {
-                    font-size: 1.7rem;
+                .table-wrapper {
+                    max-height: none;
+                    overflow: visible;
                 }
 
-                .gridjs-wrapper {
-                    font-size: 10px;
+                table {
+                    border-collapse: collapse;
                 }
 
-                .gridjs-th,
-                .gridjs-td {
-                    font-size: 10px;
-                    padding: 6px 10px !important;
-                    min-width: 110px !important;
+                th,
+                td {
+                    border: 1px solid #ddd;
                 }
             }
         </style>
     </head>
     <body>
-        <div class="dashboard-container">
-            <div class="dashboard-header">
-                <h1>
-                    <i class="fas fa-chart-pie"></i> Revenue Analysis Dashboard
-                </h1>
-                <p>
-                    Interactive visualization of your Excel data with beautiful
-                    charts and tables
-                </p>
+        <div class="container">
+            <div class="header">
+                <div class="header-top">
+                    <div class="header-title">
+                        <h1>Revenue Dashboard</h1>
+                        <p>Data analytics and insights</p>
+                    </div>
+                    <button
+                        class="mobile-menu-btn"
+                        id="mobileMenuBtn"
+                        aria-label="Toggle tabs menu"
+                        aria-expanded="false"
+                    >
+                        <span class="menu-icon"></span>
+                        <span class="menu-text">Tabs</span>
+                    </button>
+                </div>
             </div>
 
-            <div id="processing" class="processing" style="display: block">
-                <i class="fas fa-spinner"></i>
-                <h3>Processing Excel file...</h3>
-                <p style="color: #6c757d">Creating visualizations and tables</p>
+            <!-- Upload -->
+            <div class="upload-section" id="uploadSection">
+                <h2>Upload Excel File</h2>
+                <p>Drop file here or click to browse</p>
+                <button
+                    class="btn-upload"
+                    onclick="document.getElementById('fileInput').click()"
+                >
+                    Choose File
+                </button>
+                <input type="file" id="fileInput" accept=".xlsx,.xls" />
             </div>
 
-            <div id="dashboardContent" style="display: none">
-                <ul class="nav nav-tabs" id="sheetTabs" role="tablist"></ul>
-                <div class="tab-content" id="sheetTabContent"></div>
+            <!-- Loading -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <h2>Processing data...</h2>
+            </div>
+
+            <!-- Dashboard -->
+            <div class="dashboard" id="dashboard">
+                <!-- GLOBAL METRICS - ALWAYS VISIBLE -->
+                <div class="global-metrics">
+                    <div class="metric-card">
+                        <div class="metric-label">Total Clients</div>
+                        <div class="metric-value" id="global-clients">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Total Revenue</div>
+                        <div class="metric-value" id="global-revenue">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Avg per Client</div>
+                        <div class="metric-value" id="global-avg">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Next Month Forecast</div>
+                        <div class="metric-value" id="global-forecast">-</div>
+                    </div>
+                </div>
+
+                <div class="tabs" id="tabs"></div>
+                <div id="tabsContent"></div>
             </div>
         </div>
 
         <script>
             let workbookData = {};
-            let gridInstances = {};
+            let charts = {};
+            let globalMetrics = {};
 
             // Configuration: Update this URL to your GitHub raw file URL
+            // For local development: 'revenue_analysis_current.xlsx'
+            // For GitHub Pages: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/revenue_analysis_current.xlsx'
             const EXCEL_FILE_URL = "revenue_analysis_current.xlsx";
+
+            const fileInput = document.getElementById("fileInput");
+            const uploadSection = document.getElementById("uploadSection");
+
+            fileInput.addEventListener("change", handleFile);
+
+            uploadSection.addEventListener("dragover", (e) => {
+                e.preventDefault();
+            });
+
+            uploadSection.addEventListener("drop", (e) => {
+                e.preventDefault();
+                const file = e.dataTransfer.files[0];
+                if (file) processFile(file);
+            });
+
+            uploadSection.addEventListener("click", (e) => {
+                if (e.target.tagName !== "BUTTON") {
+                    fileInput.click();
+                }
+            });
+
+            // Mobile menu button functionality
+            const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+            const tabsContainer = document.getElementById("tabs");
+
+            function updateTabsForScreenSize() {
+                if (!tabsContainer) return;
+
+                const isMobile =
+                    window.matchMedia("(max-width: 991px)").matches;
+
+                if (isMobile) {
+                    // On mobile: ensure tabs are hidden by default unless menu is active
+                    if (
+                        !tabsContainer.classList.contains("tabs-mobile-visible")
+                    ) {
+                        tabsContainer.classList.add("tabs-mobile-hidden");
+                        tabsContainer.classList.remove("tabs-desktop-visible");
+                    }
+                } else {
+                    // On desktop: show tabs normally, remove mobile classes
+                    tabsContainer.classList.remove(
+                        "tabs-mobile-hidden",
+                        "tabs-mobile-visible",
+                    );
+                    tabsContainer.classList.add("tabs-desktop-visible");
+                    // Reset inline styles
+                    tabsContainer.style.position = "";
+                    tabsContainer.style.margin = "";
+                    tabsContainer.style.top = "";
+                    tabsContainer.style.left = "";
+                    tabsContainer.style.width = "";
+                    tabsContainer.style.maxHeight = "";
+                    tabsContainer.style.zIndex = "";
+                    if (mobileMenuBtn) {
+                        mobileMenuBtn.classList.remove("active");
+                        mobileMenuBtn.setAttribute("aria-expanded", "false");
+                    }
+                }
+            }
+
+            function positionMobileTabsDropdown() {
+                if (!mobileMenuBtn || !tabsContainer) return;
+
+                const isMobile =
+                    window.matchMedia("(max-width: 991px)").matches;
+                if (!isMobile) return;
+
+                if (tabsContainer.classList.contains("tabs-mobile-visible")) {
+                    const btnRect = mobileMenuBtn.getBoundingClientRect();
+                    const viewportHeight = window.innerHeight;
+                    const viewportWidth = window.innerWidth;
+
+                    // Calculate dropdown dimensions - wider to accommodate longer tab names
+                    const dropdownWidth = Math.min(viewportWidth - 32, 400);
+                    const dropdownMaxHeight = Math.min(
+                        viewportHeight * 0.6,
+                        500,
+                    );
+
+                    // Calculate position - align with right edge of button
+                    let top = btnRect.bottom + window.scrollY + 8; // 8px gap
+                    let left = btnRect.right + window.scrollX - dropdownWidth;
+
+                    // Adjust if dropdown would go below viewport
+                    const spaceBelow = viewportHeight - btnRect.bottom - 10;
+                    const spaceAbove = btnRect.top - 10;
+
+                    if (
+                        spaceBelow < dropdownMaxHeight &&
+                        spaceAbove > spaceBelow
+                    ) {
+                        // Show above button if more space above
+                        top =
+                            btnRect.top +
+                            window.scrollY -
+                            dropdownMaxHeight -
+                            8;
+                    }
+
+                    // Ensure dropdown stays within viewport horizontally
+                    if (left < 16) left = 16;
+                    if (left + dropdownWidth > viewportWidth - 16) {
+                        left = viewportWidth - dropdownWidth - 16;
+                    }
+
+                    // Set position
+                    tabsContainer.style.position = "fixed";
+                    tabsContainer.style.margin = "0";
+                    tabsContainer.style.top = top + "px";
+                    tabsContainer.style.left = left + "px";
+                    tabsContainer.style.width = dropdownWidth + "px";
+                    tabsContainer.style.maxHeight = dropdownMaxHeight + "px";
+                    tabsContainer.style.zIndex = "10000";
+                }
+            }
+
+            if (mobileMenuBtn && tabsContainer) {
+                // Initial setup - hide button until data is loaded
+                mobileMenuBtn.style.display = "none";
+                updateTabsForScreenSize();
+
+                // Update on resize
+                window.addEventListener("resize", updateTabsForScreenSize);
+
+                mobileMenuBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    const isVisible = tabsContainer.classList.contains(
+                        "tabs-mobile-visible",
+                    );
+
+                    if (isVisible) {
+                        // Hide tabs
+                        tabsContainer.classList.remove("tabs-mobile-visible");
+                        tabsContainer.classList.add("tabs-mobile-hidden");
+                        mobileMenuBtn.classList.remove("active");
+                        mobileMenuBtn.setAttribute("aria-expanded", "false");
+                        // Reset inline styles
+                        tabsContainer.style.position = "";
+                        tabsContainer.style.margin = "";
+                        tabsContainer.style.top = "";
+                        tabsContainer.style.left = "";
+                        tabsContainer.style.width = "";
+                        tabsContainer.style.maxHeight = "";
+                        tabsContainer.style.zIndex = "";
+                    } else {
+                        // Show tabs
+                        tabsContainer.classList.remove("tabs-mobile-hidden");
+                        tabsContainer.classList.add("tabs-mobile-visible");
+                        mobileMenuBtn.classList.add("active");
+                        mobileMenuBtn.setAttribute("aria-expanded", "true");
+                        // Position dropdown below button
+                        positionMobileTabsDropdown();
+                    }
+                });
+
+                // Reposition dropdown on resize and scroll when visible
+                window.addEventListener("resize", () => {
+                    if (
+                        tabsContainer.classList.contains("tabs-mobile-visible")
+                    ) {
+                        positionMobileTabsDropdown();
+                    }
+                });
+
+                window.addEventListener("scroll", () => {
+                    if (
+                        tabsContainer.classList.contains("tabs-mobile-visible")
+                    ) {
+                        positionMobileTabsDropdown();
+                    }
+                });
+
+                // Close mobile menu when clicking outside
+                document.addEventListener("click", (e) => {
+                    if (
+                        !tabsContainer.contains(e.target) &&
+                        !mobileMenuBtn.contains(e.target)
+                    ) {
+                        tabsContainer.classList.remove("tabs-mobile-visible");
+                        tabsContainer.classList.add("tabs-mobile-hidden");
+                        mobileMenuBtn.classList.remove("active");
+                        mobileMenuBtn.setAttribute("aria-expanded", "false");
+                    }
+                });
+
+                // Close mobile menu when a tab is clicked
+                tabsContainer.addEventListener("click", (e) => {
+                    if (e.target.classList.contains("tab")) {
+                        // Small delay to allow tab switch to complete
+                        setTimeout(() => {
+                            tabsContainer.classList.remove(
+                                "tabs-mobile-visible",
+                            );
+                            tabsContainer.classList.add("tabs-mobile-hidden");
+                            mobileMenuBtn.classList.remove("active");
+                            mobileMenuBtn.setAttribute(
+                                "aria-expanded",
+                                "false",
+                            );
+                        }, 300);
+                    }
+                });
+            }
+
+            // Auto-load Excel file from URL on page load
+            window.addEventListener("DOMContentLoaded", () => {
+                loadExcelFromURL();
+            });
 
             async function loadExcelFromURL() {
                 try {
-                    document.getElementById("processing").style.display =
-                        "block";
+                    // Show loading state
+                    document.getElementById("uploadSection").style.display =
+                        "none";
+                    document.getElementById("loading").classList.add("active");
 
                     const response = await fetch(EXCEL_FILE_URL);
                     if (!response.ok) {
@@ -492,53 +1202,79 @@
                     }
 
                     const data = await response.arrayBuffer();
-                    await processExcelFile(data);
+                    await processExcelData(data);
                 } catch (error) {
                     console.error("Error loading Excel file:", error);
-                    const errorDetails = error.message.includes('404')
-                        ? 'File not found (404). Make sure revenue_analysis_current.xlsx is in the same directory as index.html.'
-                        : error.message.includes('Failed to fetch')
-                        ? 'Network error. Check your internet connection or CORS settings.'
-                        : error.message;
 
-                    document.getElementById("processing").innerHTML = `
-                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--danger);"></i>
-                    <h3 style="color: var(--danger); margin-top: 20px;">Failed to load data</h3>
-                    <p style="color: #6c757d; font-weight: bold;">Error: ${errorDetails}</p>
-                    <p style="color: #6c757d; font-size: 0.9rem; margin-top: 10px;">
-                        Attempted to load: <code>${EXCEL_FILE_URL}</code>
-                    </p>
-                    <p style="color: #6c757d; font-size: 0.9rem;">
-                        Check browser console for details.
-                    </p>
+                    // Determine error type for user-friendly message
+                    let errorDetails;
+                    if (error.message.includes("404")) {
+                        errorDetails =
+                            "File not found (404). Make sure revenue_analysis_current.xlsx is in the same directory or update EXCEL_FILE_URL.";
+                    } else if (error.message.includes("Failed to fetch")) {
+                        errorDetails =
+                            "Network error. Check your internet connection or CORS settings.";
+                    } else if (
+                        error.message.includes("Unexpected end of JSON")
+                    ) {
+                        errorDetails =
+                            "Invalid file format. The file might be corrupted or not a valid Excel file.";
+                    } else {
+                        errorDetails = error.message;
+                    }
+
+                    // Show error in loading screen
+                    const loadingEl = document.getElementById("loading");
+                    loadingEl.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 48px; color: #ef4444; margin-bottom: 20px;">⚠️</div>
+                        <h2 style="color: #ef4444; margin-bottom: 16px;">Failed to load data</h2>
+                        <p style="color: #94a3b8; margin-bottom: 8px;"><strong>Error:</strong> ${errorDetails}</p>
+                        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 8px;">
+                            Attempted to load: <code>${EXCEL_FILE_URL}</code>
+                        </p>
+                        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">
+                            You can still upload a file manually using the upload area below.
+                        </p>
+                        <button onclick="location.reload()" style="
+                            background: #3b82f6;
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-weight: 600;
+                        ">
+                            Retry
+                        </button>
+                    </div>
                 `;
+
+                    // Show upload section again
+                    document.getElementById("uploadSection").style.display =
+                        "block";
                 }
             }
 
-            async function processExcelFile(data) {
+            async function processExcelData(data) {
                 try {
                     const workbook = XLSX.read(data, { type: "array" });
 
-                    // Filter out Sheet1 and empty sheets
                     const validSheets = workbook.SheetNames.filter((name) => {
                         if (name === "Sheet1") return false;
                         const worksheet = workbook.Sheets[name];
                         const jsonData = XLSX.utils.sheet_to_json(worksheet, {
                             header: 1,
                         });
-                        return jsonData.length > 1; // Has more than just headers
+                        return jsonData.length > 1;
                     });
 
                     if (validSheets.length === 0) {
-                        document.getElementById("processing").innerHTML = `
-                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--danger);"></i>
-                        <h3 style="color: var(--danger); margin-top: 20px;">No valid sheets found</h3>
-                        <p style="color: #6c757d;">The Excel file doesn't contain any valid data sheets.</p>
-                    `;
-                        return;
+                        throw new Error(
+                            "No valid sheets found. The Excel file doesn't contain any data sheets (Sheet1 is ignored).",
+                        );
                     }
 
-                    // Process each valid sheet
                     validSheets.forEach((sheetName) => {
                         const worksheet = workbook.Sheets[sheetName];
                         const jsonData = XLSX.utils.sheet_to_json(worksheet, {
@@ -554,291 +1290,461 @@
                         };
                     });
 
+                    calculateGlobalMetrics();
                     renderDashboard(validSheets);
 
-                    document.getElementById("processing").style.display =
-                        "none";
-                    document.getElementById("dashboardContent").style.display =
-                        "block";
+                    document
+                        .getElementById("loading")
+                        .classList.remove("active");
+                    document
+                        .getElementById("dashboard")
+                        .classList.add("active");
+
+                    // Show mobile menu button on mobile screens after data is loaded
+                    if (
+                        mobileMenuBtn &&
+                        window.matchMedia("(max-width: 991px)").matches
+                    ) {
+                        mobileMenuBtn.style.display = "flex";
+                    }
                 } catch (error) {
-                    console.error("Error processing Excel file:", error);
-                    document.getElementById("processing").innerHTML = `
-                    <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--danger);"></i>
-                    <h3 style="color: var(--danger); margin-top: 20px;">Error processing Excel file</h3>
-                    <p style="color: #6c757d;">Error: ${error.message}</p>
-                    <p style="color: #6c757d; font-size: 0.9rem;">Please make sure the Excel file is valid.</p>
-                `;
+                    console.error("Error processing Excel data:", error);
+                    throw error; // Re-throw for caller to handle
                 }
             }
 
+            function handleFile(e) {
+                const file = e.target.files[0];
+                if (file) processFile(file);
+            }
+
+            async function processFile(file) {
+                document.getElementById("uploadSection").style.display = "none";
+                document.getElementById("loading").classList.add("active");
+
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        await processExcelData(data);
+                    } catch (error) {
+                        console.error("Error processing file:", error);
+
+                        // Show error in loading screen
+                        const loadingEl = document.getElementById("loading");
+                        loadingEl.innerHTML = `
+                        <div style="text-align: center; padding: 40px;">
+                            <div style="font-size: 48px; color: #ef4444; margin-bottom: 20px;">⚠️</div>
+                            <h2 style="color: #ef4444; margin-bottom: 16px;">Error processing file</h2>
+                            <p style="color: #94a3b8; margin-bottom: 8px;"><strong>Error:</strong> ${error.message}</p>
+                            <p style="color: #94a3b8; font-size: 14px; margin-bottom: 24px;">
+                                Please try uploading a different file or check the file format.
+                            </p>
+                            <button onclick="location.reload()" style="
+                                background: #3b82f6;
+                                color: white;
+                                border: none;
+                                padding: 10px 20px;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-weight: 600;
+                            ">
+                                Try Again
+                            </button>
+                        </div>
+                    `;
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            }
+
+            function calculateGlobalMetrics() {
+                // Calculate key metrics from all data
+                let totalRevenue = 0;
+                let uniqueClients = new Set();
+                let totalServices = 0;
+
+                // Get from Daily Summary if exists
+                const dailySummary = Object.keys(workbookData).find((k) =>
+                    k.toLowerCase().includes("daily summary"),
+                );
+                if (dailySummary) {
+                    const data = workbookData[dailySummary];
+                    const revenueCol = findColumnIndex(data.headers, [
+                        "revenue",
+                        "total revenue",
+                    ]);
+                    const servicesCol = findColumnIndex(data.headers, [
+                        "services",
+                        "total services",
+                    ]);
+
+                    if (revenueCol !== -1) {
+                        totalRevenue = data.rows.reduce(
+                            (sum, row) =>
+                                sum + (parseFloat(row[revenueCol]) || 0),
+                            0,
+                        );
+                    }
+                    if (servicesCol !== -1) {
+                        totalServices = data.rows.reduce(
+                            (sum, row) =>
+                                sum + (parseFloat(row[servicesCol]) || 0),
+                            0,
+                        );
+                    }
+                }
+
+                // Get unique clients from Client Analysis
+                const clientAnalysis = Object.keys(workbookData).find((k) =>
+                    k.toLowerCase().includes("client analysis"),
+                );
+                if (clientAnalysis) {
+                    uniqueClients = new Set(
+                        workbookData[clientAnalysis].rows.map((r) => r[0]),
+                    );
+                }
+
+                // Get forecast from Revenue Forecast
+                let nextMonthForecast = 0;
+                const forecast = Object.keys(workbookData).find((k) =>
+                    k.toLowerCase().includes("forecast"),
+                );
+                if (forecast) {
+                    const data = workbookData[forecast];
+                    let actualHeaders = data.headers;
+                    let actualRows = data.rows;
+
+                    const hasValidHeaders = data.headers.some(
+                        (h) =>
+                            h &&
+                            h
+                                .toString()
+                                .toLowerCase()
+                                .includes("forecast month"),
+                    );
+
+                    if (!hasValidHeaders) {
+                        for (
+                            let i = 0;
+                            i < Math.min(5, data.rows.length);
+                            i++
+                        ) {
+                            const row = data.rows[i];
+                            const hasForecastMonth = row.some(
+                                (cell) =>
+                                    cell &&
+                                    cell
+                                        .toString()
+                                        .toLowerCase()
+                                        .includes("forecast month"),
+                            );
+                            if (hasForecastMonth) {
+                                actualHeaders = row;
+                                actualRows = data.rows.slice(i + 1);
+                                break;
+                            }
+                        }
+                    }
+
+                    const moderateCol = findColumnIndex(actualHeaders, [
+                        "moderate",
+                    ]);
+                    if (moderateCol !== -1 && actualRows.length > 0) {
+                        nextMonthForecast =
+                            parseFloat(actualRows[0][moderateCol]) || 0;
+                    }
+                }
+
+                globalMetrics = {
+                    totalRevenue,
+                    uniqueClients: uniqueClients.size,
+                    totalServices,
+                    nextMonthForecast,
+                };
+
+                // UPDATE GLOBAL METRICS DISPLAY
+                document.getElementById("global-clients").textContent =
+                    uniqueClients.size;
+                document.getElementById("global-revenue").textContent =
+                    formatCurrency(totalRevenue);
+                document.getElementById("global-avg").textContent =
+                    formatCurrency(totalRevenue / uniqueClients.size);
+                document.getElementById("global-forecast").textContent =
+                    formatCurrency(nextMonthForecast);
+            }
+
             function renderDashboard(sheetNames) {
-                const tabsContainer = document.getElementById("sheetTabs");
-                const contentContainer =
-                    document.getElementById("sheetTabContent");
+                const tabsContainer = document.getElementById("tabs");
+                const contentContainer = document.getElementById("tabsContent");
 
                 tabsContainer.innerHTML = "";
                 contentContainer.innerHTML = "";
 
                 sheetNames.forEach((sheetName, index) => {
-                    // Create tab
-                    const tabId = `tab-${index}`;
-                    const tabButton = document.createElement("li");
-                    tabButton.className = "nav-item";
-                    tabButton.innerHTML = `
-                    <button class="nav-link ${index === 0 ? "active" : ""}"
-                            id="${tabId}-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#${tabId}"
-                            type="button">
-                        <i class="fas fa-table"></i> ${sheetName}
-                    </button>
-                `;
-                    tabsContainer.appendChild(tabButton);
+                    const tab = document.createElement("div");
+                    tab.className = `tab ${index === 0 ? "active" : ""}`;
+                    tab.textContent = sheetName;
+                    tab.onclick = () => switchTab(index);
+                    tabsContainer.appendChild(tab);
 
-                    // Create tab content
-                    const tabPane = document.createElement("div");
-                    tabPane.className = `tab-pane fade ${index === 0 ? "show active" : ""}`;
-                    tabPane.id = tabId;
-                    tabPane.innerHTML = `<div class="sheet-content" id="content-${index}"></div>`;
-                    contentContainer.appendChild(tabPane);
+                    const content = document.createElement("div");
+                    content.className = `tab-content ${index === 0 ? "active" : ""}`;
+                    content.id = `content-${index}`;
+                    contentContainer.appendChild(content);
 
-                    // Render sheet content
-                    setTimeout(() => renderSheetContent(sheetName, index), 100);
+                    renderSheetContent(sheetName, index);
                 });
+            }
+
+            function switchTab(index) {
+                document.querySelectorAll(".tab").forEach((tab, i) => {
+                    tab.classList.toggle("active", i === index);
+                });
+                document
+                    .querySelectorAll(".tab-content")
+                    .forEach((content, i) => {
+                        content.classList.toggle("active", i === index);
+                    });
             }
 
             function renderSheetContent(sheetName, index) {
                 const container = document.getElementById(`content-${index}`);
                 const data = workbookData[sheetName];
-
-                // Create charts section
-                const chartsHTML = createChartsSection(sheetName, data, index);
-
-                // Create data table section
-                const tableHTML = `
-                <div class="data-table-section">
-                    <div class="table-title">
-                        <i class="fas fa-database"></i> Complete Data (${data.rows.length} rows)
-                    </div>
-                    <div class="table-container" id="table-${index}"></div>
-                </div>
-            `;
-
-                container.innerHTML = chartsHTML + tableHTML;
-
-                // Render charts
-                renderChartsForSheet(sheetName, data, index);
-
-                // Render data table with Grid.js
-                renderDataTable(data, index);
-            }
-
-            function createChartsSection(sheetName, data, index) {
-                const charts = getRelevantCharts(sheetName, data);
-
-                if (charts.length === 0) return "";
-
-                let html = '<div class="charts-section">';
-                charts.forEach((chart, chartIndex) => {
-                    html += `
-                    <div class="chart-card">
-                        <div class="chart-title">
-                            <i class="fas fa-chart-${chart.icon}"></i> ${chart.title}
-                        </div>
-                        <div id="chart-${index}-${chartIndex}"></div>
-                    </div>
-                `;
-                });
-                html += "</div>";
-                return html;
-            }
-
-            function getRelevantCharts(sheetName, data) {
-                const charts = [];
                 const nameLower = sheetName.toLowerCase();
 
-                // Monthly Summary
+                let html = "";
+                let chartCount = 0;
+
+                // Render metrics and charts based on sheet type
                 if (nameLower.includes("monthly summary")) {
-                    charts.push(
-                        {
-                            type: "line",
-                            title: "Monthly Revenue Trend",
-                            icon: "line",
-                        },
-                        {
-                            type: "bar",
-                            title: "Revenue by Category",
-                            icon: "bar",
-                        },
-                    );
-                }
-                // Daily Summary
-                else if (nameLower.includes("daily summary")) {
-                    charts.push(
-                        {
-                            type: "line",
-                            title: "Daily Revenue Trend",
-                            icon: "line",
-                        },
-                        {
-                            type: "area",
-                            title: "Daily Services Volume",
-                            icon: "area-chart",
-                        },
-                    );
-                }
-                // Client Analysis
-                else if (nameLower.includes("client analysis")) {
-                    charts.push(
-                        {
-                            type: "bar",
-                            title: "Top 20 Clients by Revenue",
-                            icon: "bar",
-                        },
-                        {
-                            type: "pie",
-                            title: "Client Tier Distribution",
-                            icon: "pie",
-                        },
-                    );
-                }
-                // Service Analysis
-                else if (nameLower.includes("service analysis")) {
-                    charts.push(
-                        {
-                            type: "bar",
-                            title: "Revenue by Service",
-                            icon: "bar",
-                        },
-                        {
-                            type: "pie",
-                            title: "Revenue Contribution %",
-                            icon: "pie",
-                        },
-                    );
-                }
-                // Category Deep Dive
-                else if (nameLower.includes("category")) {
-                    charts.push(
-                        {
-                            type: "bar",
-                            title: "Category Performance",
-                            icon: "bar",
-                        },
-                        {
-                            type: "pie",
-                            title: "Revenue Distribution",
-                            icon: "pie",
-                        },
-                    );
-                }
-                // Revenue Trends
-                else if (nameLower.includes("revenue trends")) {
-                    charts.push(
-                        {
-                            type: "line",
-                            title: "Revenue Trend Over Time",
-                            icon: "line",
-                        },
-                        {
-                            type: "bar",
-                            title: "Month-over-Month Comparison",
-                            icon: "bar",
-                        },
-                    );
-                }
-                // Forecast
-                else if (nameLower.includes("forecast")) {
-                    charts.push(
-                        {
-                            type: "line",
-                            title: "Revenue Forecast (3 Scenarios)",
-                            icon: "line",
-                        },
-                        {
-                            type: "stats",
-                            title: "Forecast Key Metrics",
-                            icon: "chart-area",
-                        },
-                    );
-                }
-                // Default: try to find numeric columns
-                else {
-                    const numericCols = findNumericColumns(data);
-                    if (numericCols.length > 0) {
-                        charts.push({
-                            type: "bar",
-                            title: "Data Overview",
-                            icon: "bar",
-                        });
-                    }
+                    html = renderMonthlySummary(data, index);
+                    chartCount = 3;
+                } else if (nameLower.includes("daily summary")) {
+                    html = renderDailySummary(data, index);
+                    chartCount = 2;
+                } else if (nameLower.includes("client analysis")) {
+                    html = renderClientAnalysis(data, index);
+                    chartCount = 3;
+                } else if (nameLower.includes("service analysis")) {
+                    html = renderServiceAnalysis(data, index);
+                    chartCount = 3;
+                } else if (nameLower.includes("forecast")) {
+                    html = renderForecast(data, index);
+                    chartCount = 1;
+                } else {
+                    html = renderGenericSheet(data, index);
+                    chartCount = 1;
                 }
 
-                return charts;
+                // Add table
+                html += renderDataTable(data, index);
+
+                container.innerHTML = html;
+
+                // Initialize charts
+                setTimeout(() => initializeCharts(sheetName, data, index), 100);
             }
 
-            function renderChartsForSheet(sheetName, data, index) {
-                const charts = getRelevantCharts(sheetName, data);
-                const nameLower = sheetName.toLowerCase();
-
-                charts.forEach((chart, chartIndex) => {
-                    const chartId = `chart-${index}-${chartIndex}`;
-
-                    if (
-                        nameLower.includes("monthly summary") ||
-                        nameLower.includes("revenue trends")
-                    ) {
-                        renderMonthlyRevenueChart(
-                            data,
-                            chartId,
-                            chart.type,
-                            chart.title,
-                        );
-                    } else if (nameLower.includes("daily summary")) {
-                        renderDailyChart(
-                            data,
-                            chartId,
-                            chart.type,
-                            chart.title,
-                        );
-                    } else if (nameLower.includes("client analysis")) {
-                        renderClientChart(
-                            data,
-                            chartId,
-                            chart.type,
-                            chart.title,
-                        );
-                    } else if (nameLower.includes("service analysis")) {
-                        renderServiceChart(
-                            data,
-                            chartId,
-                            chart.type,
-                            chart.title,
-                        );
-                    } else if (nameLower.includes("category")) {
-                        renderCategoryChart(
-                            data,
-                            chartId,
-                            chart.type,
-                            chart.title,
-                        );
-                    } else if (nameLower.includes("forecast")) {
-                        if (chart.type === "stats") {
-                            renderForecastStats(data, chartId);
-                        } else {
-                            renderForecastChart(data, chartId);
-                        }
-                    } else {
-                        renderGenericChart(data, chartId, chart.type);
-                    }
-                });
-            }
-
-            function renderMonthlyRevenueChart(data, chartId, type, title) {
+            function renderMonthlySummary(data, index) {
                 const monthCol = findColumnIndex(data.headers, [
                     "month",
                     "yearmonth",
-                    "year-month",
+                ]);
+                const revenueCol = findColumnIndex(data.headers, [
+                    "revenue",
+                    "monthly revenue",
+                ]);
+
+                if (monthCol === -1 || revenueCol === -1) return "";
+
+                return `
+                <div class="charts-grid cols-3">
+                    <div class="chart-card">
+                        <div class="chart-title">Monthly Revenue Trend</div>
+                        <div class="chart-subtitle">Revenue over time</div>
+                        <div class="chart-container tall">
+                            <canvas id="chart-${index}-0"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">Revenue Distribution</div>
+                        <div class="chart-subtitle">Monthly breakdown</div>
+                        <div class="chart-container">
+                            <canvas id="chart-${index}-1"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">Growth Rate</div>
+                        <div class="chart-subtitle">Month-over-month</div>
+                        <div class="chart-container">
+                            <canvas id="chart-${index}-2"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
+
+            function renderDailySummary(data, index) {
+                return `
+                <div class="charts-grid cols-2">
+                    <div class="chart-card">
+                        <div class="chart-title">Daily Revenue</div>
+                        <div class="chart-subtitle">Last 30 days</div>
+                        <div class="chart-container tall">
+                            <canvas id="chart-${index}-0"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">Services Volume</div>
+                        <div class="chart-subtitle">Daily count</div>
+                        <div class="chart-container tall">
+                            <canvas id="chart-${index}-1"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
+
+            function renderClientAnalysis(data, index) {
+                return `
+                <div class="charts-grid cols-3">
+                    <div class="chart-card">
+                        <div class="chart-title">Top 20 Clients</div>
+                        <div class="chart-subtitle">By revenue</div>
+                        <div class="chart-container tall">
+                            <canvas id="chart-${index}-0"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">Client Tiers</div>
+                        <div class="chart-subtitle">Distribution</div>
+                        <div class="chart-container">
+                            <canvas id="chart-${index}-1"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">Revenue Concentration</div>
+                        <div class="chart-subtitle">Top 10 vs Others</div>
+                        <div class="chart-container">
+                            <canvas id="chart-${index}-2"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
+
+            function renderServiceAnalysis(data, index) {
+                return `
+                <div class="charts-grid cols-3">
+                    <div class="chart-card">
+                        <div class="chart-title">Revenue by Service</div>
+                        <div class="chart-subtitle">All services ranked</div>
+                        <div class="chart-container tall">
+                            <canvas id="chart-${index}-0"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">Top 10 Services</div>
+                        <div class="chart-subtitle">Revenue distribution</div>
+                        <div class="chart-container">
+                            <canvas id="chart-${index}-1"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">Service Contribution</div>
+                        <div class="chart-subtitle">Percentage breakdown</div>
+                        <div class="chart-container">
+                            <canvas id="chart-${index}-2"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
+
+            function renderForecast(data, index) {
+                return `
+                <div class="charts-grid cols-1">
+                    <div class="chart-card">
+                        <div class="chart-title">Revenue Forecast</div>
+                        <div class="chart-subtitle">3 scenarios for next 3 months</div>
+                        <div class="chart-container tall">
+                            <canvas id="chart-${index}-0"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
+
+            function renderGenericSheet(data, index) {
+                return `
+                <div class="charts-grid cols-1">
+                    <div class="chart-card">
+                        <div class="chart-title">Data Overview</div>
+                        <div class="chart-subtitle">First numeric column</div>
+                        <div class="chart-container">
+                            <canvas id="chart-${index}-0"></canvas>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }
+
+            function renderDataTable(data, index) {
+                return `
+                <div class="table-section">
+                    <div class="table-header">
+                        <div class="table-title">Complete Data</div>
+                        <div class="table-subtitle">${data.rows.length} rows × ${data.headers.length} columns</div>
+                    </div>
+                    <input type="text" class="search-box" placeholder="Search..."
+                           onkeyup="filterTable(${index}, this.value)">
+                    <div class="table-wrapper">
+                        <table id="table-${index}">
+                            <thead>
+                                <tr>
+                                    ${data.headers.map((h) => `<th>${h || "Column"}</th>`).join("")}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.rows
+                                    .map(
+                                        (row) => `
+                                    <tr>
+                                        ${data.headers.map((_, i) => `<td>${formatCellValue(row[i])}</td>`).join("")}
+                                    </tr>
+                                `,
+                                    )
+                                    .join("")}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            }
+
+            function initializeCharts(sheetName, data, index) {
+                const nameLower = sheetName.toLowerCase();
+
+                if (nameLower.includes("monthly summary")) {
+                    createMonthlyCharts(data, index);
+                } else if (nameLower.includes("daily summary")) {
+                    createDailyCharts(data, index);
+                } else if (nameLower.includes("client analysis")) {
+                    createClientCharts(data, index);
+                } else if (nameLower.includes("service analysis")) {
+                    createServiceCharts(data, index);
+                } else if (nameLower.includes("forecast")) {
+                    createForecastCharts(data, index);
+                } else {
+                    createGenericChart(data, index);
+                }
+            }
+
+            function createMonthlyCharts(data, index) {
+                const monthCol = findColumnIndex(data.headers, [
+                    "month",
+                    "yearmonth",
                 ]);
                 const revenueCol = findColumnIndex(data.headers, [
                     "revenue",
@@ -847,47 +1753,81 @@
 
                 if (monthCol === -1 || revenueCol === -1) return;
 
-                const categories = data.rows
-                    .map((row) => row[monthCol])
-                    .filter((v) => v);
-                const values = data.rows.map(
+                const months = data.rows.map((row) => row[monthCol]);
+                const revenues = data.rows.map(
                     (row) => parseFloat(row[revenueCol]) || 0,
                 );
 
-                const options = {
-                    series: [
-                        {
-                            name: "Revenue (RON)",
-                            data: values,
-                        },
-                    ],
-                    chart: {
-                        type: type,
-                        height: 350,
-                        toolbar: { show: true },
+                // Chart 1: Line
+                const ctx1 = document
+                    .getElementById(`chart-${index}-0`)
+                    .getContext("2d");
+                charts[`${index}-0`] = new Chart(ctx1, {
+                    type: "line",
+                    data: {
+                        labels: months,
+                        datasets: [
+                            {
+                                label: "Revenue",
+                                data: revenues,
+                                borderColor: "#3b82f6",
+                                backgroundColor: "rgba(59, 130, 246, 0.1)",
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.4,
+                            },
+                        ],
                     },
-                    xaxis: {
-                        categories: categories,
-                        labels: { rotate: -45 },
-                    },
-                    yaxis: {
-                        labels: {
-                            formatter: (val) => val.toLocaleString() + " RON",
-                        },
-                    },
-                    stroke: { curve: "smooth", width: 3 },
-                    colors: ["#4361ee"],
-                    dataLabels: { enabled: false },
-                    title: { text: title, align: "left" },
-                };
+                    options: getChartOptions(),
+                });
 
-                new ApexCharts(
-                    document.querySelector(`#${chartId}`),
-                    options,
-                ).render();
+                // Chart 2: Bar
+                const ctx2 = document
+                    .getElementById(`chart-${index}-1`)
+                    .getContext("2d");
+                charts[`${index}-1`] = new Chart(ctx2, {
+                    type: "bar",
+                    data: {
+                        labels: months,
+                        datasets: [
+                            {
+                                label: "Revenue",
+                                data: revenues,
+                                backgroundColor: "#3b82f6",
+                            },
+                        ],
+                    },
+                    options: getChartOptions(),
+                });
+
+                // Chart 3: Growth
+                const growthRates = revenues.map((rev, i) => {
+                    if (i === 0) return 0;
+                    return ((rev - revenues[i - 1]) / revenues[i - 1]) * 100;
+                });
+
+                const ctx3 = document
+                    .getElementById(`chart-${index}-2`)
+                    .getContext("2d");
+                charts[`${index}-2`] = new Chart(ctx3, {
+                    type: "bar",
+                    data: {
+                        labels: months,
+                        datasets: [
+                            {
+                                label: "Growth %",
+                                data: growthRates,
+                                backgroundColor: growthRates.map((r) =>
+                                    r >= 0 ? "#10b981" : "#ef4444",
+                                ),
+                            },
+                        ],
+                    },
+                    options: getChartOptions(),
+                });
             }
 
-            function renderDailyChart(data, chartId, type, title) {
+            function createDailyCharts(data, index) {
                 const dateCol = findColumnIndex(data.headers, ["date"]);
                 const revenueCol = findColumnIndex(data.headers, [
                     "revenue",
@@ -898,292 +1838,257 @@
                     "total services",
                 ]);
 
-                const col = title.includes("Revenue")
-                    ? revenueCol
-                    : servicesCol;
-                if (dateCol === -1 || col === -1) return;
-
-                // Take last 30 days
                 const last30 = data.rows.slice(-30);
-                const categories = last30.map((row) => {
-                    const dateVal = row[dateCol];
-                    // Handle Excel serial dates
-                    if (
-                        typeof dateVal === "number" &&
-                        dateVal > 40000 &&
-                        dateVal < 50000
-                    ) {
-                        const d = excelSerialToDate(dateVal);
-                        return d.toLocaleDateString("en-GB", {
-                            month: "short",
-                            day: "numeric",
-                        });
-                    }
-                    return formatDate(dateVal);
+                const dates = last30.map((row) => formatDate(row[dateCol]));
+                const revenues = last30.map(
+                    (row) => parseFloat(row[revenueCol]) || 0,
+                );
+                const services = last30.map(
+                    (row) => parseFloat(row[servicesCol]) || 0,
+                );
+
+                const ctx1 = document
+                    .getElementById(`chart-${index}-0`)
+                    .getContext("2d");
+                charts[`${index}-0`] = new Chart(ctx1, {
+                    type: "line",
+                    data: {
+                        labels: dates,
+                        datasets: [
+                            {
+                                label: "Revenue",
+                                data: revenues,
+                                borderColor: "#3b82f6",
+                                backgroundColor: "rgba(59, 130, 246, 0.1)",
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.4,
+                            },
+                        ],
+                    },
+                    options: getChartOptions(),
                 });
-                const values = last30.map((row) => parseFloat(row[col]) || 0);
 
-                const options = {
-                    series: [
-                        {
-                            name: title.includes("Revenue")
-                                ? "Revenue (RON)"
-                                : "Services",
-                            data: values,
-                        },
-                    ],
-                    chart: {
-                        type: type === "area" ? "area" : "line",
-                        height: 350,
-                        toolbar: { show: true },
+                const ctx2 = document
+                    .getElementById(`chart-${index}-1`)
+                    .getContext("2d");
+                charts[`${index}-1`] = new Chart(ctx2, {
+                    type: "bar",
+                    data: {
+                        labels: dates,
+                        datasets: [
+                            {
+                                label: "Services",
+                                data: services,
+                                backgroundColor: "#10b981",
+                            },
+                        ],
                     },
-                    xaxis: {
-                        categories: categories,
-                        labels: { rotate: -45 },
-                    },
-                    stroke: { curve: "smooth", width: 2 },
-                    colors: ["#f72585"],
-                    fill: { type: "gradient" },
-                    title: { text: title + " (Last 30 Days)", align: "left" },
-                };
-
-                new ApexCharts(
-                    document.querySelector(`#${chartId}`),
-                    options,
-                ).render();
+                    options: getChartOptions(),
+                });
             }
 
-            function renderClientChart(data, chartId, type, title) {
-                if (type === "pie") {
-                    const tierCol = findColumnIndex(data.headers, [
-                        "tier",
-                        "client tier",
-                    ]);
-                    if (tierCol === -1) return;
+            function createClientCharts(data, index) {
+                const clientCol = findColumnIndex(data.headers, ["client"]);
+                const spentCol = findColumnIndex(data.headers, [
+                    "spent",
+                    "total spent",
+                ]);
+                const tierCol = findColumnIndex(data.headers, [
+                    "tier",
+                    "client tier",
+                ]);
 
+                const top20 = data.rows.slice(0, 20);
+                const clients = top20.map((row) => row[clientCol]);
+                const spent = top20.map(
+                    (row) => parseFloat(row[spentCol]) || 0,
+                );
+
+                const ctx1 = document
+                    .getElementById(`chart-${index}-0`)
+                    .getContext("2d");
+                charts[`${index}-0`] = new Chart(ctx1, {
+                    type: "bar",
+                    data: {
+                        labels: clients,
+                        datasets: [
+                            {
+                                label: "Revenue",
+                                data: spent,
+                                backgroundColor: "#3b82f6",
+                            },
+                        ],
+                    },
+                    options: {
+                        ...getChartOptions(),
+                        indexAxis: "y",
+                    },
+                });
+
+                if (tierCol !== -1) {
                     const tiers = {};
                     data.rows.forEach((row) => {
                         const tier = row[tierCol];
                         tiers[tier] = (tiers[tier] || 0) + 1;
                     });
 
-                    const options = {
-                        series: Object.values(tiers),
-                        labels: Object.keys(tiers),
-                        chart: {
-                            type: "pie",
-                            height: 350,
-                            toolbar: { show: true }
+                    const ctx2 = document
+                        .getElementById(`chart-${index}-1`)
+                        .getContext("2d");
+                    charts[`${index}-1`] = new Chart(ctx2, {
+                        type: "doughnut",
+                        data: {
+                            labels: Object.keys(tiers),
+                            datasets: [
+                                {
+                                    data: Object.values(tiers),
+                                    backgroundColor: [
+                                        "#3b82f6",
+                                        "#8b5cf6",
+                                        "#10b981",
+                                        "#f59e0b",
+                                    ],
+                                },
+                            ],
                         },
-                        colors: ["#4361ee", "#f72585", "#10b981", "#f59e0b"],
-                        legend: { position: "bottom" },
-                        title: { text: title, align: "left" },
-                    };
+                        options: getDoughnutOptions(),
+                    });
 
-                    new ApexCharts(
-                        document.querySelector(`#${chartId}`),
-                        options,
-                    ).render();
-                } else {
-                    const clientCol = findColumnIndex(data.headers, ["client"]);
-                    const spentCol = findColumnIndex(data.headers, [
-                        "spent",
-                        "total spent",
-                    ]);
-
-                    if (clientCol === -1 || spentCol === -1) return;
-
-                    const top20 = data.rows.slice(0, 20);
-                    const clients = top20.map((row) => row[clientCol]);
-                    const spent = top20.map(
-                        (row) => parseFloat(row[spentCol]) || 0,
-                    );
-
-                    const options = {
-                        series: [{ name: "Total Spent (RON)", data: spent }],
-                        chart: {
-                            type: "bar",
-                            height: 350,
-                            toolbar: { show: true },
-                        },
-                        xaxis: { categories: clients, labels: { rotate: -45 } },
-                        yaxis: {
-                            labels: {
-                                formatter: (val) =>
-                                    val.toLocaleString() + " RON",
-                            },
-                        },
-                        colors: ["#4361ee"],
-                        plotOptions: { bar: { horizontal: false } },
-                        title: { text: title, align: "left" },
-                    };
-
-                    new ApexCharts(
-                        document.querySelector(`#${chartId}`),
-                        options,
-                    ).render();
+                    // Update mobile tabs visibility
+                    updateTabsForScreenSize();
                 }
+
+                const top10Revenue = data.rows
+                    .slice(0, 10)
+                    .reduce(
+                        (sum, row) => sum + (parseFloat(row[spentCol]) || 0),
+                        0,
+                    );
+                const totalRevenue = data.rows.reduce(
+                    (sum, row) => sum + (parseFloat(row[spentCol]) || 0),
+                    0,
+                );
+
+                const ctx3 = document
+                    .getElementById(`chart-${index}-2`)
+                    .getContext("2d");
+                charts[`${index}-2`] = new Chart(ctx3, {
+                    type: "doughnut",
+                    data: {
+                        labels: ["Top 10", "Others"],
+                        datasets: [
+                            {
+                                data: [
+                                    top10Revenue,
+                                    totalRevenue - top10Revenue,
+                                ],
+                                backgroundColor: ["#3b82f6", "#64748b"],
+                            },
+                        ],
+                    },
+                    options: getDoughnutOptions(),
+                });
             }
 
-            function renderServiceChart(data, chartId, type, title) {
+            function createServiceCharts(data, index) {
                 const serviceCol = findColumnIndex(data.headers, ["service"]);
                 const revenueCol = findColumnIndex(data.headers, [
                     "revenue",
                     "total revenue",
                 ]);
 
-                if (serviceCol === -1 || revenueCol === -1) return;
+                const sortedData = [...data.rows].sort(
+                    (a, b) =>
+                        (parseFloat(b[revenueCol]) || 0) -
+                        (parseFloat(a[revenueCol]) || 0),
+                );
 
-                // Create array of service-revenue pairs
-                const serviceData = data.rows.map((row) => ({
-                    service: row[serviceCol],
-                    revenue: parseFloat(row[revenueCol]) || 0
-                }));
+                const services = sortedData.map((row) => row[serviceCol]);
+                const revenues = sortedData.map(
+                    (row) => parseFloat(row[revenueCol]) || 0,
+                );
 
-                // Sort by revenue descending
-                serviceData.sort((a, b) => b.revenue - a.revenue);
-
-                if (type === "pie") {
-                    // Take only top 10 services for pie chart, group rest as "Other"
-                    const top10 = serviceData.slice(0, 10);
-                    const otherRevenue = serviceData.slice(10).reduce((sum, item) => sum + item.revenue, 0);
-
-                    const services = top10.map(item => item.service);
-                    const revenues = top10.map(item => item.revenue);
-
-                    if (otherRevenue > 0) {
-                        services.push('Other Services');
-                        revenues.push(otherRevenue);
-                    }
-
-                    const options = {
-                        series: revenues,
+                const ctx1 = document
+                    .getElementById(`chart-${index}-0`)
+                    .getContext("2d");
+                charts[`${index}-0`] = new Chart(ctx1, {
+                    type: "bar",
+                    data: {
                         labels: services,
-                        chart: {
-                            type: "donut",
-                            height: 350,
-                            toolbar: { show: true }
-                        },
-                        colors: [
-                            "#4361ee",
-                            "#f72585",
-                            "#10b981",
-                            "#f59e0b",
-                            "#ef4444",
-                            "#8b5cf6",
-                            "#6366f1",
-                            "#ec4899",
-                            "#14b8a6",
-                            "#f97316",
-                            "#94a3b8"
-                        ],
-                        legend: { position: "bottom" },
-                        title: { text: title + " (Top 10)", align: "left" },
-                    };
-                    new ApexCharts(
-                        document.querySelector(`#${chartId}`),
-                        options,
-                    ).render();
-                } else {
-                    // For bar chart, show all services (already sorted by revenue)
-                    const services = serviceData.map(item => item.service);
-                    const revenues = serviceData.map(item => item.revenue);
-
-                    const options = {
-                        series: [{ name: "Revenue (RON)", data: revenues }],
-                        chart: {
-                            type: "bar",
-                            height: 350,
-                            toolbar: { show: true }
-                        },
-                        xaxis: {
-                            categories: services,
-                            labels: { rotate: -45 },
-                        },
-                        yaxis: {
-                            labels: {
-                                formatter: (val) =>
-                                    val.toLocaleString() + " RON",
+                        datasets: [
+                            {
+                                label: "Revenue",
+                                data: revenues,
+                                backgroundColor: "#3b82f6",
                             },
-                        },
-                        colors: ["#10b981"],
-                        title: { text: title, align: "left" },
-                    };
-                    new ApexCharts(
-                        document.querySelector(`#${chartId}`),
-                        options,
-                    ).render();
-                }
-            }
-
-            function renderCategoryChart(data, chartId, type, title) {
-                const categoryCol = findColumnIndex(data.headers, [
-                    "category",
-                    "mega category",
-                ]);
-                const revenueCol = findColumnIndex(data.headers, [
-                    "revenue",
-                    "total revenue",
-                    "% of revenue",
-                ]);
-
-                if (categoryCol === -1 || revenueCol === -1) return;
-
-                const categories = data.rows
-                    .map((row) => row[categoryCol])
-                    .filter((v) => v && v !== "TOTAL");
-                const revenues = data.rows
-                    .map((row) => parseFloat(row[revenueCol]) || 0)
-                    .filter((v) => v > 0);
-
-                if (type === "pie") {
-                    const options = {
-                        series: revenues,
-                        labels: categories,
-                        chart: {
-                            type: "pie",
-                            height: 350,
-                            toolbar: { show: true }
-                        },
-                        colors: [
-                            "#4361ee",
-                            "#f72585",
-                            "#10b981",
-                            "#f59e0b",
-                            "#ef4444",
                         ],
-                        legend: { position: "bottom" },
-                        title: { text: title, align: "left" },
-                    };
-                    new ApexCharts(
-                        document.querySelector(`#${chartId}`),
-                        options,
-                    ).render();
-                } else {
-                    const options = {
-                        series: [{ name: "Revenue", data: revenues }],
-                        chart: {
-                            type: "bar",
-                            height: 350,
-                            toolbar: { show: true }
-                        },
-                        xaxis: { categories: categories },
-                        colors: ["#f72585"],
-                        title: { text: title, align: "left" },
-                    };
-                    new ApexCharts(
-                        document.querySelector(`#${chartId}`),
-                        options,
-                    ).render();
-                }
+                    },
+                    options: {
+                        ...getChartOptions(),
+                        indexAxis: "y",
+                    },
+                });
+
+                const ctx2 = document
+                    .getElementById(`chart-${index}-1`)
+                    .getContext("2d");
+                charts[`${index}-1`] = new Chart(ctx2, {
+                    type: "doughnut",
+                    data: {
+                        labels: services.slice(0, 10),
+                        datasets: [
+                            {
+                                data: revenues.slice(0, 10),
+                                backgroundColor: [
+                                    "#3b82f6",
+                                    "#8b5cf6",
+                                    "#10b981",
+                                    "#f59e0b",
+                                    "#ef4444",
+                                    "#06b6d4",
+                                    "#ec4899",
+                                    "#6366f1",
+                                    "#14b8a6",
+                                    "#f97316",
+                                ],
+                            },
+                        ],
+                    },
+                    options: getDoughnutOptions(),
+                });
+
+                const totalRevenue = revenues.reduce((a, b) => a + b, 0);
+                const percentages = revenues.map(
+                    (r) => (r / totalRevenue) * 100,
+                );
+
+                const ctx3 = document
+                    .getElementById(`chart-${index}-2`)
+                    .getContext("2d");
+                charts[`${index}-2`] = new Chart(ctx3, {
+                    type: "bar",
+                    data: {
+                        labels: services,
+                        datasets: [
+                            {
+                                label: "Contribution %",
+                                data: percentages,
+                                backgroundColor: "#10b981",
+                            },
+                        ],
+                    },
+                    options: {
+                        ...getChartOptions(),
+                        indexAxis: "y",
+                    },
+                });
             }
 
-            function renderForecastChart(data, chartId) {
-                // Revenue Forecast sheet has multi-row headers - need to find the actual header row
+            function createForecastCharts(data, index) {
                 let actualHeaders = data.headers;
                 let actualRows = data.rows;
 
-                // Check if current headers don't contain "Forecast Month" - means we need to find them in rows
                 const hasValidHeaders = data.headers.some(
                     (h) =>
                         h &&
@@ -1191,7 +2096,6 @@
                 );
 
                 if (!hasValidHeaders) {
-                    // Search through first few rows to find the actual headers
                     for (let i = 0; i < Math.min(5, data.rows.length); i++) {
                         const row = data.rows[i];
                         const hasForecastMonth = row.some(
@@ -1205,11 +2109,6 @@
                         if (hasForecastMonth) {
                             actualHeaders = row;
                             actualRows = data.rows.slice(i + 1);
-                            console.log(
-                                "Found actual headers in row",
-                                i,
-                                actualHeaders,
-                            );
                             break;
                         }
                     }
@@ -1229,48 +2128,21 @@
                     "optimistic",
                 ]);
 
-                console.log("Column indices:", {
-                    monthCol,
-                    conservativeCol,
-                    moderateCol,
-                    optimisticCol,
-                });
-                console.log("Headers:", actualHeaders);
+                if (monthCol === -1 || conservativeCol === -1) return;
 
-                if (monthCol === -1 || conservativeCol === -1) {
-                    console.log("Forecast columns not found", actualHeaders);
-                    return;
-                }
-
-                // Filter to only rows that have actual forecast data (exclude stat rows)
                 const forecastRows = actualRows.filter((row) => {
                     const monthValue = row[monthCol];
-                    // Check if month looks like a date or month string, not a stat label
                     return (
-                        monthValue &&
-                        monthValue.toString().match(/\d{4}-\d{2}/) && // Must match YYYY-MM format
-                        !monthValue.toString().includes("Average") &&
-                        !monthValue.toString().includes("Baseline") &&
-                        !monthValue.toString().includes("Growth") &&
-                        !monthValue.toString().includes("Median")
+                        monthValue && monthValue.toString().match(/\d{4}-\d{2}/)
                     );
                 });
 
-                console.log("Forecast rows found:", forecastRows.length);
-
-                if (forecastRows.length === 0) {
-                    console.log("No forecast rows found");
-                    return;
-                }
-
-                // Format month labels properly (could be "2026-01" or Excel date)
                 const months = forecastRows.map((row) => {
                     const monthVal = row[monthCol];
                     if (
                         typeof monthVal === "string" &&
                         monthVal.match(/\d{4}-\d{2}/)
                     ) {
-                        // Format "2026-01" to "Jan 2026"
                         const [year, month] = monthVal.split("-");
                         const monthNames = [
                             "Jan",
@@ -1301,182 +2173,48 @@
                     (row) => parseFloat(row[optimisticCol]) || 0,
                 );
 
-                console.log("Forecast data:", {
-                    months,
-                    conservative,
-                    moderate,
-                    optimistic,
+                const ctx = document
+                    .getElementById(`chart-${index}-0`)
+                    .getContext("2d");
+                charts[`${index}-0`] = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: months,
+                        datasets: [
+                            {
+                                label: "Conservative",
+                                data: conservative,
+                                borderColor: "#ef4444",
+                                backgroundColor: "rgba(239, 68, 68, 0.1)",
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.4,
+                            },
+                            {
+                                label: "Moderate",
+                                data: moderate,
+                                borderColor: "#3b82f6",
+                                backgroundColor: "rgba(59, 130, 246, 0.1)",
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.4,
+                            },
+                            {
+                                label: "Optimistic",
+                                data: optimistic,
+                                borderColor: "#10b981",
+                                backgroundColor: "rgba(16, 185, 129, 0.1)",
+                                borderWidth: 2,
+                                fill: true,
+                                tension: 0.4,
+                            },
+                        ],
+                    },
+                    options: getChartOptions(),
                 });
-
-                // Calculate averages for each scenario
-                const avgConservative =
-                    conservative.reduce((a, b) => a + b, 0) /
-                    conservative.length;
-                const avgModerate =
-                    moderate.reduce((a, b) => a + b, 0) / moderate.length;
-                const avgOptimistic =
-                    optimistic.reduce((a, b) => a + b, 0) / optimistic.length;
-
-                const options = {
-                    series: [
-                        { name: "Conservative", data: conservative },
-                        { name: "Moderate", data: moderate },
-                        { name: "Optimistic", data: optimistic },
-                    ],
-                    chart: {
-                        type: "line",
-                        height: 400,
-                        toolbar: { show: true },
-                        animations: {
-                            enabled: true,
-                            easing: "easeinout",
-                            speed: 800,
-                        },
-                    },
-                    xaxis: {
-                        categories: months,
-                        labels: {
-                            style: { fontSize: "13px", fontWeight: 600 },
-                        },
-                    },
-                    yaxis: {
-                        labels: {
-                            formatter: (val) =>
-                                val.toLocaleString("ro-RO", {
-                                    maximumFractionDigits: 0,
-                                }) + " RON",
-                            style: { fontSize: "12px" },
-                        },
-                    },
-                    stroke: { curve: "smooth", width: 3 },
-                    colors: ["#ef4444", "#3b82f6", "#10b981"],
-                    markers: {
-                        size: 5,
-                        strokeWidth: 2,
-                        hover: { size: 7 },
-                    },
-                    legend: {
-                        position: "top",
-                        fontSize: "14px",
-                        fontWeight: 600,
-                        markers: { width: 14, height: 14, radius: 4 },
-                        horizontalAlign: "center",
-                    },
-                    grid: {
-                        borderColor: "#e5e7eb",
-                        strokeDashArray: 4,
-                    },
-                    dataLabels: {
-                        enabled: false,
-                    },
-                    tooltip: {
-                        shared: true,
-                        intersect: false,
-                        y: {
-                            formatter: (val) =>
-                                val.toLocaleString("ro-RO", {
-                                    maximumFractionDigits: 0,
-                                }) + " RON",
-                        },
-                    },
-                };
-
-                new ApexCharts(
-                    document.querySelector(`#${chartId}`),
-                    options,
-                ).render();
             }
 
-            function renderForecastStats(data, chartId) {
-                // Find the stats from the data table
-                const statsRows = data.rows.filter((row) => {
-                    const firstCell = row[0] ? row[0].toString() : "";
-                    return (
-                        firstCell.includes("Average") ||
-                        firstCell.includes("Baseline") ||
-                        firstCell.includes("Growth") ||
-                        firstCell.includes("Median")
-                    );
-                });
-
-                if (statsRows.length === 0) {
-                    document.querySelector(`#${chartId}`).innerHTML =
-                        '<p style="padding: 20px; text-align: center; color: #6c757d;">No forecast statistics available</p>';
-                    return;
-                }
-
-                // Extract key stats
-                const stats = {};
-                statsRows.forEach((row) => {
-                    const key = row[0] ? row[0].toString() : "";
-                    const value = row[1];
-                    stats[key] = value;
-                });
-
-                console.log("Forecast stats:", stats);
-
-                // Create a beautiful stats display
-                let statsHTML = `
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 10px;">
-            `;
-
-                Object.entries(stats).forEach(([key, value]) => {
-                    const isPercentage =
-                        key.includes("%") || key.includes("Growth");
-
-                    // Handle percentage values - they're already in decimal form (0.0283 for 2.83%)
-                    let formattedValue;
-                    if (isPercentage) {
-                        // Value is already decimal (e.g., 0.0283), convert to percentage
-                        if (typeof value === "number") {
-                            formattedValue = (value * 100).toFixed(2) + "%";
-                        } else if (typeof value === "string") {
-                            // If it's already formatted as string percentage
-                            formattedValue = value;
-                        } else {
-                            formattedValue = value;
-                        }
-                    } else {
-                        // RON values
-                        formattedValue =
-                            typeof value === "number"
-                                ? value.toLocaleString("ro-RO", {
-                                      maximumFractionDigits: 0,
-                                  }) + " RON"
-                                : value;
-                    }
-
-                    const numericValue =
-                        typeof value === "number" ? value : parseFloat(value);
-                    const color =
-                        isPercentage && numericValue > 0
-                            ? "#10b981"
-                            : isPercentage && numericValue < 0
-                              ? "#ef4444"
-                              : "#4361ee";
-
-                    statsHTML += `
-                    <div style="background: linear-gradient(135deg, ${color}15, ${color}05);
-                                border-left: 4px solid ${color};
-                                padding: 15px;
-                                border-radius: 8px;
-                                box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                        <div style="font-size: 0.85rem; color: #6c757d; margin-bottom: 5px; font-weight: 500;">
-                            ${key}
-                        </div>
-                        <div style="font-size: 1.5rem; font-weight: 700; color: ${color};">
-                            ${formattedValue}
-                        </div>
-                    </div>
-                `;
-                });
-
-                statsHTML += "</div>";
-
-                document.querySelector(`#${chartId}`).innerHTML = statsHTML;
-            }
-
-            function renderGenericChart(data, chartId, type) {
+            function createGenericChart(data, index) {
                 const numericCols = findNumericColumns(data);
                 if (numericCols.length === 0) return;
 
@@ -1488,56 +2226,66 @@
                     .map((row, i) => row[0] || `Row ${i + 1}`)
                     .slice(0, 20);
 
-                const options = {
-                    series: [{ name: data.headers[col], data: values }],
-                    chart: {
-                        type: type,
-                        height: 350,
-                        toolbar: { show: true }
+                const ctx = document
+                    .getElementById(`chart-${index}-0`)
+                    .getContext("2d");
+                charts[`${index}-0`] = new Chart(ctx, {
+                    type: "bar",
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: data.headers[col] || "Value",
+                                data: values,
+                                backgroundColor: "#3b82f6",
+                            },
+                        ],
                     },
-                    xaxis: { categories: labels, labels: { rotate: -45 } },
-                    colors: ["#4361ee"],
-                    title: { text: data.headers[col] || "Data", align: "left" },
+                    options: getChartOptions(),
+                });
+            }
+
+            function getChartOptions() {
+                return {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: "#ffffff",
+                                font: { size: 12 },
+                            },
+                        },
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: "rgba(255, 255, 255, 0.05)" },
+                            ticks: { color: "#94a3b8", maxRotation: 45 },
+                        },
+                        y: {
+                            grid: { color: "rgba(255, 255, 255, 0.05)" },
+                            ticks: { color: "#94a3b8" },
+                        },
+                    },
                 };
-
-                new ApexCharts(
-                    document.querySelector(`#${chartId}`),
-                    options,
-                ).render();
             }
 
-            function renderDataTable(data, index) {
-                const tableId = `table-${index}`;
-
-                // Format data for Grid.js
-                const columns = data.headers.map((h) => ({
-                    name: h || "Column",
-                    width: "auto",
-                }));
-                const rows = data.rows.map((row) =>
-                    data.headers.map((_, i) => formatCellValue(row[i])),
-                );
-
-                new gridjs.Grid({
-                    columns: columns,
-                    data: rows,
-                    search: true,
-                    sort: true,
-                    pagination: {
-                        enabled: true,
-                        limit: 50,
-                        summary: true,
+            function getDoughnutOptions() {
+                return {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: "right",
+                            labels: {
+                                color: "#ffffff",
+                                font: { size: 11 },
+                            },
+                        },
                     },
-                    style: {
-                        table: { "font-size": "14px" },
-                    },
-                    className: {
-                        table: "table-striped",
-                    },
-                }).render(document.getElementById(tableId));
+                };
             }
 
-            // Helper functions
             function findColumnIndex(headers, keywords) {
                 for (let keyword of keywords) {
                     const index = headers.findIndex(
@@ -1566,38 +2314,27 @@
                 return numeric;
             }
 
-            function excelSerialToDate(serial) {
-                // Excel serial date starts from 1900-01-01
-                // Excel incorrectly treats 1900 as a leap year, so we need to account for that
-                if (serial < 1) return null;
-
-                const utc_days = Math.floor(serial - 25569);
-                const utc_value = utc_days * 86400;
-                const date_info = new Date(utc_value * 1000);
-
-                return date_info;
+            function formatCurrency(value) {
+                if (!value && value !== 0) return "-";
+                return new Intl.NumberFormat("ro-RO", {
+                    style: "currency",
+                    currency: "RON",
+                    maximumFractionDigits: 0,
+                }).format(value);
             }
 
             function formatDate(date) {
                 if (!date) return "";
-
-                // Check if it's an Excel serial date (number between 1 and 100000)
-                if (typeof date === "number" && date > 1 && date < 100000) {
-                    const d = excelSerialToDate(date);
-                    if (d && !isNaN(d)) {
-                        return d.toLocaleDateString("en-GB", {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                        });
-                    }
+                if (typeof date === "number" && date > 40000 && date < 50000) {
+                    const d = new Date((date - 25569) * 86400 * 1000);
+                    return d.toLocaleDateString("en-GB", {
+                        month: "short",
+                        day: "numeric",
+                    });
                 }
-
-                // Try to parse as regular date
                 const d = new Date(date);
                 if (isNaN(d)) return date;
                 return d.toLocaleDateString("en-GB", {
-                    year: "numeric",
                     month: "short",
                     day: "numeric",
                 });
@@ -1605,8 +2342,6 @@
 
             function formatCellValue(value) {
                 if (value === null || value === undefined) return "";
-
-                // Check if it's an Excel serial date (number between 40000-50000 range for recent dates)
                 if (
                     typeof value === "number" &&
                     value > 40000 &&
@@ -1614,7 +2349,6 @@
                 ) {
                     return formatDate(value);
                 }
-
                 if (typeof value === "number") {
                     return value.toLocaleString("ro-RO", {
                         maximumFractionDigits: 2,
@@ -1623,10 +2357,18 @@
                 return value.toString();
             }
 
-            // Auto-load Excel file from GitHub on page load
-            document.addEventListener("DOMContentLoaded", function () {
-                loadExcelFromURL();
-            });
+            function filterTable(index, searchTerm) {
+                const table = document.getElementById(`table-${index}`);
+                const rows = table
+                    .getElementsByTagName("tbody")[0]
+                    .getElementsByTagName("tr");
+                const term = searchTerm.toLowerCase();
+
+                for (let row of rows) {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(term) ? "" : "none";
+                }
+            }
         </script>
     </body>
 </html>
