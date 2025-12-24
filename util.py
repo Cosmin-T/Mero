@@ -47,7 +47,7 @@ def setup_logging(
 # Create logger for this file
 logger = setup_logging()
 
-URL = ""
+URL = "https://pro.mero.ro/calendar"
 SITE_KEY = "//script[contains(text(), 'grecaptcha')]"
 SUBMIT_CAPTCHA_CSS = 'document.getElementById("osub").click();'
 
@@ -114,6 +114,6 @@ JSON_PATH = os.path.join(
     "Documents",
     "Python",
     "Black-Friday",
-    "Leroy",
+    "ProgramRoxana",
     "cookies.json",
 )
