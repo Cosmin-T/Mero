@@ -495,12 +495,21 @@
                     await processExcelFile(data);
                 } catch (error) {
                     console.error("Error loading Excel file:", error);
+                    const errorDetails = error.message.includes('404')
+                        ? 'File not found (404). Make sure revenue_analysis_current.xlsx is in the same directory as index.html.'
+                        : error.message.includes('Failed to fetch')
+                        ? 'Network error. Check your internet connection or CORS settings.'
+                        : error.message;
+
                     document.getElementById("processing").innerHTML = `
                     <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--danger);"></i>
                     <h3 style="color: var(--danger); margin-top: 20px;">Failed to load data</h3>
-                    <p style="color: #6c757d;">Error: ${error.message}</p>
+                    <p style="color: #6c757d; font-weight: bold;">Error: ${errorDetails}</p>
                     <p style="color: #6c757d; font-size: 0.9rem; margin-top: 10px;">
-                        Please update the EXCEL_FILE_URL in the HTML file with your GitHub repository URL.
+                        Attempted to load: <code>${EXCEL_FILE_URL}</code>
+                    </p>
+                    <p style="color: #6c757d; font-size: 0.9rem;">
+                        Check browser console for details.
                     </p>
                 `;
                 }
@@ -1025,12 +1034,28 @@
 
                 if (serviceCol === -1 || revenueCol === -1) return;
 
-                const services = data.rows.map((row) => row[serviceCol]);
-                const revenues = data.rows.map(
-                    (row) => parseFloat(row[revenueCol]) || 0,
-                );
+                // Create array of service-revenue pairs
+                const serviceData = data.rows.map((row) => ({
+                    service: row[serviceCol],
+                    revenue: parseFloat(row[revenueCol]) || 0
+                }));
+
+                // Sort by revenue descending
+                serviceData.sort((a, b) => b.revenue - a.revenue);
 
                 if (type === "pie") {
+                    // Take only top 10 services for pie chart, group rest as "Other"
+                    const top10 = serviceData.slice(0, 10);
+                    const otherRevenue = serviceData.slice(10).reduce((sum, item) => sum + item.revenue, 0);
+
+                    const services = top10.map(item => item.service);
+                    const revenues = top10.map(item => item.revenue);
+
+                    if (otherRevenue > 0) {
+                        services.push('Other Services');
+                        revenues.push(otherRevenue);
+                    }
+
                     const options = {
                         series: revenues,
                         labels: services,
@@ -1046,15 +1071,24 @@
                             "#f59e0b",
                             "#ef4444",
                             "#8b5cf6",
+                            "#6366f1",
+                            "#ec4899",
+                            "#14b8a6",
+                            "#f97316",
+                            "#94a3b8"
                         ],
                         legend: { position: "bottom" },
-                        title: { text: title, align: "left" },
+                        title: { text: title + " (Top 10)", align: "left" },
                     };
                     new ApexCharts(
                         document.querySelector(`#${chartId}`),
                         options,
                     ).render();
                 } else {
+                    // For bar chart, show all services (already sorted by revenue)
+                    const services = serviceData.map(item => item.service);
+                    const revenues = serviceData.map(item => item.revenue);
+
                     const options = {
                         series: [{ name: "Revenue (RON)", data: revenues }],
                         chart: {
