@@ -265,13 +265,154 @@
                 opacity: 0.9;
             }
 
+            /* Mobile Responsive Styles */
             @media (max-width: 768px) {
-                .charts-section {
-                    grid-template-columns: 1fr;
+                body {
+                    padding: 10px;
+                }
+
+                .dashboard-container {
+                    border-radius: 15px;
+                }
+
+                .dashboard-header {
+                    padding: 20px 15px;
                 }
 
                 .dashboard-header h1 {
-                    font-size: 1.8rem;
+                    font-size: 1.5rem;
+                    flex-direction: column;
+                    gap: 8px;
+                }
+
+                .dashboard-header p {
+                    font-size: 0.85rem;
+                }
+
+                /* Tabs - horizontal scroll on mobile */
+                .nav-tabs {
+                    padding: 15px 10px 0;
+                    overflow-x: auto;
+                    overflow-y: hidden;
+                    white-space: nowrap;
+                    flex-wrap: nowrap;
+                    -webkit-overflow-scrolling: touch;
+                }
+
+                .nav-tabs .nav-link {
+                    font-size: 0.9rem;
+                    padding: 10px 16px;
+                    display: inline-block;
+                }
+
+                .tab-content {
+                    padding: 15px;
+                }
+
+                /* Charts - single column */
+                .charts-section {
+                    grid-template-columns: 1fr;
+                    gap: 15px;
+                }
+
+                .chart-card {
+                    padding: 15px;
+                }
+
+                .chart-title {
+                    font-size: 1rem;
+                    margin-bottom: 10px;
+                }
+
+                /* Stats grid - 1 column on mobile */
+                .stats-summary {
+                    grid-template-columns: 1fr;
+                    gap: 12px;
+                    margin-bottom: 20px;
+                }
+
+                .stat-card {
+                    padding: 15px;
+                }
+
+                .stat-value {
+                    font-size: 2rem;
+                }
+
+                .stat-label {
+                    font-size: 0.85rem;
+                }
+
+                /* Data tables - horizontal scroll */
+                .data-table-section {
+                    padding: 15px;
+                }
+
+                .table-title {
+                    font-size: 1.1rem;
+                    margin-bottom: 15px;
+                }
+
+                .table-container {
+                    max-height: 400px;
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                }
+
+                /* Grid.js mobile adjustments */
+                .gridjs-wrapper {
+                    font-size: 12px;
+                }
+
+                .gridjs-th,
+                .gridjs-td {
+                    padding: 8px 10px !important;
+                    min-width: 100px;
+                }
+
+                /* Processing screen */
+                .processing {
+                    padding: 40px 20px;
+                }
+
+                .processing i {
+                    font-size: 3rem;
+                }
+
+                .processing h3 {
+                    font-size: 1.2rem;
+                }
+
+                .processing p {
+                    font-size: 0.9rem;
+                }
+            }
+
+            /* Extra small devices (phones in portrait) */
+            @media (max-width: 480px) {
+                .dashboard-header h1 {
+                    font-size: 1.3rem;
+                }
+
+                .nav-tabs .nav-link {
+                    font-size: 0.85rem;
+                    padding: 8px 12px;
+                }
+
+                .chart-title {
+                    font-size: 0.95rem;
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .stat-value {
+                    font-size: 1.7rem;
+                }
+
+                .gridjs-th,
+                .gridjs-td {
+                    font-size: 11px;
+                    padding: 6px 8px !important;
                 }
             }
         </style>
