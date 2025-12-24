@@ -43,6 +43,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="color-scheme" content="light only" />
         <title>Revenue Dashboard</title>
 
         <!-- SheetJS -->
@@ -65,8 +66,19 @@
                 padding: 0;
                 box-sizing: border-box;
             }
+            
+            /* Force light theme - override system dark mode */
+            html {
+                color-scheme: light only;
+            }
+            
+            /* Prevent dark mode from affecting any elements */
+            * {
+                color-scheme: light only;
+            }
 
             :root {
+                color-scheme: light only;
                 --bg: #ffffff;
                 --bg-secondary: #fafafa;
                 --card-bg: #ffffff;
@@ -85,11 +97,24 @@
 
             body {
                 font-family: "Inter", sans-serif;
-                background: var(--bg-secondary);
-                color: var(--text);
+                background: var(--bg-secondary) !important;
+                color: var(--text) !important;
                 line-height: 1.6;
                 -webkit-font-smoothing: antialiased;
                 -moz-osx-font-smoothing: grayscale;
+                color-scheme: light only;
+            }
+            
+            /* Override any dark mode attempts */
+            @media (prefers-color-scheme: dark) {
+                :root {
+                    color-scheme: light only;
+                }
+                
+                body {
+                    background: #fafafa !important;
+                    color: #111827 !important;
+                }
             }
 
             .container {
