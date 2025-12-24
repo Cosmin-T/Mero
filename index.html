@@ -340,12 +340,35 @@
                 border: 1px solid var(--border);
                 border-radius: 8px;
                 padding: 12px;
-                max-height: 60vh;
-                overflow-y: auto;
+                max-height: 70vh !important;
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
+                -webkit-overflow-scrolling: touch !important;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
                 width: auto;
                 min-width: 250px;
                 max-width: calc(100vw - 32px);
+                flex-direction: column !important;
+                touch-action: pan-y !important;
+            }
+            
+            /* Make scrollbar visible on mobile dropdown */
+            .tabs.tabs-mobile-visible::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            .tabs.tabs-mobile-visible::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 4px;
+            }
+            
+            .tabs.tabs-mobile-visible::-webkit-scrollbar-thumb {
+                background: var(--blue);
+                border-radius: 4px;
+            }
+            
+            .tabs.tabs-mobile-visible::-webkit-scrollbar-thumb:hover {
+                background: #2563eb;
             }
 
             /* Desktop tabs - always visible */
@@ -594,35 +617,17 @@
                     display: flex;
                 }
 
-                /* Tabs mobile - hidden by default, shown as vertical list when menu clicked */
-                .tabs:not(.tabs-desktop-visible) {
-                    display: none;
-                    flex-direction: column;
-                    gap: 8px;
-                    margin-bottom: 16px;
-                    background: var(--card-bg);
-                    border: 1px solid var(--border);
-                    border-radius: 8px;
-                    padding: 12px;
-                    max-height: 400px;
-                    overflow-y: auto;
-                }
+                /* Tabs mobile - REMOVE THIS ENTIRE SECTION - handled by main CSS */
 
-                .tabs.tabs-mobile-hidden {
-                    display: none !important;
-                }
-
-                .tabs.tabs-mobile-visible {
-                    display: flex !important;
-                }
-
-                .tabs .tab {
+                .tabs.tabs-mobile-visible .tab {
                     width: 100%;
                     text-align: left;
                     padding: 12px 16px;
                     min-height: 44px;
                     white-space: normal;
                     line-height: 1.4;
+                    flex-shrink: 0;
+                    touch-action: manipulation;
                 }
 
                 .metric-value {
@@ -665,6 +670,9 @@
 
                 .tabs.tabs-mobile-visible {
                     display: flex !important;
+                    flex-direction: column !important;
+                    overflow-y: auto !important;
+                    -webkit-overflow-scrolling: touch !important;
                 }
 
                 .tabs .tab {
@@ -1052,30 +1060,29 @@
 
                     // Calculate dropdown dimensions - wider to accommodate longer tab names
                     const dropdownWidth = Math.min(viewportWidth - 32, 400);
-                    const dropdownMaxHeight = Math.min(
-                        viewportHeight * 0.6,
-                        500,
+                    
+                    // Calculate available space
+                    const spaceBelow = viewportHeight - btnRect.bottom - 16;
+                    const spaceAbove = btnRect.top - 16;
+                    
+                    // Use 70% of viewport height or available space, whichever is smaller
+                    let dropdownMaxHeight = Math.min(
+                        viewportHeight * 0.7,
+                        Math.max(spaceBelow, spaceAbove) - 16
                     );
 
                     // Calculate position - align with right edge of button
-                    let top = btnRect.bottom + window.scrollY + 8; // 8px gap
-                    let left = btnRect.right + window.scrollX - dropdownWidth;
-
-                    // Adjust if dropdown would go below viewport
-                    const spaceBelow = viewportHeight - btnRect.bottom - 10;
-                    const spaceAbove = btnRect.top - 10;
-
-                    if (
-                        spaceBelow < dropdownMaxHeight &&
-                        spaceAbove > spaceBelow
-                    ) {
-                        // Show above button if more space above
-                        top =
-                            btnRect.top +
-                            window.scrollY -
-                            dropdownMaxHeight -
-                            8;
+                    let top;
+                    if (spaceBelow >= dropdownMaxHeight || spaceBelow > spaceAbove) {
+                        // Show below button
+                        top = btnRect.bottom + window.scrollY + 8;
+                        dropdownMaxHeight = Math.min(dropdownMaxHeight, spaceBelow);
+                    } else {
+                        // Show above button
+                        top = btnRect.top + window.scrollY - dropdownMaxHeight - 8;
                     }
+                    
+                    let left = btnRect.right + window.scrollX - dropdownWidth;
 
                     // Ensure dropdown stays within viewport horizontally
                     if (left < 16) left = 16;
@@ -1091,6 +1098,12 @@
                     tabsContainer.style.width = dropdownWidth + "px";
                     tabsContainer.style.maxHeight = dropdownMaxHeight + "px";
                     tabsContainer.style.zIndex = "10000";
+                    tabsContainer.style.overflowY = "auto";
+                    tabsContainer.style.overflowX = "hidden";
+                    tabsContainer.style.webkitOverflowScrolling = "touch";
+                    
+                    // Debug: log the calculated height
+                    console.log("Dropdown max height:", dropdownMaxHeight, "Viewport height:", viewportHeight);
                 }
             }
 
