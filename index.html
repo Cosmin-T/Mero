@@ -333,9 +333,30 @@
             /* GLOBAL METRICS - ABOVE TABS */
             .global-metrics {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                grid-template-columns: repeat(4, 1fr);
                 gap: 20px;
                 margin-bottom: 40px;
+            }
+            
+            @media (max-width: 1200px) {
+                .global-metrics {
+                    grid-template-columns: repeat(3, 1fr) !important;
+                    gap: 16px;
+                }
+            }
+            
+            @media (max-width: 991px) {
+                .global-metrics {
+                    grid-template-columns: repeat(2, 1fr) !important;
+                    gap: 12px;
+                }
+            }
+            
+            @media (max-width: 400px) {
+                .global-metrics {
+                    grid-template-columns: repeat(2, 1fr) !important;
+                    gap: 10px;
+                }
             }
 
             /* Tabs - NO SCROLL, wrap to multiple lines */
@@ -478,6 +499,59 @@
                 font-weight: 800;
                 color: var(--accent);
                 letter-spacing: -0.02em;
+            }
+            
+            .metric-subtext {
+                font-size: 12px;
+                color: var(--text-muted);
+                margin-top: 8px;
+                font-weight: 500;
+            }
+            
+            .metric-trend {
+                display: inline-block;
+                font-size: 12px;
+                font-weight: 600;
+                padding: 4px 8px;
+                border-radius: 6px;
+                margin-top: 8px;
+            }
+            
+            .metric-trend.positive {
+                background: #d1fae5;
+                color: #065f46;
+            }
+            
+            .metric-trend.negative {
+                background: #fee2e2;
+                color: #991b1b;
+            }
+            
+            @media (max-width: 767px) {
+                .metric-card {
+                    padding: 20px 16px;
+                    border-radius: 12px;
+                }
+                
+                .metric-label {
+                    font-size: 10px;
+                    margin-bottom: 8px;
+                    letter-spacing: 0.5px;
+                }
+                
+                .metric-value {
+                    font-size: 24px;
+                }
+                
+                .metric-subtext {
+                    font-size: 10px;
+                    margin-top: 4px;
+                }
+                
+                .metric-trend {
+                    font-size: 10px;
+                    padding: 3px 6px;
+                }
             }
 
             /* Charts - smart grid layout */
@@ -768,10 +842,6 @@
                     grid-column: 1 !important;
                 }
 
-                .global-metrics {
-                    grid-template-columns: repeat(2, 1fr);
-                }
-
                 /* Show mobile menu button on mobile screens */
                 .mobile-menu-btn {
                     display: flex;
@@ -829,11 +899,6 @@
                     font-size: 15px;
                     min-height: 48px;
                     min-width: 140px;
-                }
-
-                .global-metrics {
-                    grid-template-columns: 1fr;
-                    gap: 12px;
                 }
 
                 .metrics-grid {
@@ -1081,20 +1146,44 @@
                 <!-- GLOBAL METRICS - ALWAYS VISIBLE -->
                 <div class="global-metrics">
                     <div class="metric-card">
-                        <div class="metric-label">Total Clients</div>
-                        <div class="metric-value" id="global-clients">-</div>
-                    </div>
-                    <div class="metric-card">
                         <div class="metric-label">Total Revenue</div>
                         <div class="metric-value" id="global-revenue">-</div>
+                        <div class="metric-subtext" id="global-revenue-sub">All time</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">This Month</div>
+                        <div class="metric-value" id="global-current-month">-</div>
+                        <div class="metric-trend" id="global-month-trend"></div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Total Clients</div>
+                        <div class="metric-value" id="global-clients">-</div>
+                        <div class="metric-subtext" id="global-clients-sub">Unique customers</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Total Services</div>
+                        <div class="metric-value" id="global-services">-</div>
+                        <div class="metric-subtext" id="global-services-sub">All bookings</div>
                     </div>
                     <div class="metric-card">
                         <div class="metric-label">Avg per Client</div>
                         <div class="metric-value" id="global-avg">-</div>
+                        <div class="metric-subtext">Lifetime value</div>
                     </div>
                     <div class="metric-card">
-                        <div class="metric-label">Next Month Forecast</div>
+                        <div class="metric-label">Best Month</div>
+                        <div class="metric-value" id="global-best-month">-</div>
+                        <div class="metric-subtext" id="global-best-month-name">-</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Avg Monthly</div>
+                        <div class="metric-value" id="global-avg-monthly">-</div>
+                        <div class="metric-subtext" id="global-months-count">Last 12 months</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Next Month</div>
                         <div class="metric-value" id="global-forecast">-</div>
+                        <div class="metric-subtext">Forecast (moderate)</div>
                     </div>
                 </div>
 
@@ -1562,20 +1651,107 @@
                     }
                 }
 
+                // Get monthly data for additional metrics
+                const monthlySummary = Object.keys(workbookData).find((k) =>
+                    k.toLowerCase().includes("monthly summary")
+                );
+                
+                let currentMonthRevenue = 0;
+                let previousMonthRevenue = 0;
+                let bestMonthRevenue = 0;
+                let bestMonthName = '-';
+                let avgMonthlyRevenue = 0;
+                let totalMonths = 0;
+                
+                if (monthlySummary) {
+                    const data = workbookData[monthlySummary];
+                    // Find rows with "TOTAL" in the month column
+                    const monthlyTotals = data.rows.filter(row => {
+                        const monthValue = row[0]?.toString() || '';
+                        return monthValue.includes('TOTAL');
+                    });
+                    
+                    if (monthlyTotals.length > 0) {
+                        totalMonths = monthlyTotals.length;
+                        const revenueCol = findColumnIndex(data.headers, ['revenue']);
+                        
+                        if (revenueCol !== -1) {
+                            // Current month (last entry)
+                            currentMonthRevenue = parseFloat(monthlyTotals[monthlyTotals.length - 1][revenueCol]) || 0;
+                            
+                            // Previous month (second to last)
+                            if (monthlyTotals.length > 1) {
+                                previousMonthRevenue = parseFloat(monthlyTotals[monthlyTotals.length - 2][revenueCol]) || 0;
+                            }
+                            
+                            // Find best month
+                            let bestIdx = 0;
+                            bestMonthRevenue = parseFloat(monthlyTotals[0][revenueCol]) || 0;
+                            for (let i = 1; i < monthlyTotals.length; i++) {
+                                const rev = parseFloat(monthlyTotals[i][revenueCol]) || 0;
+                                if (rev > bestMonthRevenue) {
+                                    bestMonthRevenue = rev;
+                                    bestIdx = i;
+                                }
+                            }
+                            bestMonthName = monthlyTotals[bestIdx][0]?.toString().replace(' TOTAL', '') || '-';
+                            
+                            // Calculate average monthly revenue
+                            const totalMonthlyRevenue = monthlyTotals.reduce((sum, row) => 
+                                sum + (parseFloat(row[revenueCol]) || 0), 0
+                            );
+                            avgMonthlyRevenue = totalMonthlyRevenue / monthlyTotals.length;
+                        }
+                    }
+                }
+
                 globalMetrics = {
                     totalRevenue,
                     uniqueClients: uniqueClients.size,
                     totalServices,
                     nextMonthForecast,
+                    currentMonthRevenue,
+                    previousMonthRevenue,
+                    bestMonthRevenue,
+                    bestMonthName,
+                    avgMonthlyRevenue,
+                    totalMonths
                 };
 
                 // UPDATE GLOBAL METRICS DISPLAY
-                document.getElementById("global-clients").textContent =
-                    uniqueClients.size;
                 document.getElementById("global-revenue").textContent =
                     formatCurrency(totalRevenue);
+                    
+                document.getElementById("global-current-month").textContent =
+                    formatCurrency(currentMonthRevenue);
+                    
+                // Calculate and display month-over-month trend
+                if (previousMonthRevenue > 0) {
+                    const growth = ((currentMonthRevenue - previousMonthRevenue) / previousMonthRevenue) * 100;
+                    const trendEl = document.getElementById("global-month-trend");
+                    trendEl.textContent = `${growth >= 0 ? '+' : ''}${growth.toFixed(1)}% vs last month`;
+                    trendEl.className = `metric-trend ${growth >= 0 ? 'positive' : 'negative'}`;
+                }
+                
+                document.getElementById("global-clients").textContent =
+                    uniqueClients.size;
+                    
+                document.getElementById("global-services").textContent =
+                    totalServices.toLocaleString();
+                    
                 document.getElementById("global-avg").textContent =
                     formatCurrency(totalRevenue / uniqueClients.size);
+                    
+                document.getElementById("global-best-month").textContent =
+                    formatCurrency(bestMonthRevenue);
+                document.getElementById("global-best-month-name").textContent =
+                    bestMonthName;
+                    
+                document.getElementById("global-avg-monthly").textContent =
+                    formatCurrency(avgMonthlyRevenue);
+                document.getElementById("global-months-count").textContent =
+                    `Over ${totalMonths} months`;
+                    
                 document.getElementById("global-forecast").textContent =
                     formatCurrency(nextMonthForecast);
             }
