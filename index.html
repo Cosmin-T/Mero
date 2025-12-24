@@ -961,7 +961,11 @@
                     const options = {
                         series: Object.values(tiers),
                         labels: Object.keys(tiers),
-                        chart: { type: "pie", height: 350 },
+                        chart: {
+                            type: "pie",
+                            height: 350,
+                            toolbar: { show: true }
+                        },
                         colors: ["#4361ee", "#f72585", "#10b981", "#f59e0b"],
                         legend: { position: "bottom" },
                         title: { text: title, align: "left" },
@@ -1030,7 +1034,11 @@
                     const options = {
                         series: revenues,
                         labels: services,
-                        chart: { type: "donut", height: 350 },
+                        chart: {
+                            type: "donut",
+                            height: 350,
+                            toolbar: { show: true }
+                        },
                         colors: [
                             "#4361ee",
                             "#f72585",
@@ -1049,7 +1057,11 @@
                 } else {
                     const options = {
                         series: [{ name: "Revenue (RON)", data: revenues }],
-                        chart: { type: "bar", height: 350 },
+                        chart: {
+                            type: "bar",
+                            height: 350,
+                            toolbar: { show: true }
+                        },
                         xaxis: {
                             categories: services,
                             labels: { rotate: -45 },
@@ -1094,7 +1106,11 @@
                     const options = {
                         series: revenues,
                         labels: categories,
-                        chart: { type: "pie", height: 350 },
+                        chart: {
+                            type: "pie",
+                            height: 350,
+                            toolbar: { show: true }
+                        },
                         colors: [
                             "#4361ee",
                             "#f72585",
@@ -1112,7 +1128,11 @@
                 } else {
                     const options = {
                         series: [{ name: "Revenue", data: revenues }],
-                        chart: { type: "bar", height: 350 },
+                        chart: {
+                            type: "bar",
+                            height: 350,
+                            toolbar: { show: true }
+                        },
                         xaxis: { categories: categories },
                         colors: ["#f72585"],
                         title: { text: title, align: "left" },
@@ -1272,7 +1292,7 @@
                     chart: {
                         type: "line",
                         height: 400,
-                        toolbar: { show: false },
+                        toolbar: { show: true },
                         animations: {
                             enabled: true,
                             easing: "easeinout",
@@ -1436,7 +1456,11 @@
 
                 const options = {
                     series: [{ name: data.headers[col], data: values }],
-                    chart: { type: type, height: 350 },
+                    chart: {
+                        type: type,
+                        height: 350,
+                        toolbar: { show: true }
+                    },
                     xaxis: { categories: labels, labels: { rotate: -45 } },
                     colors: ["#4361ee"],
                     title: { text: data.headers[col] || "Data", align: "left" },
