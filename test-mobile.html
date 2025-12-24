@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: sans-serif;
+            background: #0f1419;
+            color: white;
+            padding: 20px;
+        }
+        
+        .test-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        
+        .dropdown {
+            display: none;
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            width: calc(100vw - 40px);
+            max-width: 400px;
+            max-height: 75vh;
+            background: #1a1f2e;
+            border: 1px solid #2d3748;
+            border-radius: 8px;
+            padding: 12px;
+            overflow-y: scroll !important;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            z-index: 10000;
+        }
+        
+        .dropdown.show {
+            display: block;
+        }
+        
+        .dropdown-item {
+            padding: 16px;
+            background: #0f1419;
+            border: 1px solid #2d3748;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        
+        .dropdown-item:hover {
+            background: #2d3748;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mobile Scroll Test</h1>
+    <p style="margin: 10px 0;">Click button to test scrolling dropdown with many items</p>
+    
+    <button class="test-button" onclick="toggleDropdown()">Toggle Dropdown</button>
+    
+    <div class="dropdown" id="dropdown">
+        <div class="dropdown-item">Item 1 - Raw Data</div>
+        <div class="dropdown-item">Item 2 - Monthly Summary</div>
+        <div class="dropdown-item">Item 3 - Category Totals</div>
+        <div class="dropdown-item">Item 4 - Mega Category Totals</div>
+        <div class="dropdown-item">Item 5 - Daily Summary</div>
+        <div class="dropdown-item">Item 6 - Weekly Summary</div>
+        <div class="dropdown-item">Item 7 - Client Analysis</div>
+        <div class="dropdown-item">Item 8 - Service Analysis</div>
+        <div class="dropdown-item">Item 9 - Category Deep Dive</div>
+        <div class="dropdown-item">Item 10 - Revenue Forecast</div>
+        <div class="dropdown-item">Item 11 - Extra Item</div>
+        <div class="dropdown-item">Item 12 - Extra Item</div>
+        <div class="dropdown-item">Item 13 - Extra Item</div>
+        <div class="dropdown-item">Item 14 - Extra Item</div>
+        <div class="dropdown-item">Item 15 - Extra Item</div>
+    </div>
+    
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.classList.toggle('show');
+            console.log('Dropdown toggled. Visible:', dropdown.classList.contains('show'));
+            console.log('Scroll height:', dropdown.scrollHeight);
+            console.log('Client height:', dropdown.clientHeight);
+        }
+    </script>
+</body>
+</html>

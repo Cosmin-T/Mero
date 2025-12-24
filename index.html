@@ -333,23 +333,30 @@
             }
 
             .tabs.tabs-mobile-visible {
-                display: flex !important;
-                position: fixed;
-                z-index: 10000;
-                background: var(--card-bg);
-                border: 1px solid var(--border);
-                border-radius: 8px;
-                padding: 12px;
-                max-height: 70vh !important;
-                overflow-y: auto !important;
+                display: block !important;
+                position: fixed !important;
+                z-index: 10000 !important;
+                background: var(--card-bg) !important;
+                border: 1px solid var(--border) !important;
+                border-radius: 8px !important;
+                padding: 12px !important;
+                max-height: 80vh !important;
+                height: auto !important;
+                overflow-y: scroll !important;
                 overflow-x: hidden !important;
                 -webkit-overflow-scrolling: touch !important;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-                width: auto;
-                min-width: 250px;
-                max-width: calc(100vw - 32px);
-                flex-direction: column !important;
-                touch-action: pan-y !important;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+                min-width: 250px !important;
+                max-width: calc(100vw - 40px) !important;
+            }
+            
+            .tabs.tabs-mobile-visible .tab {
+                display: block !important;
+                width: 100% !important;
+                margin-bottom: 8px !important;
+                text-align: left !important;
+                padding: 14px 16px !important;
+                white-space: normal !important;
             }
             
             /* Make scrollbar visible on mobile dropdown */
@@ -650,39 +657,7 @@
                     display: flex;
                 }
 
-                /* Tabs mobile - hidden by default, shown as vertical list when menu clicked */
-                .tabs {
-                    display: none;
-                    flex-direction: column;
-                    gap: 8px;
-                    margin-bottom: 16px;
-                    background: var(--card-bg);
-                    border: 1px solid var(--border);
-                    border-radius: 8px;
-                    padding: 12px;
-                    max-height: 400px;
-                    overflow-y: auto;
-                }
-
-                .tabs.tabs-mobile-hidden {
-                    display: none !important;
-                }
-
-                .tabs.tabs-mobile-visible {
-                    display: flex !important;
-                    flex-direction: column !important;
-                    overflow-y: auto !important;
-                    -webkit-overflow-scrolling: touch !important;
-                }
-
-                .tabs .tab {
-                    width: 100%;
-                    text-align: left;
-                    padding: 12px 16px;
-                    min-height: 44px;
-                    white-space: normal;
-                    line-height: 1.4;
-                }
+                /* Tabs mobile - REMOVE THIS ENTIRE SECTION - handled by main CSS */
 
                 .upload-section {
                     padding: 32px 20px;
@@ -1058,52 +1033,16 @@
                     const viewportHeight = window.innerHeight;
                     const viewportWidth = window.innerWidth;
 
-                    // Calculate dropdown dimensions - wider to accommodate longer tab names
-                    const dropdownWidth = Math.min(viewportWidth - 32, 400);
+                    // Simple positioning - let CSS handle everything else
+                    const top = btnRect.bottom + 8;
+                    const left = 20;
+                    const width = viewportWidth - 40;
                     
-                    // Calculate available space
-                    const spaceBelow = viewportHeight - btnRect.bottom - 16;
-                    const spaceAbove = btnRect.top - 16;
-                    
-                    // Use 70% of viewport height or available space, whichever is smaller
-                    let dropdownMaxHeight = Math.min(
-                        viewportHeight * 0.7,
-                        Math.max(spaceBelow, spaceAbove) - 16
-                    );
-
-                    // Calculate position - align with right edge of button
-                    let top;
-                    if (spaceBelow >= dropdownMaxHeight || spaceBelow > spaceAbove) {
-                        // Show below button
-                        top = btnRect.bottom + window.scrollY + 8;
-                        dropdownMaxHeight = Math.min(dropdownMaxHeight, spaceBelow);
-                    } else {
-                        // Show above button
-                        top = btnRect.top + window.scrollY - dropdownMaxHeight - 8;
-                    }
-                    
-                    let left = btnRect.right + window.scrollX - dropdownWidth;
-
-                    // Ensure dropdown stays within viewport horizontally
-                    if (left < 16) left = 16;
-                    if (left + dropdownWidth > viewportWidth - 16) {
-                        left = viewportWidth - dropdownWidth - 16;
-                    }
-
-                    // Set position
-                    tabsContainer.style.position = "fixed";
-                    tabsContainer.style.margin = "0";
                     tabsContainer.style.top = top + "px";
-                    tabsContainer.style.left = left + "px";
-                    tabsContainer.style.width = dropdownWidth + "px";
-                    tabsContainer.style.maxHeight = dropdownMaxHeight + "px";
-                    tabsContainer.style.zIndex = "10000";
-                    tabsContainer.style.overflowY = "auto";
-                    tabsContainer.style.overflowX = "hidden";
-                    tabsContainer.style.webkitOverflowScrolling = "touch";
+                    tabsContainer.style.left = left + "px";  
+                    tabsContainer.style.right = "20px";
                     
-                    // Debug: log the calculated height
-                    console.log("Dropdown max height:", dropdownMaxHeight, "Viewport height:", viewportHeight);
+                    console.log("Dropdown opened");
                 }
             }
 
@@ -1127,14 +1066,8 @@
                         tabsContainer.classList.add("tabs-mobile-hidden");
                         mobileMenuBtn.classList.remove("active");
                         mobileMenuBtn.setAttribute("aria-expanded", "false");
-                        // Reset inline styles
-                        tabsContainer.style.position = "";
-                        tabsContainer.style.margin = "";
-                        tabsContainer.style.top = "";
-                        tabsContainer.style.left = "";
-                        tabsContainer.style.width = "";
-                        tabsContainer.style.maxHeight = "";
-                        tabsContainer.style.zIndex = "";
+                        // Clear all inline styles
+                        tabsContainer.removeAttribute("style");
                     } else {
                         // Show tabs
                         tabsContainer.classList.remove("tabs-mobile-hidden");
