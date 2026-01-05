@@ -847,11 +847,6 @@
                     display: flex;
                 }
 
-                /* Hide download button on mobile to save space */
-                #downloadBtn {
-                    display: none !important;
-                }
-
                 /* Tabs mobile - REMOVE THIS ENTIRE SECTION - handled by main CSS */
 
                 .tabs.tabs-mobile-visible .tab {
@@ -1124,13 +1119,6 @@
                         <span class="menu-icon"></span>
                         <span class="menu-text">Tabs</span>
                     </button>
-                    <button
-                        id="downloadBtn"
-                        style="display: none; background: var(--accent); color: white; border: none; padding: 12px 20px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; margin-left: 12px; touch-action: manipulation; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1); user-select: none; transition: all 0.2s;"
-                        aria-label="Download original Excel file"
-                    >
-                        Download Excel
-                    </button>
                 </div>
             </div>
 
@@ -1386,31 +1374,10 @@
                             );
                         }, 300);
                     }
-                 });
-             }
+                });
+            }
 
-             // Download button functionality
-             document.getElementById('downloadBtn').addEventListener('click', async () => {
-                 try {
-                     const response = await fetch(EXCEL_FILE_URL);
-                     if (!response.ok) {
-                         throw new Error(`HTTP error! status: ${response.status}`);
-                     }
-                     const blob = await response.blob();
-                     const url = window.URL.createObjectURL(blob);
-                     const a = document.createElement('a');
-                     a.href = url;
-                     a.download = 'revenue_analysis_current.xlsx';  // Customize filename if needed
-                     document.body.appendChild(a);
-                     a.click();
-                     document.body.removeChild(a);
-                     window.URL.revokeObjectURL(url);
-                 } catch (error) {
-                     alert('Error downloading file: ' + error.message);
-                 }
-             });
-
-             // Auto-load Excel file from URL on page load
+            // Auto-load Excel file from URL on page load
             window.addEventListener("DOMContentLoaded", () => {
                 loadExcelFromURL();
             });
@@ -1535,9 +1502,6 @@
                     ) {
                         mobileMenuBtn.style.display = "flex";
                     }
-
-                    // Show download button after data loads
-                    document.getElementById('downloadBtn').style.display = 'inline-block';
                 } catch (error) {
                     console.error("Error processing Excel data:", error);
                     throw error; // Re-throw for caller to handle
