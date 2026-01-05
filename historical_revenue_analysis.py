@@ -2,6 +2,7 @@
 # Extract historical data by navigating the calendar UI and intercepting API responses
 # Then automatically enhance with comprehensive summary sheets
 
+import csv
 import json
 import os
 import re
@@ -591,6 +592,16 @@ def run(playwright: Playwright) -> None:
     wb.save(excel_filename)
 
     logger.info(f"\n✓✓✓ Excel file saved: {excel_filename}\n")
+
+    # Save CSV file
+    csv_filename = "revenue_analysis_current.csv"
+    with open(csv_filename, 'w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(["Date", "Client", "Service", "Category", "Mega Category", "Price (RON)"])
+        for appt in sorted(all_captured_appointments, key=lambda x: x["date"]):
+            writer.writerow([appt["date"], appt["client"], appt["service"], appt["category"], appt["mega_category"], appt["price"]])
+
+    logger.info(f"✓ CSV file saved: {csv_filename}\n")
 
     # Run the summary enhancer on the created file
     logger.info("=== RUNNING EXCEL SUMMARY ENHANCER ===")

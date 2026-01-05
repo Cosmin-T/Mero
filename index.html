@@ -46,11 +46,20 @@
         <meta name="color-scheme" content="light only" />
         <title>Revenue Dashboard</title>
 
+        <!-- jQuery (for DataTables and PivotTable.js) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
         <!-- SheetJS -->
         <script src="https://cdn.sheetjs.com/xlsx-0.18.5/package/dist/xlsx.full.min.js"></script>
 
         <!-- Chart.js -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+
+
+
+        <!-- PivotTable.js for pivot functionality -->
+        <script src="https://cdn.jsdelivr.net/npm/pivottable@2.23.0/dist/pivot.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pivottable@2.23.0/dist/pivot.min.css"></script>
 
         <!-- Inter font -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1864,6 +1873,28 @@
 
                 container.innerHTML = html;
 
+                // Google Data Studio iframe is embedded - no initialization needed
+                // Pivot toggle (still uses PivotTable.js)
+                setTimeout(() => {
+                    document.getElementById(`pivot-btn-${index}`).addEventListener('click', () => {
+                        const tableWrapper = document.querySelector(`iframe`).closest('.table-wrapper');
+                        const pivotDiv = document.getElementById(`pivot-${index}`);
+                        if (tableWrapper.style.display !== 'none') {
+                            tableWrapper.style.display = 'none';
+                            pivotDiv.style.display = 'block';
+                            const rowData = data.rows.map(row => {
+                                const obj = {};
+                                data.headers.forEach((h, i) => obj[h || "Column"] = row[i]);
+                                return obj;
+                            });
+                            $(`#pivot-${index}`).pivotUI(rowData, {});
+                        } else {
+                            tableWrapper.style.display = 'block';
+                            pivotDiv.style.display = 'none';
+                        }
+                    });
+                }, 100);
+
                 // Initialize charts
                 setTimeout(() => initializeCharts(sheetName, data, index), 100);
             }
@@ -2019,38 +2050,13 @@
                         <div class="table-title">Complete Data</div>
                         <div class="table-subtitle">${data.rows.length} rows × ${data.headers.length} columns</div>
                     </div>
-                    <input type="text" class="search-box" id="search-${index}" placeholder="Search all columns..."
-                           onkeyup="filterTableGlobal(${index}, this.value)">
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" class="search-box" id="search-${index}" placeholder="Search all columns..." style="flex: 1;">
+                        <button id="pivot-btn-${index}" style="padding: 8px 16px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer;">Pivot View</button>
+                    </div>
                     <div class="table-wrapper">
-                        <table id="table-${index}">
-                            <thead>
-                                <tr>
-                                    ${data.headers.map((h, i) => `
-                                        <th data-column="${i}">
-                                            <div class="header-content">
-                                                <span class="column-name" onclick="sortTable(${index}, ${i})">${h || "Column"}</span>
-                                                <input type="text" 
-                                                       class="column-filter" 
-                                                       placeholder="Filter..." 
-                                                       onkeyup="filterByColumn(${index})"
-                                                       onclick="event.stopPropagation()">
-                                            </div>
-                                        </th>
-                                    `).join("")}
-                                </tr>
-                            </thead>
-                            <tbody id="tbody-${index}">
-                                ${data.rows
-                                    .map(
-                                        (row) => `
-                                    <tr>
-                                        ${data.headers.map((_, i) => `<td>${formatCellValue(row[i])}</td>`).join("")}
-                                    </tr>
-                                `,
-                                    )
-                                    .join("")}
-                            </tbody>
-                        </table>
+                        <iframe src="https://lookerstudio.google.com/embed/reporting/YOUR_REPORT_ID" width="100%" height="500" frameborder="0" allowfullscreen></iframe>
+                        <div id="pivot-${index}" style="display: none; height: 500px; width: 100%;"></div>
                     </div>
                 </div>
             `;

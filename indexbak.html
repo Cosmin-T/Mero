@@ -137,13 +137,14 @@
 
             .header-title {
                 flex: 1;
+                align-self: flex-start;
             }
 
             .header h1 {
                 font-size: 32px;
                 font-weight: 800;
                 color: var(--accent);
-                margin-bottom: 8px;
+                margin-bottom: 0;
                 letter-spacing: -0.02em;
             }
 
@@ -172,6 +173,7 @@
                 gap: 8px;
                 transition: all 0.2s;
                 box-shadow: var(--shadow);
+                align-self: flex-start;
             }
 
             .mobile-menu-btn:hover {
@@ -847,6 +849,11 @@
                     display: flex;
                 }
 
+                /* Hide download button on mobile to save space */
+                #downloadBtn {
+                    display: none !important;
+                }
+
                 /* Tabs mobile - REMOVE THIS ENTIRE SECTION - handled by main CSS */
 
                 .tabs.tabs-mobile-visible .tab {
@@ -1119,6 +1126,15 @@
                         <span class="menu-icon"></span>
                         <span class="menu-text">Tabs</span>
                     </button>
+                    <button
+                        id="downloadBtn"
+                        style="display: none; background: var(--accent); color: white; border: none; padding: 7px; border-radius: 12px; cursor: pointer; margin-left: 12px; touch-action: manipulation; -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1); user-select: none; transition: all 0.2s; display: flex; align-items: center; justify-content: center; height: 32px; width: 32px; align-self: flex-start;"
+                        aria-label="Download original Excel file"
+                    >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 10V16M12 16L9 13M12 16L15 13M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H14L19 8V19C19 20.1046 18.1046 21 17 21Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
 
@@ -1374,10 +1390,31 @@
                             );
                         }, 300);
                     }
-                });
-            }
+                 });
+             }
 
-            // Auto-load Excel file from URL on page load
+             // Download button functionality
+             document.getElementById('downloadBtn').addEventListener('click', async () => {
+                 try {
+                     const response = await fetch(EXCEL_FILE_URL);
+                     if (!response.ok) {
+                         throw new Error(`HTTP error! status: ${response.status}`);
+                     }
+                     const blob = await response.blob();
+                     const url = window.URL.createObjectURL(blob);
+                     const a = document.createElement('a');
+                     a.href = url;
+                     a.download = 'revenue_analysis_current.xlsx';  // Customize filename if needed
+                     document.body.appendChild(a);
+                     a.click();
+                     document.body.removeChild(a);
+                     window.URL.revokeObjectURL(url);
+                 } catch (error) {
+                     alert('Error downloading file: ' + error.message);
+                 }
+             });
+
+             // Auto-load Excel file from URL on page load
             window.addEventListener("DOMContentLoaded", () => {
                 loadExcelFromURL();
             });
@@ -1502,6 +1539,9 @@
                     ) {
                         mobileMenuBtn.style.display = "flex";
                     }
+
+                    // Show download button after data loads
+                    document.getElementById('downloadBtn').style.display = 'inline-block';
                 } catch (error) {
                     console.error("Error processing Excel data:", error);
                     throw error; // Re-throw for caller to handle
