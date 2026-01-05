@@ -163,6 +163,11 @@ def run(playwright: Playwright) -> None:
     logger.info("HISTORICAL REVENUE ANALYSIS V2")
     logger.info("=" * 70)
 
+    # Prompt for start date
+    start_date_input = input("Enter start date (YYYY-MM-DD): ")
+    start_date = datetime.strptime(start_date_input, "%Y-%m-%d")
+    end_date = datetime.now()
+
     context = playwright.chromium.launch_persistent_context(
         "./chrome-data",
         headless=False,
@@ -213,12 +218,21 @@ def run(playwright: Playwright) -> None:
 
     logger.info("\n=== NAVIGATING TO PREVIOUS WEEKS ===\n")
 
-    # TEST: Navigate back 2 weeks only - change to 15 for full Sept-Dec data
-    weeks_to_go_back = 53
+
+
+    # Calculate weeks to go back: number of full weeks between start_date and end_date
+    days_difference = (end_date - start_date).days
+    weeks_to_go_back = (days_difference // 7) + 1  # +1 to ensure we cover partial weeks
+
+    logger.info(
+        f"Date range: {start_date.date()} to {end_date.date()} ({weeks_to_go_back} weeks to navigate)"
+    )
 
     for week_num in range(weeks_to_go_back):
+        # Calculate approximate week start date (going backward from end_date)
+        current_week_start = end_date - timedelta(weeks=week_num)
         logger.info(
-            f"Week {week_num + 1}/{weeks_to_go_back}: Clicking previous week..."
+            f"Week {week_num + 1}/{weeks_to_go_back} (approx {current_week_start.date()}): Clicking previous week..."
         )
 
         try:

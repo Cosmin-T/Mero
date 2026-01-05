@@ -2,14 +2,14 @@ EXCEL SUMMARY ENHANCEMENT REPORT
 ==================================================
 
 Original File: revenue_analysis_current.xlsx
-Processed: 2025-12-23 14:07:57
+Processed: 2026-01-05 21:52:30
 
 DATA OVERVIEW
 ------------------------------
-Total Rows in Raw Data: 1,465
-Date Range: 2024-12-23 to 2025-12-23
-Total Revenue: 118,255.00 RON
-Unique Clients: 273
+Total Rows in Raw Data: 1,494
+Date Range: 2025-01-06 to 2026-01-10
+Total Revenue: 121,500.00 RON
+Unique Clients: 281
 Unique Services: 29
 Unique Categories: 9
 
@@ -27,7 +27,7 @@ NEW SHEETS ADDED
 
 KEY METRICS
 ------------------------------
-Average Daily Revenue: 471.14 RON
-Average Booking Value: 80.72 RON
+Average Daily Revenue: 478.35 RON
+Average Booking Value: 81.33 RON
 Busiest Day of Week: Friday
 Top Category by Revenue: Epilat
