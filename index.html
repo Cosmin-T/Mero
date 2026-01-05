@@ -708,7 +708,7 @@
 
             /* SCROLLABLE TABLE CONTAINER */
             .table-wrapper {
-                max-height: 600px;
+                max-height: 1000px;
                 overflow: auto;
                 border: 1px solid var(--border);
                 border-radius: 12px;
@@ -980,7 +980,7 @@
                 }
 
                 .table-wrapper {
-                    max-height: 400px;
+                    max-height: 700px;
                 }
 
                 table {
@@ -1031,7 +1031,7 @@
                 }
 
                 .table-wrapper {
-                    max-height: 350px;
+                    max-height: 600px;
                 }
 
                 th,
@@ -1069,7 +1069,7 @@
                 }
 
                 .table-wrapper {
-                    max-height: 300px;
+                    max-height: 500px;
                 }
             }
 
@@ -1854,7 +1854,21 @@
                                 <div class="table-title">Looker Studio Dashboard</div>
                                 <div class="table-subtitle">Full BI analytics with formulas on filtered data</div>
                             </div>
-                            <iframe src="https://lookerstudio.google.com/embed/reporting/c196a47b-15a9-4980-a7d6-3e824aca456d" width="100%" height="600" frameborder="0" allowfullscreen></iframe>
+                            <div style="margin-bottom: 16px; padding: 16px; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border);">
+                                <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">
+                                    <strong>⚠️ Important:</strong> The embedded iframe below is <strong>read-only</strong>. Looker Studio does not allow embedding the editor for security reasons.
+                                </p>
+                                <p style="margin: 8px 0 0 0; color: var(--text-secondary); font-size: 14px;">
+                                    <strong>💡 To edit this dashboard:</strong> Click the button below to open the full Looker Studio editor where you can add data sources, modify charts, and customize the report.
+                                </p>
+                                <a href="https://lookerstudio.google.com/reporting/c196a47b-15a9-4980-a7d6-3e824aca456d/page/KsMkF/edit" target="_blank" style="display: inline-block; margin-top: 12px; padding: 12px; background: var(--accent); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;" title="Open in Looker Studio Editor">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="m18.5 2.5 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </a>
+                            </div>
+                            <iframe width="100%" height="800" src="https://lookerstudio.google.com/embed/reporting/c196a47b-15a9-4980-a7d6-3e824aca456d/page/KsMkF" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                         </div>
                     `;
                     return;
@@ -1899,6 +1913,7 @@
 
                     const hot = new Handsontable(hotElement, {
                         data: tableData,
+                        height: 1000,
                         rowHeaders: true,
                         colHeaders: data.headers,
                         filters: true,
@@ -2134,7 +2149,7 @@
                         <button id="pivot-btn-${index}" style="padding: 8px 16px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer;">Pivot View</button>
                     </div>
                     <div class="table-wrapper">
-                        <div id="handsontable-${index}" style="width: 100%; height: 600px; overflow: auto;"></div>
+                        <div id="handsontable-${index}" style="width: 100%;"></div>
                         <div id="pivot-${index}" style="display: none; height: 500px; width: 100%;"></div>
                     </div>
                 </div>
