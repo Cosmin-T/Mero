@@ -57,9 +57,7 @@
 
 
 
-        <!-- PivotTable.js for pivot functionality -->
-        <script src="https://cdn.jsdelivr.net/npm/pivottable@2.23.0/dist/pivot.min.js"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pivottable@2.23.0/dist/pivot.min.css"></script>
+
 
         <!-- Handsontable for Excel-like tables -->
         <script src="https://cdn.jsdelivr.net/npm/handsontable@14.3.0/dist/handsontable.full.min.js"></script>
@@ -1965,26 +1963,7 @@
                     window[`hot-${index}`] = hot;
                 }, 100);
 
-                // Pivot toggle (still uses PivotTable.js)
-                setTimeout(() => {
-                    document.getElementById(`pivot-btn-${index}`).addEventListener('click', () => {
-                        const tableWrapper = document.getElementById(`handsontable-${index}`).parentElement;
-                        const pivotDiv = document.getElementById(`pivot-${index}`);
-                        if (tableWrapper.style.display !== 'none') {
-                            tableWrapper.style.display = 'none';
-                            pivotDiv.style.display = 'block';
-                            const rowData = data.rows.map(row => {
-                                const obj = {};
-                                data.headers.forEach((h, i) => obj[h || "Column"] = row[i]);
-                                return obj;
-                            });
-                            $(`#pivot-${index}`).pivotUI(rowData, {});
-                        } else {
-                            tableWrapper.style.display = 'block';
-                            pivotDiv.style.display = 'none';
-                        }
-                    });
-                }, 100);
+
 
                 // Initialize charts
                 setTimeout(() => initializeCharts(sheetName, data, index), 100);
@@ -2146,11 +2125,9 @@
                     </div>
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <input type="text" class="search-box" id="search-${index}" placeholder="Search all columns..." style="flex: 1;">
-                        <button id="pivot-btn-${index}" style="padding: 8px 16px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer;">Pivot View</button>
                     </div>
                     <div class="table-wrapper">
                         <div id="handsontable-${index}" style="width: 100%;"></div>
-                        <div id="pivot-${index}" style="display: none; height: 500px; width: 100%;"></div>
                     </div>
                 </div>
             `;
