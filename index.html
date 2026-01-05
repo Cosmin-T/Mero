@@ -61,6 +61,11 @@
         <script src="https://cdn.jsdelivr.net/npm/pivottable@2.23.0/dist/pivot.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pivottable@2.23.0/dist/pivot.min.css"></script>
 
+        <!-- Handsontable for Excel-like tables -->
+        <script src="https://cdn.jsdelivr.net/npm/handsontable@14.3.0/dist/handsontable.full.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable@14.3.0/dist/handsontable.full.min.css"></script>
+        <script src="https://cdn.jsdelivr.net/npm/hyperformula@2.6.2/dist/hyperformula.full.min.js"></script>
+
         <!-- Inter font -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1232,7 +1237,7 @@
             // Configuration: Update this URL to your GitHub raw file URL
             // For local development: 'revenue_analysis_current.xlsx'
             // For GitHub Pages: 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/revenue_analysis_current.xlsx'
-            const EXCEL_FILE_URL = "revenue_analysis_current.xlsx";
+            const EXCEL_FILE_URL = "https://raw.githubusercontent.com/Cosmin-T/Mero/main/revenue_analysis_current.xlsx";
 
             const fileInput = document.getElementById("fileInput");
             const uploadSection = document.getElementById("uploadSection");
@@ -1532,7 +1537,7 @@
                     });
 
                     calculateGlobalMetrics();
-                    renderDashboard(validSheets);
+                    renderDashboard([...validSheets, "Looker Studio"]);
 
                     document
                         .getElementById("loading")
@@ -1841,6 +1846,20 @@
 
             function renderSheetContent(sheetName, index) {
                 const container = document.getElementById(`content-${index}`);
+
+                if (sheetName === "Looker Studio") {
+                    container.innerHTML = `
+                        <div class="table-section">
+                            <div class="table-header">
+                                <div class="table-title">Looker Studio Dashboard</div>
+                                <div class="table-subtitle">Full BI analytics with formulas on filtered data</div>
+                            </div>
+                            <iframe src="https://lookerstudio.google.com/embed/reporting/c196a47b-15a9-4980-a7d6-3e824aca456d" width="100%" height="600" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    `;
+                    return;
+                }
+
                 const data = workbookData[sheetName];
                 const nameLower = sheetName.toLowerCase();
 
@@ -1873,11 +1892,68 @@
 
                 container.innerHTML = html;
 
-                // Google Data Studio iframe is embedded - no initialization needed
+                // Initialize Handsontable
+                setTimeout(() => {
+                    const tableData = [data.headers, ...data.rows];
+                    const hotElement = document.getElementById(`handsontable-${index}`);
+
+                    const hot = new Handsontable(hotElement, {
+                        data: tableData,
+                        rowHeaders: true,
+                        colHeaders: data.headers,
+                        filters: true,
+                        dropdownMenu: true,
+                        contextMenu: true,
+                        manualColumnResize: true,
+                        manualRowResize: true,
+                        columnSorting: true,
+                        search: true,
+                        licenseKey: 'non-commercial-and-evaluation',
+                        formulas: {
+                            engine: HyperFormula.buildEmpty({
+                                licenseKey: 'gpl-v3'
+                            })
+                        },
+                        cells: function(row, col) {
+                            const cellProperties = {};
+                            // Make first row (headers) read-only
+                            if (row === 0) {
+                                cellProperties.readOnly = true;
+                            }
+                            // Date formatting for date columns
+                            const header = data.headers[col];
+                            if (header && header.toLowerCase().includes('date')) {
+                                cellProperties.type = 'date';
+                                cellProperties.dateFormat = 'YYYY-MM-DD';
+                            }
+                            return cellProperties;
+                        },
+                        afterChange: function(changes, source) {
+                            if (source === 'edit' && changes) {
+                                // Handle formula recalculation
+                                this.render();
+                            }
+                        }
+                    });
+
+                    // Global search functionality
+                    const searchField = document.getElementById(`search-${index}`);
+                    const searchPlugin = hot.getPlugin('search');
+
+                    searchField.addEventListener('keyup', function(event) {
+                        const query = this.value;
+                        const searchResult = searchPlugin.query(query);
+                        hot.render();
+                    });
+
+                    // Store reference for pivot toggle
+                    window[`hot-${index}`] = hot;
+                }, 100);
+
                 // Pivot toggle (still uses PivotTable.js)
                 setTimeout(() => {
                     document.getElementById(`pivot-btn-${index}`).addEventListener('click', () => {
-                        const tableWrapper = document.querySelector(`iframe`).closest('.table-wrapper');
+                        const tableWrapper = document.getElementById(`handsontable-${index}`).parentElement;
                         const pivotDiv = document.getElementById(`pivot-${index}`);
                         if (tableWrapper.style.display !== 'none') {
                             tableWrapper.style.display = 'none';
@@ -2044,6 +2120,9 @@
             }
 
             function renderDataTable(data, index) {
+                // Prepare data for Handsontable (headers + all rows)
+                const tableData = [data.headers, ...data.rows];
+
                 return `
                 <div class="table-section">
                     <div class="table-header">
@@ -2055,7 +2134,7 @@
                         <button id="pivot-btn-${index}" style="padding: 8px 16px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer;">Pivot View</button>
                     </div>
                     <div class="table-wrapper">
-                        <iframe src="https://lookerstudio.google.com/embed/reporting/YOUR_REPORT_ID" width="100%" height="500" frameborder="0" allowfullscreen></iframe>
+                        <div id="handsontable-${index}" style="width: 100%; height: 600px; overflow: auto;"></div>
                         <div id="pivot-${index}" style="display: none; height: 500px; width: 100%;"></div>
                     </div>
                 </div>
