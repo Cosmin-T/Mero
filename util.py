@@ -48,6 +48,7 @@ def setup_logging(
 logger = setup_logging()
 
 URL = "https://pro.mero.ro/calendar"
+URL2 = "https://mero.ro/"
 SITE_KEY = "//script[contains(text(), 'grecaptcha')]"
 SUBMIT_CAPTCHA_CSS = 'document.getElementById("osub").click();'
 

@@ -219,8 +219,6 @@ def run(playwright: Playwright) -> None:
 
     logger.info("\n=== NAVIGATING TO PREVIOUS WEEKS ===\n")
 
-
-
     # Calculate weeks to go back: number of full weeks between start_date and end_date
     days_difference = (end_date - start_date).days
     weeks_to_go_back = (days_difference // 7) + 1  # +1 to ensure we cover partial weeks
@@ -595,11 +593,22 @@ def run(playwright: Playwright) -> None:
 
     # Save CSV file
     csv_filename = "revenue_analysis_current.csv"
-    with open(csv_filename, 'w', newline='', encoding='utf-8') as csvfile:
+    with open(csv_filename, "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(["Date", "Client", "Service", "Category", "Mega Category", "Price (RON)"])
+        writer.writerow(
+            ["Date", "Client", "Service", "Category", "Mega Category", "Price (RON)"]
+        )
         for appt in sorted(all_captured_appointments, key=lambda x: x["date"]):
-            writer.writerow([appt["date"], appt["client"], appt["service"], appt["category"], appt["mega_category"], appt["price"]])
+            writer.writerow(
+                [
+                    appt["date"],
+                    appt["client"],
+                    appt["service"],
+                    appt["category"],
+                    appt["mega_category"],
+                    appt["price"],
+                ]
+            )
 
     logger.info(f"✓ CSV file saved: {csv_filename}\n")
 
