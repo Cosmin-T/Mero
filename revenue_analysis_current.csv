@@ -1,4 +1,7 @@
 Date,Client,Service,Category,Mega Category,Price (RON)
+2024-12-30,Monica,Pensat simplu- Întreținere ,Pensat,Sprâncene,40
+2024-12-30,Narcisa Cadar,ProBrows,ProBrows,Sprâncene,80
+2024-12-30,Irina Iliescu,Pure Solution- tratament facial de curățare in profunzime și extracție,Tratament,Tratamente,250
 2025-01-06,Rosu Cristina,Pensat formă (Prima ședință),Pensat,Sprâncene,50
 2025-01-06,Costache Luminita,ProBrows,ProBrows,Sprâncene,80
 2025-01-06,Luisa Insta,Pure Solution- tratament facial de curățare in profunzime și extracție,Tratament,Tratamente,250
@@ -1474,11 +1477,12 @@ Date,Client,Service,Category,Mega Category,Price (RON)
 2026-01-07,Mihaela Panduru,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
 2026-01-07,Mihaela Panduru,Epilat mustață ,Epilat,Epilare,20
 2026-01-07,Alina Batanoiu,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-07,Andreea,Epilat inghinal total,Epilat,Epilare,65
 2026-01-07,Elisa Dragomir,Pure Solution- tratament facial de curățare in profunzime și extracție,Tratament,Tratamente,270
 2026-01-08,Elena Dan,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-08,Alexandra-Elena Dumitrescu,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-08,Madalina Irimia,ProBrows,ProBrows,Sprâncene,90
 2026-01-08,Alina Afr,Pure Solution- tratament facial de curățare in profunzime și extracție,Tratament,Tratamente,270
-2026-01-08,Monica Margineanu,Pensat simplu- Întreținere ,Pensat,Sprâncene,50.0
-2026-01-08,Alina Ruxanda,Epilat inghinal total,Epilat,Epilare,65
 2026-01-08,Maria Velica,Pensat formă (Prima ședință),Pensat,Sprâncene,60
 2026-01-09,Adelina Nicholl,Laminare sprâncene&Vopsit,Laminare,Sprâncene,170
 2026-01-09,Madalina Iacob,Epilat Full Body,Epilat,Epilare,220.0
@@ -1486,11 +1490,90 @@ Date,Client,Service,Category,Mega Category,Price (RON)
 2026-01-09,Anca Georgiana,Epilat inghinal total,Epilat,Epilare,65.0
 2026-01-09,Anca Georgiana,Epilat abdomen,Epilat,Epilare,40.0
 2026-01-09,Anca Georgiana,Epilat brațe,Epilat,Epilare,40.0
-2026-01-09,Lavinia Toma-Tumbar,Epilat inghinal total,Epilat,Epilare,65
-2026-01-09,Lavinia Toma-Tumbar,Epilat fese ,Epilat,Epilare,40
+2026-01-09,Claudia Medeea Iures,Pensat simplu- Întreținere ,Pensat,Sprâncene,50.0
 2026-01-09,Alina,Epilat Full Body,Epilat,Epilare,220
 2026-01-09,Alina,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
-2026-01-10,Cristina Prez,Microneedling DermaPen,Microneedling,Tratamente,320.0
-2026-01-10,Andreea Parashiv,Pensat simplu- Întreținere ,Pensat,Sprâncene,50.0
+2026-01-10,Elena Constantin,Pure Solution- tratament facial de curățare in profunzime și extracție,Tratament,Tratamente,270
+2026-01-10,Alex Negreanu,Pensat bărbat,Pensat,Sprâncene,50
+2026-01-10,Monica Margineanu,Pensat simplu- Întreținere ,Pensat,Sprâncene,50.0
 2026-01-10,Daiana Stefan,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
 2026-01-10,Daiana Stefan,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-13,Georgiana-Raluca Barbu,Epilat inghinal total,Epilat,Epilare,65
+2026-01-13,Monica Miki,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-13,Maria Cocioboiu,Epilat inghinal total,Epilat,Epilare,65
+2026-01-13,Sara,Epilat picioare lung,Epilat,Epilare,70.0
+2026-01-13,Serena,Epilat inghinal simplu,Epilat,Epilare,50.0
+2026-01-13,Serena,Epilat brațe,Epilat,Epilare,40.0
+2026-01-13,Serena,Epilat axila,Epilat,Epilare,35.0
+2026-01-13,Serena,Epilat picioare lung,Epilat,Epilare,70.0
+2026-01-13,Raluca Triculete,Epilat picioare scurt,Epilat,Epilare,50
+2026-01-13,Adina Visan,ProBrows,ProBrows,Sprâncene,90
+2026-01-14,Anca Fuiorea,Epilat inghinal total,Epilat,Epilare,65
+2026-01-14,Anca Fuiorea,Epilat axila,Epilat,Epilare,35
+2026-01-14,Anca Fuiorea,Epilat picioare lung,Epilat,Epilare,70
+2026-01-14,Eliana Florica,Pure Solution- tratament facial de curățare in profunzime și extracție,Tratament,Tratamente,270
+2026-01-14,Eliana Florica,Laminare sprâncene&Vopsit,Laminare,Sprâncene,170
+2026-01-14,Teodora Stoiana,Pensat formă (Prima ședință),Pensat,Sprâncene,60
+2026-01-15,Irina Balteanu,Epilat inghinal total,Epilat,Epilare,65.0
+2026-01-15,Irina Balteanu,Epilat axila,Epilat,Epilare,35.0
+2026-01-15,Denisa,Epilat inghinal total,Epilat,Epilare,65.0
+2026-01-15,Denisa,Epilat inghinal total,Epilat,Epilare,65.0
+2026-01-15,Maria Dinca,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-15,Denisa Oana Banca,Pensat simplu- Întreținere ,Pensat,Sprâncene,50.0
+2026-01-15,Denisa Vatulescu,Epilat inghinal total,Epilat,Epilare,65
+2026-01-15,Denisa Vatulescu,Epilat picioare scurt,Epilat,Epilare,50
+2026-01-15,Sandu Iarina,ProBrows,ProBrows,Sprâncene,90
+2026-01-17,Maria Fata Monica Margineanu,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-17,Maria Fata Monica Margineanu,Epilat mustață ,Epilat,Epilare,20
+2026-01-17,Iulia,Pure Solution- tratament facial de curățare in profunzime și extracție,Tratament,Tratamente,270.0
+2026-01-17,Izabela Popa,Epilat inghinal total,Epilat,Epilare,65.0
+2026-01-17,Izabela Popa,Epilat picioare lung,Epilat,Epilare,70.0
+2026-01-17,Izabela Popa,Epilat axila,Epilat,Epilare,35.0
+2026-01-17,Simona Benea,Pensat simplu- Întreținere ,Pensat,Sprâncene,50.0
+2026-01-19,Anita Ștefan,Pure Solution- tratament facial de curățare in profunzime și extracție,Tratament,Tratamente,270
+2026-01-19,Anita Ștefan,Epilat inghinal total,Epilat,Epilare,65
+2026-01-19,Mihaela Cătălina Ionescu,Epilat inghinal total,Epilat,Epilare,65
+2026-01-19,Antonia Brosteanu,Epilat inghinal total,Epilat,Epilare,65
+2026-01-19,Antonia Brosteanu,Epilat axila,Epilat,Epilare,35
+2026-01-19,Monica Margineanu,Pensat simplu- Întreținere ,Pensat,Sprâncene,50.0
+2026-01-19,Ilie Iupceanu,Pensat bărbat,Pensat,Sprâncene,50
+2026-01-20,Andrra Pavel,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-20,Giorgiana Zidaru,Epilat inghinal total,Epilat,Epilare,65
+2026-01-20,Giorgiana Zidaru,Epilat picioare lung,Epilat,Epilare,70
+2026-01-20,Giorgiana Zidaru,Epilat mustață ,Epilat,Epilare,20
+2026-01-20,Cristina Popovici,Epilat axila,Epilat,Epilare,35
+2026-01-20,Cristina Popovici,Epilat inghinal simplu,Epilat,Epilare,50
+2026-01-20,Cristina Popovici,Epilat mustață ,Epilat,Epilare,20
+2026-01-20,Danna Buca,Peeling chimic anti acnee,Peeling,Tratamente,350
+2026-01-20,Corina Vatau,Pensat formă (Prima ședință),Pensat,Sprâncene,60
+2026-01-21,Simona Sirop,Epilat axila,Epilat,Epilare,35.0
+2026-01-21,Alice,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-21,Mădălina Pirvu,Epilat inghinal total,Epilat,Epilare,65
+2026-01-21,Andreea Bogatu,Epilat inghinal total,Epilat,Epilare,65
+2026-01-22,Daria Zmf,ProBrows,ProBrows,Sprâncene,90
+2026-01-22,Alina Afr,Pure Solution- tratament facial de curățare in profunzime și extracție,Tratament,Tratamente,270
+2026-01-22,Greta Arsene,Epilat inghinal total,Epilat,Epilare,65
+2026-01-22,Bianca Badarau,Pensat formă (Prima ședință),Pensat,Sprâncene,60
+2026-01-23,Erica,ProBrows,ProBrows,Sprâncene,90.0
+2026-01-23,Raluca Triculete,Epilat picioare lung,Epilat,Epilare,70.0
+2026-01-23,Raluca Triculete,Epilat brațe,Epilat,Epilare,40.0
+2026-01-26,Nicoleta Cercel,Epilat inghinal total,Epilat,Epilare,65
+2026-01-26,Barbu Gabriela,Pensat formă (Prima ședință),Pensat,Sprâncene,60
+2026-01-26,Monica Miki,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-27,Ana Dascalu,Pensat simplu- Întreținere ,Pensat,Sprâncene,50.0
+2026-01-27,Mihaela Stoian,Epilat inghinal total,Epilat,Epilare,65
+2026-01-27,Sarah Dusina,Epilat inghinal total,Epilat,Epilare,65
+2026-01-27,Sarah Dusina,Epilat mustață ,Epilat,Epilare,20
+2026-01-28,Dana Daogaru,Pensat formă (Prima ședință),Pensat,Sprâncene,60
+2026-01-28,Emilia Băducă,Pensat simplu- Întreținere ,Pensat,Sprâncene,60.0
+2026-01-28,Ruth Stanciu,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-28,Diana Totoiescu,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-29,Cristina Iscru,Epilat inghinal total,Epilat,Epilare,75
+2026-01-29,Andreea Nistor-radu,Epilat inghinal total,Epilat,Epilare,75
+2026-01-29,Anca Cocîrlă,Pensat formă (Prima ședință),Pensat,Sprâncene,60
+2026-01-29,Elena Dan,Pensat simplu- Întreținere ,Pensat,Sprâncene,50
+2026-01-30,Mădălina Angheloiu,ProBrows,ProBrows,Sprâncene,90
+2026-01-30,Catalina Sorescu,Pensat simplu- Întreținere ,Pensat,Sprâncene,60
+2026-01-30,Enza D'angelo,Epilat axila,Epilat,Epilare,35
+2026-01-30,Enza D'angelo,Epilat mustață ,Epilat,Epilare,20
+2026-01-30,Denisa Baciu,Laminare sprâncene ,Laminare,Sprâncene,150
